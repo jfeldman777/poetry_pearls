@@ -1,0 +1,30 @@
+<HTML>
+<HEAD>
+   <META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+   <META NAME="Author" CONTENT="Elena and Yacov Feldman">
+   <META NAME="GENERATOR" CONTENT="Mozilla/4.04 [en] (Win95; I) [Netscape]">
+   <TITLE>box</TITLE>
+   
+   <script language=javascript>
+	d1=new Date(1999,1,5);//Feb 5
+	d2=new Date();
+	dd=(d2-d1)/86400000;//days between
+	dd=Math.floor(dd);
+
+   function fname()
+   {
+	return 'son'+dd+'.htm'
+   }
+	function gotoMe()
+	{
+		document.location.href=fname()
+	}
+	function box()
+	{
+		window.open(fname())
+	}
+   </script>
+</HEAD>
+<BODY OnLoad="javascript:gotoMe()">
+</BODY>
+</HTML>
