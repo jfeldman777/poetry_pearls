@@ -1,4 +1,4 @@
-:root {
+﻿:root {
   --paper: #fbf8f3;
   --paper-2: #f3eee5;
   --ink: #1f2328;
@@ -159,6 +159,7 @@ main[data-mode="en"] .parallel.single .col-ru { display: block; }
 .illus img { width: 100%; height: auto; border-radius: 12px; border: 1px solid var(--line); box-shadow: var(--shadow); display: block; }
 .credit { margin-top: 1.25rem; font-size: 0.85rem; color: var(--muted); }
 .credit b { color: var(--ink); font-weight: 600; }
+.verse .credit.mid { margin: 0 0 2.4rem; padding-bottom: 1.6rem; border-bottom: 1px solid var(--line); }
 
 main[data-mode="ru"] .col-en,
 main[data-mode="en"] .col-ru { display: none; }

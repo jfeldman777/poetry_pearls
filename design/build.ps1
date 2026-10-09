@@ -72,6 +72,9 @@ function Render-Line([string]$line, [ref]$inEm) {
 # Returns list of stanzas; each stanza is a list of @{ Html; Text }
 function Get-Stanzas([string]$chunk) {
   $s = $chunk
+  $close = [regex]::Match($s, '(?i)</pre\s*>')
+  $open = [regex]::Match($s, '(?i)<pre\b')
+  if ($close.Success -and (-not $open.Success -or $open.Index -gt $close.Index)) { $s = '<pre>' + $s }
   $s = [regex]::Replace($s, '(?s)<!--.*?-->', '')
   $s = [regex]::Replace($s, '(?is)<(script|style)\b.*?</\1>', '')
   $s = [regex]::Replace($s, '(?is)<pre\b[^>]*>(.*?)</pre>', { param($m) $PB + ($m.Groups[1].Value -replace '\r?\n', $LB) + $PB })
@@ -195,6 +198,9 @@ function Clean-Poem($stanzas, [string[]]$titles, [string]$ownTitle) {
     }
     if ($isTitle) {
       if ($first.Count -eq 1) { $stanzas.RemoveAt(0); continue }
+      $allTitles = $true
+      foreach ($fl in $first) { if ($tn -notcontains (Norm $fl.Text)) { $allTitles = $false; break } }
+      if ($allTitles -and $stanzas.Count -gt 1) { $stanzas.RemoveAt(0); continue }
       $mode = Get-Mode $stanzas 1
       if ($ln -eq $own -and $stanzas.Count -ge 3 -and ($first.Count - 1) -eq $mode) { $first.RemoveAt(0); continue }
       break
@@ -245,9 +251,9 @@ function Get-TocEntries([string]$ruHtml, [string]$file) {
       $text = Plain $m.Groups[2].Value
       if (-not ($text -match '\p{L}')) { continue }
       $pos++
-      if ($href -match "(?i)^(?:(?:\.\./Poets/)?$own)?#(.+)$") {
+      if ($href -match "(?i)^(?:(?:\.\./Poets/)?$own)?#(.+)$" -or ($text -match '[\p{IsCyrillic}]' -and $href -match "(?i)ePoets/$own#(.+)$")) {
         [void]$ru.Add(@{ Id = $Matches[1]; Title = $text; Row = $r; Pos = $pos; Used = $false })
-      } elseif ($href -match "(?i)(?:ePoets/$own|rPoets/[^/#]+\.htm|eEPoets/[^/#]+\.htm)#(.+)$") {
+      } elseif ($text -notmatch '[\p{IsCyrillic}]' -and $href -match "(?i)(?:ePoets/$own|rPoets/[^/#]+\.htm|eEPoets/[^/#]+\.htm)#(.+)$") {
         [void]$en.Add(@{ Id = $Matches[1]; Title = $text; Row = $r; Pos = $pos; Used = $false })
       }
     }
@@ -487,6 +493,8 @@ function Render-Verse($poem, [string]$indent) {
   if ($poem.Subtitle) { [void]$sb.AppendLine("<p class=""subtitle"">$($poem.Subtitle)</p>") }
   foreach ($st in $poem.Stanzas) {
     $lines = @($st | ForEach-Object { $_.Html })
+    $mid = if ($st.Count -eq 1) { Get-Credit $st[0].Text }
+    if ($mid) { [void]$sb.AppendLine("<p class=""credit mid"">$($mid.Display)</p>"); continue }
     [void]$sb.AppendLine('<p class="stanza">' + ($lines -join "`n") + '</p>')
   }
   $sb.ToString().TrimEnd()
@@ -527,7 +535,7 @@ function Render-Page($poet, $entries, [string]$file) {
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Inter:wght@400;500;600&family=Literata:opsz,wght@7..72,400;7..72,500&display=swap">
-<link rel="stylesheet" href="pearls.css?v=3">
+<link rel="stylesheet" href="pearls.css?v=4">
 </head>
 <body>
 
@@ -783,7 +791,7 @@ if ($Only.Count -eq 0) {
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Inter:wght@400;500;600&family=Literata:opsz,wght@7..72,400;7..72,500&display=swap">
-<link rel="stylesheet" href="pearls.css?v=3">
+<link rel="stylesheet" href="pearls.css?v=4">
 </head>
 <body>
 
