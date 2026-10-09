@@ -1053,6 +1053,7 @@ foreach ($ruFile in Get-ChildItem (Join-Path $Root 'Poets') -Filter *.htm -File 
           }
         }
         Remove-LatinLead $p
+        if ($p.Stanzas.Count -gt 1 -and $p.Stanzas[0].Count -eq 1 -and $e.RuTitle -and (Norm $p.Stanzas[0][0].Text) -eq (Norm $e.RuTitle)) { $p.Stanzas.RemoveAt(0) }
         if ($p.Stanzas.Count -gt 0) { $e.Ru = $p; $e.Credits = $p.Credits } else { $issues += "ru-empty:$($e.RuId)" }
       } else { $issues += "ru-missing:$($e.RuId)" }
     }
