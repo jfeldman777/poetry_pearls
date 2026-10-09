@@ -165,6 +165,17 @@ function Remove-CyrillicLead($poem) {
   }
 }
 
+function Remove-LatinLead($poem) {
+  while ($poem.Stanzas.Count -gt 1) {
+    $st = $poem.Stanzas[0]
+    if ($st.Count -gt 3) { break }
+    $lat = $true
+    foreach ($ln in $st) { if ($ln.Text -notmatch '[A-Za-z]{2}') { $lat = $false; break } }
+    $words = ($st | ForEach-Object { $_.Text }) -join ' '
+    if ($lat -and ($words -notmatch '\p{IsCyrillic}' -or ($st.Count -le 2 -and ($words -split '\s+').Count -le 8))) { $poem.Stanzas.RemoveAt(0) } else { break }
+  }
+}
+
 function Clean-Poem($stanzas, [string[]]$titles, [string]$ownTitle) {
   $result = @{ Stanzas = $stanzas; Subtitle = $null; Credits = @() }
   $tn = @($titles | Where-Object { $_ } | ForEach-Object { Norm $_ } | Where-Object { $_ })
@@ -220,7 +231,7 @@ function Clean-Poem($stanzas, [string[]]$titles, [string]$ownTitle) {
     if ($isTitle) {
       if ($first.Count -eq 1) { $stanzas.RemoveAt(0); continue }
       $allTitles = $true
-      foreach ($fl in $first) { if ($tn -notcontains (Norm $fl.Text)) { $allTitles = $false; break } }
+      foreach ($fl in $first) { if ($fl.Text -match '\p{L}' -and $tn -notcontains (Norm $fl.Text)) { $allTitles = $false; break } }
       if ($allTitles -and $stanzas.Count -gt 1) { $stanzas.RemoveAt(0); continue }
       $mode = Get-Mode $stanzas 1
       if ($ln -eq $own -and $stanzas.Count -ge 3 -and ($first.Count - 1) -eq $mode) { $first.RemoveAt(0); continue }
@@ -782,6 +793,14 @@ foreach ($ruFile in Get-ChildItem (Join-Path $Root 'Poets') -Filter *.htm -File 
   }
   $enStopsBase = $enStops
   if (-not $fromSections) {
+    $usedRu = @($entries | Where-Object { $_.RuId } | ForEach-Object { $_.RuId })
+    foreach ($e in $entries) {
+      if ($e.RuId -or -not $e.EnId -or $usedRu -contains $e.EnId) { continue }
+      if ([regex]::IsMatch($ruHtml, (Get-AnchorRegex $e.EnId))) {
+        $e.RuId = $e.EnId; $usedRu += $e.EnId
+        if ($ruStops -notcontains $e.EnId) { $ruStops += $e.EnId }
+      }
+    }
     foreach ($e in $entries) {
       $ov = $script:enIdOverrides["$base#$($e.RuId)"]
       if ($ov) { $e.EnId = $ov; if ($enStops -notcontains $ov) { $enStops += $ov }; continue }
@@ -854,6 +873,7 @@ foreach ($ruFile in Get-ChildItem (Join-Path $Root 'Poets') -Filter *.htm -File 
         if (-not $c) { continue }
         $own = if ($side -eq 'Ru') { $e.RuTitle } else { $e.EnTitle }
         $p = Clean-Poem (Get-Stanzas $c) $titles $own
+        if ($side -eq 'Ru') { Remove-LatinLead $p } else { Remove-CyrillicLead $p }
         if ($p.Stanzas.Count -gt 0) { $e[$side] = $p; if ($side -eq 'Ru') { $e.Credits = $p.Credits } }
       }
       continue
@@ -867,8 +887,14 @@ foreach ($ruFile in Get-ChildItem (Join-Path $Root 'Poets') -Filter *.htm -File 
           if ($lt -and $lt -notmatch '[\p{IsCyrillic}]') { $e.EnTitle = $lt; $titles = @($e.RuTitle, $e.EnTitle) }
         }
       }
+      if ($chunk -and -not $e.RuTitle) {
+        $st0 = Get-Stanzas $chunk
+        $cand = @($st0 | Select-Object -First 2 | Where-Object { $_.Count -le 2 } | ForEach-Object { $_ } | Where-Object { $_.Text -match '\p{IsCyrillic}' -and $_.Text -notmatch '[A-Za-z]' -and $_.Text -notmatch '[,;]$' } | Select-Object -First 1)
+        if ($cand.Count -gt 0) { $e.RuTitle = $cand[0].Text; $titles = @($e.RuTitle, $e.EnTitle) }
+      }
       if ($chunk) {
         $p = Clean-Poem (Get-Stanzas $chunk) $titles $e.RuTitle
+        Remove-LatinLead $p
         if ($p.Stanzas.Count -gt 0) { $e.Ru = $p; $e.Credits = $p.Credits } else { $issues += "ru-empty:$($e.RuId)" }
       } else { $issues += "ru-missing:$($e.RuId)" }
     }
@@ -887,7 +913,32 @@ foreach ($ruFile in Get-ChildItem (Join-Path $Root 'Poets') -Filter *.htm -File 
       } else { $issues += "en-missing:$($e.EnId)" }
     }
   }
+  if (-not $fromSections -and $entries.Count -eq 1 -and $entries[0].En -and -not $entries[0].Ru -and -not [regex]::IsMatch($ruHtml, '(?i)<a\s[^>]*\bname\s*=')) {
+    $best = $null; $bestLen = 0
+    foreach ($sec in Get-Sections $ruHtml) {
+      $len = ([regex]::Matches((Plain $sec.Html), '\p{IsCyrillic}')).Count
+      if ($len -gt $bestLen) { $best = $sec; $bestLen = $len }
+    }
+    if ($best -and $bestLen -ge 80) {
+      $e = $entries[0]
+      $st0 = Get-Stanzas $best.Html
+      $cand = @($st0 | Select-Object -First 2 | Where-Object { $_.Count -le 2 } | ForEach-Object { $_ } | Where-Object { $_.Text -match '\p{IsCyrillic}' -and $_.Text -notmatch '[A-Za-z]' -and $_.Text -notmatch '[,;]$' } | Select-Object -First 1)
+      if ($cand.Count -gt 0) { $e.RuTitle = $cand[0].Text }
+      $p = Clean-Poem $st0 @($e.RuTitle, $e.EnTitle) $e.RuTitle
+      Remove-LatinLead $p
+      if ($p.Stanzas.Count -gt 0) { $e.Ru = $p; $e.Credits = $p.Credits }
+    }
+  }
   $entries = @($entries | Where-Object { $_.Ru -or $_.En })
+  $enText = @{}
+  foreach ($e in $entries) { if ($e.En -and $e.Ru) { $enText[$e.Slug] = (($e.En.Stanzas | ForEach-Object { $_ | ForEach-Object { $_.Text } }) -join "`n") } }
+  $entries = @($entries | Where-Object {
+    if ($_.Ru -or -not $_.En) { return $true }
+    $probe = @($_.En.Stanzas | ForEach-Object { $_ | ForEach-Object { $_.Text } } | Where-Object { $_.Length -gt 15 } | Select-Object -First 3)
+    if ($probe.Count -eq 0) { return $true }
+    foreach ($t in $enText.Values) { $hit = $true; foreach ($l in $probe) { if (-not $t.Contains($l)) { $hit = $false; break } }; if ($hit) { return $false } }
+    $true
+  })
   if ($entries.Count -gt 0) { break }
   }
   if ($entries.Count -eq 0) {
