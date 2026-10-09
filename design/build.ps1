@@ -218,6 +218,15 @@ function Clean-Poem($stanzas, [string[]]$titles, [string]$ownTitle) {
   }
   Remove-EmptyEdges $stanzas
   if ($stanzas.Count -gt 0 -and $stanzas[0].Count -gt 2 -and $stanzas[0][0].Text -match '^\d{1,3}\.?$') { $stanzas[0].RemoveAt(0) }
+  $guard = 0
+  while ($stanzas.Count -gt 0 -and $guard -lt 3) {
+    $guard++
+    $t0 = $stanzas[0][0].Text
+    $isHead = ($t0 -notmatch '[\p{L}\p{N}]') -or ($t0 -match '^\(\d{1,3}[a-zа-я]?\)\s*\S' -and $t0.Length -le 60 -and $t0 -notmatch '[,;]$')
+    if (-not $isHead -or ($stanzas.Count -eq 1 -and $stanzas[0].Count -le 1)) { break }
+    $stanzas[0].RemoveAt(0)
+    if ($stanzas[0].Count -eq 0) { $stanzas.RemoveAt(0) }
+  }
 
   # leading titles
   $guard = 0
@@ -303,7 +312,15 @@ function Get-TocEntries([string]$ruHtml, [string]$file) {
   $entries = New-Object System.Collections.ArrayList
   $seen = @{}
   foreach ($x in $ru) {
-    if ($seen.ContainsKey($x.Id) -or $x.Id -match $script:serviceIds) { $x.Used = $true; continue }
+    if ($seen.ContainsKey($x.Id)) {
+      $prev = $seen[$x.Id]
+      if ($prev -is [hashtable] -and $x.Title -match '\p{IsCyrillic}' -and $prev.RuTitle -notmatch '\p{IsCyrillic}') {
+        if (-not $prev.EnTitle) { $prev.EnTitle = $prev.RuTitle }
+        $prev.RuTitle = $x.Title
+      }
+      $x.Used = $true; continue
+    }
+    if ($x.Id -match $script:serviceIds) { $x.Used = $true; continue }
     $seen[$x.Id] = $true
     $match = $en | Where-Object { -not $_.Used -and $_.Id -eq $x.Id } | Select-Object -First 1
     if (-not $match) { $match = $en | Where-Object { -not $_.Used -and $_.Row -eq $x.Row } | Select-Object -First 1 }
@@ -312,10 +329,12 @@ function Get-TocEntries([string]$ruHtml, [string]$file) {
     $enTitle = if ($match) { $match.Title } elseif ($bare.ContainsKey($x.Row)) { $bare[$x.Row] }
     if (-not $match -and $bare.ContainsKey($x.Row)) { $bare.Remove($x.Row) }
     $oth = if ($x.Other) { $x.Other } elseif ($match) { $match.Other }
-    [void]$entries.Add(@{ RuId = $x.Id; RuTitle = $x.Title; EnId = $(if ($match) { $match.Id }); EnTitle = $enTitle; Pos = $x.Pos; Other = $oth })
+    $entry = @{ RuId = $x.Id; RuTitle = $x.Title; EnId = $(if ($match) { $match.Id }); EnTitle = $enTitle; Pos = $x.Pos; Other = $oth }
+    $seen[$x.Id] = $entry
+    [void]$entries.Add($entry)
   }
   $leftRu = @($entries | Where-Object { -not $_.EnId })
-  $leftEn = @($en | Where-Object { -not $_.Used })
+  $leftEn = @($en | Where-Object { -not $_.Used -and -not $seen.ContainsKey($_.Id) -and -not [regex]::IsMatch($ruHtml, (Get-AnchorRegex $_.Id)) })
   for ($i = 0; $i -lt [Math]::Min($leftRu.Count, $leftEn.Count); $i++) {
     $leftRu[$i].EnId = $leftEn[$i].Id; $leftRu[$i].EnTitle = $leftEn[$i].Title; $leftEn[$i].Used = $true
   }
@@ -944,6 +963,46 @@ foreach ($ruFile in Get-ChildItem (Join-Path $Root 'Poets') -Filter *.htm -File 
       $e.EnId = $syn
     }
   }
+  $usedEnIds = @($entries | Where-Object { $_.EnId } | ForEach-Object { $_.EnId })
+  foreach ($e in $entries) {
+    if (-not $e.EnId -or -not $e.EnTitle -or $e.EnId -like 'bl-*' -or $e.ContainsKey('RuChunk')) { continue }
+    $want = Norm $e.EnTitle
+    if ($want.Length -lt 8) { continue }
+    $ok = $null; $alt = $null
+    foreach ($src in $enSources) {
+      $anc = @([regex]::Matches($src, '(?i)<a\s[^>]*\bname\s*=\s*["'']?([^"''\s>]+)["'']?[^>]*>'))
+      for ($i = 0; $i -lt $anc.Count; $i++) {
+        $from = $anc[$i].Index + $anc[$i].Length
+        $to = if ($i + 1 -lt $anc.Count) { [Math]::Min($anc[$i + 1].Index, $from + 400) } else { [Math]::Min($src.Length, $from + 400) }
+        $hit = (Norm (Plain $src.Substring($from, $to - $from))).Contains($want)
+        $nm = $anc[$i].Groups[1].Value
+        if ($nm -eq $e.EnId) { if ($hit) { $ok = $true } elseif ($null -eq $ok) { $ok = $false } }
+        elseif ($hit -and -not $alt -and $usedEnIds -notcontains $nm) { $alt = $nm }
+      }
+    }
+    if ($ok -eq $false -and $alt) {
+      $e.EnId = $alt; $usedEnIds += $alt
+      if ($enStops -notcontains $alt) { $enStops += $alt }
+    }
+  }
+  $ruAnchors = @([regex]::Matches($ruHtml, '(?i)<a\s[^>]*\bname\s*=\s*["'']?([^"''\s>]+)["'']?[^>]*>'))
+  foreach ($e in $entries) {
+    if (-not $e.RuId -or -not $e.EnTitle -or $e.ContainsKey('RuChunk')) { continue }
+    $cnt = @($ruAnchors | Where-Object { $_.Groups[1].Value -eq $e.RuId }).Count
+    if ($cnt -eq 1) { continue }
+    $want = Norm $e.EnTitle
+    if ($want.Length -lt 4) { continue }
+    for ($i = 0; $i -lt $ruAnchors.Count; $i++) {
+      $a = $ruAnchors[$i]
+      $from = $a.Index + $a.Length
+      $to = if ($i + 1 -lt $ruAnchors.Count) { [Math]::Min($ruAnchors[$i + 1].Index, $from + 600) } else { [Math]::Min($ruHtml.Length, $from + 600) }
+      if ((Norm (Plain $ruHtml.Substring($from, $to - $from))).Contains($want)) {
+        $e.RuAt = $from
+        if ($ruStops -notcontains $a.Groups[1].Value) { $ruStops += $a.Groups[1].Value }
+        break
+      }
+    }
+  }
   $slugs = @{}
   $issues = @()
   foreach ($e in $entries) {
@@ -967,7 +1026,7 @@ foreach ($ruFile in Get-ChildItem (Join-Path $Root 'Poets') -Filter *.htm -File 
       continue
     }
     if ($e.RuId) {
-      $chunk = Get-Chunk $ruHtml $e.RuId $ruStops
+      $chunk = if ($e.RuAt) { Get-ChunkAt $ruHtml $e.RuAt $ruStops } else { Get-Chunk $ruHtml $e.RuId $ruStops }
       if ($chunk -and -not $e.EnTitle) {
         $lk = [regex]::Match($chunk, "(?is)<a\s[^>]*href\s*=\s*[`"']?[^`"'>]*ePoets/$([regex]::Escape($file))#[^>]*>(.*?)</a>")
         if ($lk.Success) {
@@ -978,7 +1037,7 @@ foreach ($ruFile in Get-ChildItem (Join-Path $Root 'Poets') -Filter *.htm -File 
       if ($chunk -and -not $e.RuTitle) {
         $st0 = Get-Stanzas $chunk
         $cand = @($st0 | Select-Object -First 2 | Where-Object { $_.Count -le 2 } | ForEach-Object { $_ } | Where-Object { $_.Text -match '\p{IsCyrillic}' -and $_.Text -notmatch '[A-Za-z]' -and $_.Text -notmatch '[,;]$' } | Select-Object -First 1)
-        if ($cand.Count -gt 0) { $e.RuTitle = $cand[0].Text; $titles = @($e.RuTitle, $e.EnTitle) }
+        if ($cand.Count -gt 0) { $e.RuTitle = $cand[0].Text -replace '^\(\d{1,3}[a-zа-я]?\)\s*', ''; $titles = @($e.RuTitle, $e.EnTitle) }
       }
       if ($chunk) {
         $p = Clean-Poem (Get-Stanzas $chunk) $titles $e.RuTitle
