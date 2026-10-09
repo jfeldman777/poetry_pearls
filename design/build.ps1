@@ -744,9 +744,15 @@ foreach ($ruFile in Get-ChildItem (Join-Path $Root 'Poets') -Filter *.htm -File 
     $usedEn = @($entries | Where-Object { $_.EnId } | ForEach-Object { $_.EnId })
     foreach ($e in $entries) {
       if (-not $e.RuId) { continue }
-      $bl = [regex]::Match($enHtml.Substring($tocEnd), "(?i)<a\b[^>]*href\s*=\s*[`"']?\.\./Poets/$ownRx#$([regex]::Escape($e.RuId))[`"'\s>]")
-      if (-not $bl.Success) { continue }
-      $p = $tocEnd + $bl.Index
+      $bls = [regex]::Matches($enHtml, "(?i)<a\b[^>]*href\s*=\s*[`"']?\.\./Poets/$ownRx#$([regex]::Escape($e.RuId))[`"'\s>]")
+      if ($bls.Count -eq 0) { continue }
+      $bl = $bls[$bls.Count - 1]
+      $p = $bl.Index
+      if ($p -lt $tocEnd -and $bls.Count -lt 2) { continue }
+      $after = $enHtml.Substring($p + $bl.Length)
+      $hrAt = [regex]::Match($after, '(?i)<hr\b')
+      if ($hrAt.Success) { $after = $after.Substring(0, $hrAt.Index) }
+      if ([regex]::Matches($after, '(?i)<a\s[^>]*href').Count -ge 3) { continue }
       $useIt = -not $e.EnId
       if ($useIt) {
         $w0 = [Math]::Max(0, $p - 300)
@@ -760,6 +766,8 @@ foreach ($ruFile in Get-ChildItem (Join-Path $Root 'Poets') -Filter *.htm -File 
         if ($am.Success -and $am.Index -gt $p -and ($am.Index - $p) -lt 6000) {
           $between = $enHtml.Substring($p + $bl.Length, $am.Index - $p - $bl.Length)
           $useIt = $between -notmatch '(?i)<hr\b|\bname\s*='
+          $tail = $between -replace '(?is)^.*?</a\s*>', ''
+          if ((Plain $tail) -match '[\p{IsCyrillic}]') { $useIt = $false }
         }
       }
       if (-not $useIt) { continue }
