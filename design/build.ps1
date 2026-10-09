@@ -83,7 +83,9 @@ function Get-Stanzas([string]$chunk) {
   $s = $s -replace '[\r\n\t]+', ' '
   $s = [regex]::Replace($s, '(?i)<br\b[^>]*>', $LB)
   $s = [regex]::Replace($s, '(?i)</?(p|div|h[1-6]|dl|blockquote|table|tr|ul|ol|center|pre)\b[^>]*>', $PB)
-  $s = [regex]::Replace($s, '(?i)</(dt|li)\s*>', $LB)
+  $s = [regex]::Replace($s, '(?i)</dt\s*>', '')
+  $s = [regex]::Replace($s, '(?i)<dt\b[^>]*>', $LB)
+  $s = [regex]::Replace($s, '(?i)</li\s*>', $LB)
   $s = [regex]::Replace($s, '(?i)</td\s*>', $PB)
   $s = [regex]::Replace($s, '(?i)</?dd\b[^>]*>', $PB)
   $s = [regex]::Replace($s, '(?i)<(i|em)\b[^>]*>', $EO)
@@ -244,6 +246,7 @@ function Get-TocEntries([string]$ruHtml, [string]$file) {
   $rows = [regex]::Split($region, $rowSplit)
   $ru = New-Object System.Collections.ArrayList
   $en = New-Object System.Collections.ArrayList
+  $bare = @{}
   $pos = 0
   for ($r = 0; $r -lt $rows.Count; $r++) {
     foreach ($m in [regex]::Matches($rows[$r], '(?is)<a\s[^>]*href\s*=\s*["'']?([^"''>\s]*)["'']?[^>]*>(.*?)</a>')) {
@@ -255,6 +258,8 @@ function Get-TocEntries([string]$ruHtml, [string]$file) {
         [void]$ru.Add(@{ Id = $Matches[1]; Title = $text; Row = $r; Pos = $pos; Used = $false })
       } elseif ($text -notmatch '[\p{IsCyrillic}]' -and $href -match "(?i)(?:ePoets/$own|rPoets/[^/#]+\.htm|eEPoets/[^/#]+\.htm)#(.+)$") {
         [void]$en.Add(@{ Id = $Matches[1]; Title = $text; Row = $r; Pos = $pos; Used = $false })
+      } elseif ($text -notmatch '[\p{IsCyrillic}]' -and $href -match "(?i)ePoets/$own$" -and -not $bare.ContainsKey($r)) {
+        $bare[$r] = $text
       }
     }
   }
@@ -267,7 +272,9 @@ function Get-TocEntries([string]$ruHtml, [string]$file) {
     if (-not $match) { $match = $en | Where-Object { -not $_.Used -and $_.Row -eq $x.Row } | Select-Object -First 1 }
     if ($match) { $match.Used = $true }
     $x.Used = $true
-    [void]$entries.Add(@{ RuId = $x.Id; RuTitle = $x.Title; EnId = $(if ($match) { $match.Id }); EnTitle = $(if ($match) { $match.Title }); Pos = $x.Pos })
+    $enTitle = if ($match) { $match.Title } elseif ($bare.ContainsKey($x.Row)) { $bare[$x.Row] }
+    if (-not $match -and $bare.ContainsKey($x.Row)) { $bare.Remove($x.Row) }
+    [void]$entries.Add(@{ RuId = $x.Id; RuTitle = $x.Title; EnId = $(if ($match) { $match.Id }); EnTitle = $enTitle; Pos = $x.Pos })
   }
   $leftRu = @($entries | Where-Object { -not $_.EnId })
   $leftEn = @($en | Where-Object { -not $_.Used })
@@ -728,6 +735,41 @@ foreach ($ruFile in Get-ChildItem (Join-Path $Root 'Poets') -Filter *.htm -File 
   foreach ($x in $extra) {
     $xp = Join-Path $Root $x
     if (Test-Path -LiteralPath $xp) { $enSources += [IO.File]::ReadAllText($xp, $utf8) }
+  }
+  if (-not $fromSections) {
+    $enRegion = Get-Region $enHtml
+    $tocEnd = $enHtml.IndexOf($enRegion) + $enRegion.Length
+    if ($tocEnd -lt $enRegion.Length) { $tocEnd = 0 }
+    $ownRx = [regex]::Escape($file)
+    $usedEn = @($entries | Where-Object { $_.EnId } | ForEach-Object { $_.EnId })
+    foreach ($e in $entries) {
+      if (-not $e.RuId) { continue }
+      $bl = [regex]::Match($enHtml.Substring($tocEnd), "(?i)<a\b[^>]*href\s*=\s*[`"']?\.\./Poets/$ownRx#$([regex]::Escape($e.RuId))[`"'\s>]")
+      if (-not $bl.Success) { continue }
+      $p = $tocEnd + $bl.Index
+      $useIt = -not $e.EnId
+      if ($useIt) {
+        $w0 = [Math]::Max(0, $p - 300)
+        $win = $enHtml.Substring($w0, [Math]::Min($enHtml.Length - $w0, $p - $w0 + $bl.Length + 300))
+        foreach ($nm in [regex]::Matches($win, '(?i)\bname\s*=\s*["'']?([^"''\s>]+)')) {
+          if ($usedEn -contains $nm.Groups[1].Value) { $useIt = $false; break }
+        }
+      }
+      if ($e.EnId) {
+        $am = [regex]::Match($enHtml, (Get-AnchorRegex $e.EnId))
+        if ($am.Success -and $am.Index -gt $p -and ($am.Index - $p) -lt 6000) {
+          $between = $enHtml.Substring($p + $bl.Length, $am.Index - $p - $bl.Length)
+          $useIt = $between -notmatch '(?i)<hr\b|\bname\s*='
+        }
+      }
+      if (-not $useIt) { continue }
+      $syn = "bl-$($e.RuId)"
+      $enHtml = $enHtml.Insert($p, "<a name=""$syn""></a>")
+      $enSources[0] = $enHtml
+      if ($e.EnId) { $enStops = @($enStops | Where-Object { $_ -ne $e.EnId }) }
+      $enStops += $syn
+      $e.EnId = $syn
+    }
   }
   $slugs = @{}
   $issues = @()
