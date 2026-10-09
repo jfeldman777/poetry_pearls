@@ -668,7 +668,7 @@ function Render-Page($poet, $entries, [string]$file) {
   $ruName = if ($poet.Ru) { $poet.Ru } else { $base }
   $enName = $poet.En
   $count = @($entries).Count
-  $translators = @($entries | ForEach-Object { $_.Credits } | ForEach-Object { $_.Name } | Where-Object { $_ } | Group-Object | Sort-Object Count -Descending | ForEach-Object { $_.Name })
+  $translators = @($entries | ForEach-Object { $_.Credits } | ForEach-Object { ($_.Name -split ',')[0].Trim() } | Where-Object { $_ } | Group-Object | Sort-Object Count -Descending | ForEach-Object { $_.Name })
   $century = if ($poet.Born -gt 0) { Roman ([int][Math]::Floor((($poet.Born + [Math]::Max($poet.Died, $poet.Born + 40)) / 2) / 100) + 1) } else { $null }
 
   $facts = @()
