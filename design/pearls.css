@@ -265,7 +265,7 @@ main[data-mode="en"] .parallel { grid-template-columns: minmax(0, 36rem); justif
   .cat-bar { gap: 0.5rem; padding: 0.5rem 0; }
   .cat-tabs { flex-wrap: nowrap; max-width: 100%; overflow-x: auto; scrollbar-width: none; }
   .cat-tabs::-webkit-scrollbar { display: none; }
-  .cat-tabs button { flex: 0 0 auto; white-space: nowrap; padding: 0.55rem 0.7rem; }
+  .cat-tabs button { flex: 0 0 auto; white-space: nowrap; padding: 0.55rem 0.5rem; }
   .cat-search { flex: 1 1 100%; padding: 0.5rem 0.8rem; font-size: 16px; }
   .cat-list a { grid-template-columns: 40px minmax(0, 1fr) auto; gap: 0.7rem; }
   .cat-list .nm i { white-space: normal; }
