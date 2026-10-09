@@ -1041,6 +1041,17 @@ foreach ($ruFile in Get-ChildItem (Join-Path $Root 'Poets') -Filter *.htm -File 
       }
       if ($chunk) {
         $p = Clean-Poem (Get-Stanzas $chunk) $titles $e.RuTitle
+        if (@($p.Credits).Count -gt 0 -and -not (@($p.Credits) | Where-Object { $_.Display -match 'Фельдман' })) {
+          $endAt = $ruHtml.IndexOf($chunk) + $chunk.Length
+          $hr = [regex]::Match($ruHtml.Substring($endAt), '^\s*<hr\b[^>]*>')
+          if ($endAt -ge $chunk.Length -and $hr.Success) {
+            $next = Get-ChunkAt $ruHtml ($endAt + $hr.Length) $ruStops
+            if ($next -notmatch '(?i)<a\s[^>]*\bname\s*=' -and ([regex]::Matches((Plain $next), '\p{IsCyrillic}')).Count -ge 80) {
+              $p2 = Clean-Poem (Get-Stanzas $next) $titles $e.RuTitle
+              if ($p2.Stanzas.Count -gt 0 -and @($p2.Credits).Count -eq 0) { $p = $p2 }
+            }
+          }
+        }
         Remove-LatinLead $p
         if ($p.Stanzas.Count -gt 0) { $e.Ru = $p; $e.Credits = $p.Credits } else { $issues += "ru-empty:$($e.RuId)" }
       } else { $issues += "ru-missing:$($e.RuId)" }
