@@ -121,11 +121,11 @@ $ageViewHtml = "<nav class=""letters wide"" aria-label=""Века"">$ageNav</nav
 # --- Дни рождения
 $monthsEn = 'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'
 $monthsRu = 'Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'
-$cal = Read-Page 'calendarPoets.htm'
+$cal = [regex]::Replace((Read-Page 'calendarPoets.htm'), '(?i)(<br\b[^>]*>)\s*(\d{1,2})\s*(?=<br\b)', '$1<a name="$2"></a>')
 $bd = New-Object System.Collections.ArrayList
 $seen = @{}
 $m = 0; $d = 0
-foreach ($t in [regex]::Matches($cal, '(?i)<a\s+name\s*=\s*"?(' + ($monthsEn -join '|') + '|\d{1,2})"?|href\s*=\s*"?\s*(?<![A-Za-z])e?Poets/([^"#/\s>]+?)\.htm')) {
+foreach ($t in [regex]::Matches($cal, '(?i)<a\s+name\s*=\s*"?(' + ($monthsEn -join '|') + '|\d{1,2})"?|href\s*=\s*"?\s*(?<![A-Za-z])Poets/([^"#/\s>]+?)\.htm')) {
   if ($t.Groups[1].Success) {
     $v = $t.Groups[1].Value
     if ($v -match '^\d+$') { $d = [int]$v } else { $m = [array]::IndexOf($monthsEn, ($monthsEn | Where-Object { $_ -ieq $v })) + 1; $d = 0 }
