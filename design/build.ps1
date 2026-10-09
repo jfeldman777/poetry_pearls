@@ -87,6 +87,7 @@ function Get-Stanzas([string]$chunk) {
   $s = [regex]::Replace($s, '(?s)<!--.*?-->', '')
   $s = [regex]::Replace($s, '(?is)<(script|style)\b.*?</\1>', '')
   $s = [regex]::Replace($s, '(?is)<pre\b[^>]*>(.*?)</pre>', { param($m) $PB + ($m.Groups[1].Value -replace '\r?\n', $LB) + $PB })
+  $s = [regex]::Replace($s, '(?is)<a\s[^>]*href\s*=\s*["'']?[^"''>]*Lectures/[^>]*>(.*?)</a>', '$1')
   $s = [regex]::Replace($s, '(?is)<a\s[^>]*href\s*=\s*["'']?[^"''>]*\.htm#[^>]*>.*?</a>', '')
   $s = [regex]::Replace($s, '(?is)<img\b[^>]*>', '')
   $s = $s -replace '[\r\n\t]+', ' '
@@ -360,14 +361,14 @@ function Get-NumberedHeadings([string]$html) {
     if ($after -notmatch '^\s*(<|$)') { continue }
     $w0 = [Math]::Max(0, $m.Index - 200)
     $before = $html.Substring($w0, $m.Index - $w0)
-    $cut = [Math]::Max($before.LastIndexOf('<br', [StringComparison]::OrdinalIgnoreCase), $before.LastIndexOf('<p', [StringComparison]::OrdinalIgnoreCase))
-    $lineText = Plain $before.Substring([Math]::Max(0, $cut))
+    $bm = [regex]::Matches($before, '(?i)<br\b|<p\b|</p>|<h\d|</h\d>|<div\b|</div>')
+    $cut = if ($bm.Count) { $bm[$bm.Count - 1].Index } else { 0 }
+    $lineText = Plain $before.Substring($cut)
     if ($lineText -notmatch '\p{Lu}' -or $lineText.Length -gt 60) { continue }
-    $start = $w0 + [Math]::Max(0, $cut)
+    $start = $w0 + $cut
     $prefix = ''
     foreach ($a in $anchors) {
       if ($a.Index -gt $m.Index) { break }
-      if ($a.Index -ge $w0) { $start = [Math]::Min($start, $a.Index) }
       $prefix = $a.Groups[1].Value
     }
     $prefix = if ($prefix -match '^exp') { 'x' } else { ($prefix -replace '\d+$', '') }
