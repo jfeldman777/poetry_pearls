@@ -698,7 +698,7 @@ function Render-Page($poet, $entries, [string]$file) {
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Inter:wght@400;500;600&family=Literata:opsz,wght@7..72,400;7..72,500&display=swap">
-<link rel="stylesheet" href="pearls.css?v=4">
+<link rel="stylesheet" href="pearls.css?v=5">
 </head>
 <body>
 
@@ -707,7 +707,7 @@ function Render-Page($poet, $entries, [string]$file) {
     <a class="brand" href="index.html"><span class="pearl" aria-hidden="true"></span><span>Жемчужины<small>английской поэзии</small></span></a>
     <nav class="nav" aria-label="Разделы">
       <a href="index.html">Поэты</a>
-      <a href="../RusCatalog.htm">Каталог</a>
+      <a href="catalog.html">Каталог</a>
       <a href="../Gallery/frsGallery.htm">Галерея</a>
       <a href="../ePoets/$file">English</a>
     </nav>
@@ -843,13 +843,13 @@ function Render-Page($poet, $entries, [string]$file) {
 <footer class="site-footer">
   <div class="wrap">
     <span>© 1998–2026 Елена и Яков Фельдман · Жемчужины английской поэзии</span>
-    <span><a href="index.html">Поэты</a> · <a href="../RusCatalog.htm">Каталог</a> · <a href="../Gallery/frsGallery.htm">Галерея</a></span>
+    <span><a href="index.html">Поэты</a> · <a href="catalog.html">Каталог</a> · <a href="../Gallery/frsGallery.htm">Галерея</a></span>
   </div>
 </footer>
 
 <a class="to-top" href="#" aria-label="Наверх">↑</a>
 
-<script src="pearls.js"></script>
+<script src="pearls.js?v=5"></script>
 </body>
 </html>
 
@@ -875,7 +875,7 @@ foreach ($ruFile in Get-ChildItem (Join-Path $Root 'Poets') -Filter *.htm -File 
   if ($entries.Count -eq 0) { $entries = Get-SectionEntries $ruHtml $enHtml }
 
   if ($Skip -contains $base) {
-    [void]$index.Add(@{ Base = $base; Ru = $poet.Ru; En = $poet.En; Years = $poet.Years; Count = $entries.Count })
+    [void]$index.Add(@{ Base = $base; Ru = $poet.Ru; En = $poet.En; Years = $poet.Years; Born = $poet.Born; Died = $poet.Died; Count = $entries.Count })
     continue
   }
 
@@ -1116,7 +1116,7 @@ foreach ($ruFile in Get-ChildItem (Join-Path $Root 'Poets') -Filter *.htm -File 
   }
   $page = Render-Page $poet $entries $file
   [IO.File]::WriteAllText((Join-Path $outDir "$base.html"), $page, $utf8)
-  [void]$index.Add(@{ Base = $base; Ru = $poet.Ru; En = $poet.En; Years = $poet.Years; Count = $entries.Count })
+  [void]$index.Add(@{ Base = $base; Ru = $poet.Ru; En = $poet.En; Years = $poet.Years; Born = $poet.Born; Died = $poet.Died; Count = $entries.Count })
   [void]$report.Add([pscustomobject]@{ Poet = $base; Poems = $entries.Count; Issues = ($issues -join ' '); Ru = $poet.Ru; En = $poet.En })
 }
 
@@ -1132,7 +1132,7 @@ if ($Only.Count -eq 0) {
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Inter:wght@400;500;600&family=Literata:opsz,wght@7..72,400;7..72,500&display=swap">
-<link rel="stylesheet" href="pearls.css?v=4">
+<link rel="stylesheet" href="pearls.css?v=5">
 </head>
 <body>
 
@@ -1141,7 +1141,7 @@ if ($Only.Count -eq 0) {
     <a class="brand" href="index.html"><span class="pearl" aria-hidden="true"></span><span>Жемчужины<small>английской поэзии</small></span></a>
     <nav class="nav" aria-label="Разделы">
       <a href="index.html">Поэты</a>
-      <a href="../RusCatalog.htm">Каталог</a>
+      <a href="catalog.html">Каталог</a>
       <a href="../Gallery/frsGallery.htm">Галерея</a>
       <a href="../e_index.htm">English</a>
     </nav>
@@ -1186,12 +1186,15 @@ if ($Only.Count -eq 0) {
   </div>
 </footer>
 
-<script src="pearls.js"></script>
+<script src="pearls.js?v=5"></script>
 </body>
 </html>
 
 "@)
   [IO.File]::WriteAllText((Join-Path $outDir 'index.html'), $sb.ToString(), $utf8)
+  $json = @($index | ForEach-Object { [pscustomobject]@{ Base = $_.Base; Ru = $_.Ru; En = $_.En; Years = $_.Years; Born = [int]$_.Born; Died = [int]$_.Died; Count = $_.Count } }) | ConvertTo-Json -Depth 3
+  [IO.File]::WriteAllText((Join-Path $outDir 'poets.json'), $json, $utf8)
+  & (Join-Path $PSScriptRoot 'build-catalog.ps1') -Root $Root
 }
 
 $report | Export-Csv -Path (Join-Path $env:TEMP 'design_build.csv') -NoTypeInformation -Encoding UTF8

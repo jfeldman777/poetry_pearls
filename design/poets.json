@@ -1,0 +1,1649 @@
+[
+    {
+        "Base":  "AGray",
+        "Ru":  "Александр Грей",
+        "En":  "Alexander Gray",
+        "Years":  "1882 — 1968",
+        "Born":  1882,
+        "Died":  1968,
+        "Count":  1
+    },
+    {
+        "Base":  "Aiken",
+        "Ru":  "Конрад Поттер Айкен",
+        "En":  "Conrad Potter Aiken",
+        "Years":  "1889 — 1973",
+        "Born":  1889,
+        "Died":  1973,
+        "Count":  8
+    },
+    {
+        "Base":  "Akins",
+        "Ru":  "Зоя Эйкинс",
+        "En":  "Zoe Akins",
+        "Years":  "1886 — 1953",
+        "Born":  1886,
+        "Died":  1953,
+        "Count":  1
+    },
+    {
+        "Base":  "Aldington",
+        "Ru":  "Ричард Олдингтон",
+        "En":  "Richard Aldington",
+        "Years":  "1892 — 1962",
+        "Born":  1892,
+        "Died":  1962,
+        "Count":  1
+    },
+    {
+        "Base":  "Aldrich",
+        "Ru":  "Томас Бейли Олдрич",
+        "En":  "Thomas Bailey Aldrich",
+        "Years":  "1836 — 1907",
+        "Born":  1836,
+        "Died":  1907,
+        "Count":  4
+    },
+    {
+        "Base":  "Arnold",
+        "Ru":  "Мэтью Арнольд",
+        "En":  "Matthew Arnold",
+        "Years":  "1822 — 1888",
+        "Born":  1822,
+        "Died":  1888,
+        "Count":  1
+    },
+    {
+        "Base":  "Ashley",
+        "Ru":  "Кеннет Эшли",
+        "En":  "Kenneth H. Ashley",
+        "Years":  "род. 1923",
+        "Born":  1923,
+        "Died":  0,
+        "Count":  1
+    },
+    {
+        "Base":  "Atwood",
+        "Ru":  "Маргарет Этвуд",
+        "En":  "Margaret Atwood",
+        "Years":  "род. 1939",
+        "Born":  1939,
+        "Died":  0,
+        "Count":  1
+    },
+    {
+        "Base":  "Auden",
+        "Ru":  "Уистон Хью Оден",
+        "En":  "Wystan Hugh Auden",
+        "Years":  "1907 — 1973",
+        "Born":  1907,
+        "Died":  1973,
+        "Count":  4
+    },
+    {
+        "Base":  "Austin",
+        "Ru":  "Альфред Остин",
+        "En":  "Alfred Austin",
+        "Years":  "1835 — 1913",
+        "Born":  1835,
+        "Died":  1913,
+        "Count":  1
+    },
+    {
+        "Base":  "Bacon",
+        "Ru":  "Фрэнсис Бэкон",
+        "En":  "Lord Francis Bacon",
+        "Years":  "1561 — 1626",
+        "Born":  1561,
+        "Died":  1626,
+        "Count":  1
+    },
+    {
+        "Base":  "balladeSc",
+        "Ru":  "Шотландские баллады",
+        "En":  "Ballads",
+        "Years":  null,
+        "Born":  0,
+        "Died":  0,
+        "Count":  9
+    },
+    {
+        "Base":  "Barnes",
+        "Ru":  "Уильям Барнес",
+        "En":  "William Barnes",
+        "Years":  "1801 — 1886",
+        "Born":  1801,
+        "Died":  1886,
+        "Count":  1
+    },
+    {
+        "Base":  "Beddoes",
+        "Ru":  "Томас Ловел Беддоуз",
+        "En":  "Thomas Lovell Beddoes",
+        "Years":  "1803 — 1849",
+        "Born":  1803,
+        "Died":  1849,
+        "Count":  1
+    },
+    {
+        "Base":  "Bellerby",
+        "Ru":  "Фрэнсис Беллерби",
+        "En":  "Frances Bellerby",
+        "Years":  "1899 — 1975",
+        "Born":  1899,
+        "Died":  1975,
+        "Count":  1
+    },
+    {
+        "Base":  "Belloc",
+        "Ru":  "Хилари Беллок",
+        "En":  "Hilaire Belloc",
+        "Years":  "1870 — 1953",
+        "Born":  1870,
+        "Died":  1953,
+        "Count":  1
+    },
+    {
+        "Base":  "Benson",
+        "Ru":  "Стелла Бенсон",
+        "En":  "Stella Benson",
+        "Years":  "1892 — 1933",
+        "Born":  1892,
+        "Died":  1933,
+        "Count":  1
+    },
+    {
+        "Base":  "Best",
+        "Ru":  "Чарльз Бест",
+        "En":  "Charles Best",
+        "Years":  "1570 — 1627",
+        "Born":  1570,
+        "Died":  1627,
+        "Count":  1
+    },
+    {
+        "Base":  "blake",
+        "Ru":  "Уильям Блейк",
+        "En":  "William Blake",
+        "Years":  "1757 — 1827",
+        "Born":  1757,
+        "Died":  1827,
+        "Count":  53
+    },
+    {
+        "Base":  "Bourdillon",
+        "Ru":  "Френсис Уильям Бурдийон",
+        "En":  "Francis William Bourdillon",
+        "Years":  "1852 — 1921",
+        "Born":  1852,
+        "Died":  1921,
+        "Count":  1
+    },
+    {
+        "Base":  "Bowles",
+        "Ru":  "Уильям Лайл Боулз",
+        "En":  "William Lisle Bowles",
+        "Years":  "1762 — 1850",
+        "Born":  1762,
+        "Died":  1850,
+        "Count":  1
+    },
+    {
+        "Base":  "Bradford",
+        "Ru":  "Гамалиель Брэдфорд",
+        "En":  "Gamaliel Bradford",
+        "Years":  "1860 — 1932",
+        "Born":  1860,
+        "Died":  1932,
+        "Count":  1
+    },
+    {
+        "Base":  "BronteA",
+        "Ru":  "Анна Бронте",
+        "En":  "Anne Bronte",
+        "Years":  "1820 — 1849",
+        "Born":  1820,
+        "Died":  1849,
+        "Count":  1
+    },
+    {
+        "Base":  "BronteE",
+        "Ru":  "Эмилия Джейн Бронте",
+        "En":  "Emily Jane Bronte",
+        "Years":  "1818 — 1848",
+        "Born":  1818,
+        "Died":  1848,
+        "Count":  4
+    },
+    {
+        "Base":  "BronteS",
+        "Ru":  "Шарлотта Бронте",
+        "En":  "Charlotte Bronte",
+        "Years":  "1816 — 1855",
+        "Born":  1816,
+        "Died":  1855,
+        "Count":  2
+    },
+    {
+        "Base":  "Brooke",
+        "Ru":  "Руперт Брук",
+        "En":  "Rupert Chawner Brooke",
+        "Years":  "1887 — 1915",
+        "Born":  1887,
+        "Died":  1915,
+        "Count":  1
+    },
+    {
+        "Base":  "Brooks",
+        "Ru":  "Гвендолин Брукс",
+        "En":  "Gwendolyn Brooks",
+        "Years":  "1917 — 2000",
+        "Born":  1917,
+        "Died":  2000,
+        "Count":  1
+    },
+    {
+        "Base":  "Brown",
+        "Ru":  "Томас Эдвард Браун",
+        "En":  "Thomas Edward Brown",
+        "Years":  "1830 — 1897",
+        "Born":  1830,
+        "Died":  1897,
+        "Count":  1
+    },
+    {
+        "Base":  "BrowneW",
+        "Ru":  "Уильям Браун",
+        "En":  "Sir William Browne",
+        "Years":  "1692 — 1774",
+        "Born":  1692,
+        "Died":  1774,
+        "Count":  1
+    },
+    {
+        "Base":  "Browning",
+        "Ru":  "Роберт Браунинг",
+        "En":  "Robert Browning",
+        "Years":  "1812 — 1889",
+        "Born":  1812,
+        "Died":  1889,
+        "Count":  5
+    },
+    {
+        "Base":  "BrowningE",
+        "Ru":  "Элизабет Баррет Браунинг",
+        "En":  "Elizabeth Barret Browning",
+        "Years":  "1806 — 1861",
+        "Born":  1806,
+        "Died":  1861,
+        "Count":  50
+    },
+    {
+        "Base":  "Burns",
+        "Ru":  "Роберт Бернс",
+        "En":  "Robert Burns",
+        "Years":  "1759 — 1796",
+        "Born":  1759,
+        "Died":  1796,
+        "Count":  1
+    },
+    {
+        "Base":  "Butler",
+        "Ru":  "Самюэль Батлер",
+        "En":  "Samuel Butler",
+        "Years":  "1835 — 1902",
+        "Born":  1835,
+        "Died":  1902,
+        "Count":  1
+    },
+    {
+        "Base":  "byron",
+        "Ru":  "Джордж Гордон Байрон",
+        "En":  "George Gordon Noel Byron",
+        "Years":  "1788 — 1824",
+        "Born":  1788,
+        "Died":  1824,
+        "Count":  12
+    },
+    {
+        "Base":  "Campion",
+        "Ru":  "Томас Кэмпион",
+        "En":  "Thomas Campion",
+        "Years":  "1567 — 1620",
+        "Born":  1567,
+        "Died":  1620,
+        "Count":  2
+    },
+    {
+        "Base":  "Carrol",
+        "Ru":  "Льюис Кэррол",
+        "En":  "Lewis Carroll",
+        "Years":  "1832 — 1898",
+        "Born":  1832,
+        "Died":  1898,
+        "Count":  3
+    },
+    {
+        "Base":  "Cary",
+        "Ru":  "Патрик Кэри",
+        "En":  "Patrick Cary",
+        "Years":  "род. 1623",
+        "Born":  1623,
+        "Died":  0,
+        "Count":  1
+    },
+    {
+        "Base":  "Cavendish",
+        "Ru":  "Маргарет Кавендиш",
+        "En":  "Margaret Newcastle Cavendish",
+        "Years":  "1623 — 1673",
+        "Born":  1623,
+        "Died":  1673,
+        "Count":  2
+    },
+    {
+        "Base":  "Chapman",
+        "Ru":  "Джордж Чапмен",
+        "En":  "George Chapman",
+        "Years":  "1559 — 1634",
+        "Born":  1559,
+        "Died":  1634,
+        "Count":  1
+    },
+    {
+        "Base":  "Chaucer",
+        "Ru":  "Джефри Чосер",
+        "En":  "Geoffrey Chaucer",
+        "Years":  "1342 — 1400",
+        "Born":  1342,
+        "Died":  1400,
+        "Count":  1
+    },
+    {
+        "Base":  "Chesterton",
+        "Ru":  "Гилберт Кейт Честертон",
+        "En":  "Gilbert Keith Chesterton",
+        "Years":  "1874 — 1936",
+        "Born":  1874,
+        "Died":  1936,
+        "Count":  3
+    },
+    {
+        "Base":  "Clare",
+        "Ru":  "Джон Клер",
+        "En":  "John Clare",
+        "Years":  "1793 — 1864",
+        "Born":  1793,
+        "Died":  1864,
+        "Count":  5
+    },
+    {
+        "Base":  "Clough",
+        "Ru":  "Артур Хью Клаф",
+        "En":  "Arthur Hugh Clough",
+        "Years":  "1819 — 1861",
+        "Born":  1819,
+        "Died":  1861,
+        "Count":  1
+    },
+    {
+        "Base":  "Coleridge",
+        "Ru":  "Самюэль Тэйлор Кольридж",
+        "En":  "Samuel Taylor Coleridge",
+        "Years":  "1772 — 1834",
+        "Born":  1772,
+        "Died":  1834,
+        "Count":  4
+    },
+    {
+        "Base":  "Collins",
+        "Ru":  "Уильям Коллинз",
+        "En":  "William Collins",
+        "Years":  "1721 — 1759",
+        "Born":  1721,
+        "Died":  1759,
+        "Count":  1
+    },
+    {
+        "Base":  "Colum",
+        "Ru":  "Падраик Колум",
+        "En":  "Padraic Colum",
+        "Years":  "1881 — 1972",
+        "Born":  1881,
+        "Died":  1972,
+        "Count":  1
+    },
+    {
+        "Base":  "Congreve",
+        "Ru":  "Уильям Конгрив",
+        "En":  "William Congreve",
+        "Years":  "1670 — 1729",
+        "Born":  1670,
+        "Died":  1729,
+        "Count":  1
+    },
+    {
+        "Base":  "Constable",
+        "Ru":  "Генри Констебль",
+        "En":  "Henry Constable",
+        "Years":  "1562 — 1613",
+        "Born":  1562,
+        "Died":  1613,
+        "Count":  1
+    },
+    {
+        "Base":  "Cory",
+        "Ru":  "Уильям Кори",
+        "En":  "William Johnson Cory",
+        "Years":  "1823 — 1892",
+        "Born":  1823,
+        "Died":  1892,
+        "Count":  1
+    },
+    {
+        "Base":  "Cowley",
+        "Ru":  "Абрахам Коули",
+        "En":  "Abraham Cowley",
+        "Years":  "1618 — 1667",
+        "Born":  1618,
+        "Died":  1667,
+        "Count":  2
+    },
+    {
+        "Base":  "Cowper",
+        "Ru":  "Уильям Купер",
+        "En":  "William Cowper",
+        "Years":  "1731 — 1800",
+        "Born":  1731,
+        "Died":  1800,
+        "Count":  1
+    },
+    {
+        "Base":  "Crane",
+        "Ru":  "Стефен Крейн",
+        "En":  "Stephen Crane",
+        "Years":  "1871 — 1900",
+        "Born":  1871,
+        "Died":  1900,
+        "Count":  1
+    },
+    {
+        "Base":  "cummings",
+        "Ru":  "Э.Э. Камингс",
+        "En":  "E. E. Cummings",
+        "Years":  "1894 — 1962",
+        "Born":  1894,
+        "Died":  1962,
+        "Count":  4
+    },
+    {
+        "Base":  "Daniel",
+        "Ru":  "Самюэль Даниэль",
+        "En":  "Samuel Daniel",
+        "Years":  "1563 — 1619",
+        "Born":  1563,
+        "Died":  1619,
+        "Count":  1
+    },
+    {
+        "Base":  "Davies",
+        "Ru":  "Уильям Генри Дэвис",
+        "En":  "William Henry Davies",
+        "Years":  "1871 — 1940",
+        "Born":  1871,
+        "Died":  1940,
+        "Count":  2
+    },
+    {
+        "Base":  "DaviesJ",
+        "Ru":  "Джон Дэвис",
+        "En":  "Sir John Davies",
+        "Years":  "1569 — 1626",
+        "Born":  1569,
+        "Died":  1626,
+        "Count":  1
+    },
+    {
+        "Base":  "Day-Lewis",
+        "Ru":  "Сесил Дей-Льюис",
+        "En":  "Cecil Day-Lewis",
+        "Years":  "1904 — 1972",
+        "Born":  1904,
+        "Died":  1972,
+        "Count":  1
+    },
+    {
+        "Base":  "delaMare",
+        "Ru":  "Уолтер Де ла Мар",
+        "En":  "Walter de la Mare",
+        "Years":  "1873 — 1956",
+        "Born":  1873,
+        "Died":  1956,
+        "Count":  4
+    },
+    {
+        "Base":  "Devereux",
+        "Ru":  "Роберт Девре",
+        "En":  "Robert Devereux, earl of Essex",
+        "Years":  "1566 — 1601",
+        "Born":  1566,
+        "Died":  1601,
+        "Count":  1
+    },
+    {
+        "Base":  "Dickinson",
+        "Ru":  "Эмилия Дикинсон",
+        "En":  "Emily Elizabeth Dickinson",
+        "Years":  "1830 — 1886",
+        "Born":  1830,
+        "Died":  1886,
+        "Count":  30
+    },
+    {
+        "Base":  "Dobson",
+        "Ru":  "Остин Добсон",
+        "En":  "Austin Dobson",
+        "Years":  "1840 — 1921",
+        "Born":  1840,
+        "Died":  1921,
+        "Count":  3
+    },
+    {
+        "Base":  "Donne",
+        "Ru":  "Джон Донн",
+        "En":  "John Donne",
+        "Years":  "1572 — 1631",
+        "Born":  1572,
+        "Died":  1631,
+        "Count":  25
+    },
+    {
+        "Base":  "Dowson",
+        "Ru":  "Эрнст Доусон",
+        "En":  "Ernest Christopher Dowson",
+        "Years":  "1867 — 1900",
+        "Born":  1867,
+        "Died":  1900,
+        "Count":  1
+    },
+    {
+        "Base":  "Drayton",
+        "Ru":  "Майкл Дрейтон",
+        "En":  "Michael Drayton",
+        "Years":  "1563 — 1631",
+        "Born":  1563,
+        "Died":  1631,
+        "Count":  1
+    },
+    {
+        "Base":  "Drummond",
+        "Ru":  "Уильям Драммонд",
+        "En":  "William Drummond",
+        "Years":  "1585 — 1649",
+        "Born":  1585,
+        "Died":  1649,
+        "Count":  1
+    },
+    {
+        "Base":  "Dryden",
+        "Ru":  "Джон Драйден",
+        "En":  "John Dryden",
+        "Years":  "1631 — 1700",
+        "Born":  1631,
+        "Died":  1700,
+        "Count":  1
+    },
+    {
+        "Base":  "Eliot",
+        "Ru":  "Томас Стерн Элиот",
+        "En":  "Thomas Stearns Eliot",
+        "Years":  "1888 — 1965",
+        "Born":  1888,
+        "Died":  1965,
+        "Count":  1
+    },
+    {
+        "Base":  "Elizabeth",
+        "Ru":  "Королева Елизавета I",
+        "En":  "Queen Elizabeth I",
+        "Years":  "1533 — 1603",
+        "Born":  1533,
+        "Died":  1603,
+        "Count":  1
+    },
+    {
+        "Base":  "Emerson",
+        "Ru":  "Ральф Уолдо Эмерсон",
+        "En":  "Ralph Waldo Emerson",
+        "Years":  "1803 — 1882",
+        "Born":  1803,
+        "Died":  1882,
+        "Count":  4
+    },
+    {
+        "Base":  "Finch",
+        "Ru":  "Анна Финч",
+        "En":  "Anne Finch",
+        "Years":  "1661 — 1720",
+        "Born":  1661,
+        "Died":  1720,
+        "Count":  1
+    },
+    {
+        "Base":  "Fletcher",
+        "Ru":  "Джон Флетчер",
+        "En":  "John Fletcher",
+        "Years":  "1579 — 1625",
+        "Born":  1579,
+        "Died":  1625,
+        "Count":  1
+    },
+    {
+        "Base":  "FletcherG",
+        "Ru":  "Джайлс Флетчер",
+        "En":  "Giles Fletcher",
+        "Years":  "1549 — 1611",
+        "Born":  1549,
+        "Died":  1611,
+        "Count":  1
+    },
+    {
+        "Base":  "Frost",
+        "Ru":  "Роберт Фрост",
+        "En":  "Robert Frost",
+        "Years":  "1875 — 1963",
+        "Born":  1875,
+        "Died":  1963,
+        "Count":  2
+    },
+    {
+        "Base":  "Gascoigne",
+        "Ru":  "Джордж Гасконь",
+        "En":  "George Gascoigne",
+        "Years":  "1534 — 1577",
+        "Born":  1534,
+        "Died":  1577,
+        "Count":  1
+    },
+    {
+        "Base":  "Gay",
+        "Ru":  "Джон Гей",
+        "En":  "John Gay",
+        "Years":  "1685 — 1732",
+        "Born":  1685,
+        "Died":  1732,
+        "Count":  5
+    },
+    {
+        "Base":  "Ginsberg",
+        "Ru":  "Аллен Гинзберг",
+        "En":  "Allen Ginsberg",
+        "Years":  "1926 — 1997",
+        "Born":  1926,
+        "Died":  1997,
+        "Count":  1
+    },
+    {
+        "Base":  "Goldsmith",
+        "Ru":  "Оливер Голдсмит",
+        "En":  "Oliver Goldsmith",
+        "Years":  "1730 — 1774",
+        "Born":  1730,
+        "Died":  1774,
+        "Count":  1
+    },
+    {
+        "Base":  "Graves",
+        "Ru":  "Роберт Грейвз",
+        "En":  "Robert von Ranke Graves",
+        "Years":  "1895 — 1985",
+        "Born":  1895,
+        "Died":  1985,
+        "Count":  3
+    },
+    {
+        "Base":  "Gray",
+        "Ru":  "Томас Грей",
+        "En":  "Thomas Gray",
+        "Years":  "1716 — 1771",
+        "Born":  1716,
+        "Died":  1771,
+        "Count":  1
+    },
+    {
+        "Base":  "Greville",
+        "Ru":  "Фулке Гревил",
+        "En":  "Fulke Greville",
+        "Years":  "1554 — 1628",
+        "Born":  1554,
+        "Died":  1628,
+        "Count":  4
+    },
+    {
+        "Base":  "Griffin",
+        "Ru":  "Бартоломью Гриффин",
+        "En":  "Bartolomew Griffin",
+        "Years":  "род. 1602",
+        "Born":  1602,
+        "Died":  0,
+        "Count":  1
+    },
+    {
+        "Base":  "Guiterman",
+        "Ru":  "Артур Гитерман",
+        "En":  "Arthur Guiterman",
+        "Years":  "1871 — 1943",
+        "Born":  1871,
+        "Died":  1943,
+        "Count":  1
+    },
+    {
+        "Base":  "Hardy",
+        "Ru":  "Томас Харди",
+        "En":  "Thomas Hardy",
+        "Years":  "1840 — 1928",
+        "Born":  1840,
+        "Died":  1928,
+        "Count":  8
+    },
+    {
+        "Base":  "Hawes",
+        "Ru":  "Стефен Хоуэс",
+        "En":  "Stephen Hawes",
+        "Years":  "1475 — 1511",
+        "Born":  1475,
+        "Died":  1511,
+        "Count":  2
+    },
+    {
+        "Base":  "Hay",
+        "Ru":  "Джон Хей",
+        "En":  "John Hay",
+        "Years":  "1838 — 1905",
+        "Born":  1838,
+        "Died":  1905,
+        "Count":  1
+    },
+    {
+        "Base":  "Herbert",
+        "Ru":  "Джордж Герберт",
+        "En":  "George Herbert",
+        "Years":  "1593 — 1633",
+        "Born":  1593,
+        "Died":  1633,
+        "Count":  6
+    },
+    {
+        "Base":  "Herrick",
+        "Ru":  "Роберт Херрик",
+        "En":  "Robert Herrick",
+        "Years":  "1591 — 1674",
+        "Born":  1591,
+        "Died":  1674,
+        "Count":  1
+    },
+    {
+        "Base":  "Hood",
+        "Ru":  "Томас Худ",
+        "En":  "Thomas Hood",
+        "Years":  "1799 — 1845",
+        "Born":  1799,
+        "Died":  1845,
+        "Count":  3
+    },
+    {
+        "Base":  "Hope",
+        "Ru":  "Алек Дервент Хоуп",
+        "En":  "Alec Derwent Hope",
+        "Years":  "1907 — 2000",
+        "Born":  1907,
+        "Died":  2000,
+        "Count":  1
+    },
+    {
+        "Base":  "Hopkins",
+        "Ru":  "Герард Мэнли Хопкинс",
+        "En":  "Gerard Manley Hopkins",
+        "Years":  "1844 — 1889",
+        "Born":  1844,
+        "Died":  1889,
+        "Count":  6
+    },
+    {
+        "Base":  "Housman",
+        "Ru":  "Альфред Эдвард Хаусмен",
+        "En":  "Alfred Edward Housman",
+        "Years":  "1859 — 1936",
+        "Born":  1859,
+        "Died":  1936,
+        "Count":  15
+    },
+    {
+        "Base":  "Howard",
+        "Ru":  "Генри Говард, граф Серрей",
+        "En":  "Henry Howard, earl of Surrey",
+        "Years":  "1517 — 1547",
+        "Born":  1517,
+        "Died":  1547,
+        "Count":  1
+    },
+    {
+        "Base":  "Hughes",
+        "Ru":  "Тед Хьюс",
+        "En":  "Ted Hughes",
+        "Years":  "1930 — 1998",
+        "Born":  1930,
+        "Died":  1998,
+        "Count":  2
+    },
+    {
+        "Base":  "HughesL",
+        "Ru":  "Лэнгстон Хьюс",
+        "En":  "Langston Hughes",
+        "Years":  "1902 — 1967",
+        "Born":  1902,
+        "Died":  1967,
+        "Count":  1
+    },
+    {
+        "Base":  "Hunt",
+        "Ru":  "Джеймс Ли Хант",
+        "En":  "James Leigh Hunt",
+        "Years":  "1784 — 1859",
+        "Born":  1784,
+        "Died":  1859,
+        "Count":  1
+    },
+    {
+        "Base":  "Jonson",
+        "Ru":  "Бен Джонсон",
+        "En":  "Benjamin Jonson",
+        "Years":  "1572 — 1637",
+        "Born":  1572,
+        "Died":  1637,
+        "Count":  2
+    },
+    {
+        "Base":  "Joyce",
+        "Ru":  "Джеймс Джойс",
+        "En":  "James Augustine Alosius Joyce",
+        "Years":  "1882 — 1941",
+        "Born":  1882,
+        "Died":  1941,
+        "Count":  2
+    },
+    {
+        "Base":  "keats",
+        "Ru":  "Джон Китс",
+        "En":  "John Keats",
+        "Years":  "1795 — 1821",
+        "Born":  1795,
+        "Died":  1821,
+        "Count":  11
+    },
+    {
+        "Base":  "Kilmer",
+        "Ru":  "Джойс Килмер",
+        "En":  "Joyce Kilmer",
+        "Years":  "1886 — 1918",
+        "Born":  1886,
+        "Died":  1918,
+        "Count":  1
+    },
+    {
+        "Base":  "King",
+        "Ru":  "Генри Кинг",
+        "En":  "Henry King",
+        "Years":  "1592 — 1664",
+        "Born":  1592,
+        "Died":  1664,
+        "Count":  1
+    },
+    {
+        "Base":  "Kingsley",
+        "Ru":  "Чарльз Кингсли",
+        "En":  "Charles Kingsley",
+        "Years":  "1819 — 1875",
+        "Born":  1819,
+        "Died":  1875,
+        "Count":  5
+    },
+    {
+        "Base":  "Kipling",
+        "Ru":  "Редьярд Киплинг",
+        "En":  "Rudyard Kipling",
+        "Years":  "1865 — 1936",
+        "Born":  1865,
+        "Died":  1936,
+        "Count":  17
+    },
+    {
+        "Base":  "Lamb",
+        "Ru":  "Чарльз Лэм",
+        "En":  "Charles Lamb",
+        "Years":  "1775 — 1834",
+        "Born":  1775,
+        "Died":  1834,
+        "Count":  1
+    },
+    {
+        "Base":  "Landor",
+        "Ru":  "Уолтер Лэндор",
+        "En":  "Walter Savage Landor",
+        "Years":  "1775 — 1864",
+        "Born":  1775,
+        "Died":  1864,
+        "Count":  12
+    },
+    {
+        "Base":  "Larkin",
+        "Ru":  "Филипп Ларкин",
+        "En":  "Philip Larkin",
+        "Years":  "1922 — 1985",
+        "Born":  1922,
+        "Died":  1985,
+        "Count":  1
+    },
+    {
+        "Base":  "Lawrence",
+        "Ru":  "Дэвид Герберт Лоуренс",
+        "En":  "David Herbert Lawrence",
+        "Years":  "1885 — 1930",
+        "Born":  1885,
+        "Died":  1930,
+        "Count":  3
+    },
+    {
+        "Base":  "Lear",
+        "Ru":  "Эдвард Лир",
+        "En":  "Edward Lear",
+        "Years":  "1812 — 1888",
+        "Born":  1812,
+        "Died":  1888,
+        "Count":  5
+    },
+    {
+        "Base":  "Levy",
+        "Ru":  "Ами Леви",
+        "En":  "Amy Levy",
+        "Years":  "1861 — 1889",
+        "Born":  1861,
+        "Died":  1889,
+        "Count":  1
+    },
+    {
+        "Base":  "Lincoln",
+        "Ru":  "Авраам Линкольн",
+        "En":  "Abraham Lincoln",
+        "Years":  "1809 — 1865",
+        "Born":  1809,
+        "Died":  1865,
+        "Count":  1
+    },
+    {
+        "Base":  "Lockhart",
+        "Ru":  "Джон Гибсон Локхарт",
+        "En":  "John Gibson Lockhart",
+        "Years":  "1794 — 1854",
+        "Born":  1794,
+        "Died":  1854,
+        "Count":  1
+    },
+    {
+        "Base":  "Longfellow",
+        "Ru":  "Генри Водсворд Лонгфелло",
+        "En":  "Henry Wadsworth Longfellow",
+        "Years":  "1807 — 1882",
+        "Born":  1807,
+        "Died":  1882,
+        "Count":  6
+    },
+    {
+        "Base":  "Lovelace",
+        "Ru":  "Ричард Лавлэйс",
+        "En":  "Richard Lovelace",
+        "Years":  "1618 — 1657",
+        "Born":  1618,
+        "Died":  1657,
+        "Count":  2
+    },
+    {
+        "Base":  "Lowell",
+        "Ru":  "Джеймс Рассел Лоуэлл",
+        "En":  "James Russell Lowell",
+        "Years":  "1819 — 1891",
+        "Born":  1819,
+        "Died":  1891,
+        "Count":  2
+    },
+    {
+        "Base":  "LowellA",
+        "Ru":  "Эми Лоуэл",
+        "En":  "Amy Lowell",
+        "Years":  "1874 — 1925",
+        "Born":  1874,
+        "Died":  1925,
+        "Count":  1
+    },
+    {
+        "Base":  "Markham",
+        "Ru":  "Эдвин Маркхэм",
+        "En":  "Edwin Markham",
+        "Years":  "1852 — 1940",
+        "Born":  1852,
+        "Died":  1940,
+        "Count":  1
+    },
+    {
+        "Base":  "Marlowe",
+        "Ru":  "Кристофер Марло",
+        "En":  "Christopher Marlowe",
+        "Years":  "1564 — 1593",
+        "Born":  1564,
+        "Died":  1593,
+        "Count":  1
+    },
+    {
+        "Base":  "Marvell",
+        "Ru":  "Эндрю Марвел",
+        "En":  "Andrew Marvell",
+        "Years":  "1621 — 1678",
+        "Born":  1621,
+        "Died":  1678,
+        "Count":  1
+    },
+    {
+        "Base":  "Masefield",
+        "Ru":  "Джон Мейсфилд",
+        "En":  "John Masefield",
+        "Years":  "1878 — 1967",
+        "Born":  1878,
+        "Died":  1967,
+        "Count":  1
+    },
+    {
+        "Base":  "Meredith",
+        "Ru":  "Оуэн Мередит",
+        "En":  "Owen Meredith",
+        "Years":  "1831 — 1891",
+        "Born":  1831,
+        "Died":  1891,
+        "Count":  1
+    },
+    {
+        "Base":  "Millay",
+        "Ru":  "Эдна Миллей",
+        "En":  "Edna St. Vincent Millay",
+        "Years":  "1892 — 1950",
+        "Born":  1892,
+        "Died":  1950,
+        "Count":  3
+    },
+    {
+        "Base":  "Milne",
+        "Ru":  "Алан Александр Милн",
+        "En":  "Alan Alexander Milne",
+        "Years":  "1882 — 1956",
+        "Born":  1882,
+        "Died":  1956,
+        "Count":  32
+    },
+    {
+        "Base":  "Milton",
+        "Ru":  "Джон Милтон",
+        "En":  "John Milton",
+        "Years":  "1608 — 1674",
+        "Born":  1608,
+        "Died":  1674,
+        "Count":  3
+    },
+    {
+        "Base":  "Moore",
+        "Ru":  "Томас Мур",
+        "En":  "Thomas Moore",
+        "Years":  "1779 — 1852",
+        "Born":  1779,
+        "Died":  1852,
+        "Count":  2
+    },
+    {
+        "Base":  "Moraes",
+        "Ru":  "Дом Морес",
+        "En":  "Dom Moraes",
+        "Years":  "1938 — 2004",
+        "Born":  1938,
+        "Died":  2004,
+        "Count":  2
+    },
+    {
+        "Base":  "Morley",
+        "Ru":  "Кристофер Морли",
+        "En":  "Christopher Morley",
+        "Years":  "1890 — 1957",
+        "Born":  1890,
+        "Died":  1957,
+        "Count":  1
+    },
+    {
+        "Base":  "Morris",
+        "Ru":  "Уильям Моррис",
+        "En":  "William Morris",
+        "Years":  "1834 — 1896",
+        "Born":  1834,
+        "Died":  1896,
+        "Count":  1
+    },
+    {
+        "Base":  "Nash",
+        "Ru":  "Огден Нэш",
+        "En":  "Ogden Nash",
+        "Years":  "1902 — 1971",
+        "Born":  1902,
+        "Died":  1971,
+        "Count":  5
+    },
+    {
+        "Base":  "nurs_rhymes",
+        "Ru":  "Детские рифмы",
+        "En":  "Nursery rhymes",
+        "Years":  null,
+        "Born":  0,
+        "Died":  0,
+        "Count":  5
+    },
+    {
+        "Base":  "Owen",
+        "Ru":  "Уилфред Оуэн",
+        "En":  "Wilfred Owen",
+        "Years":  "1893 — 1918",
+        "Born":  1893,
+        "Died":  1918,
+        "Count":  1
+    },
+    {
+        "Base":  "Parker",
+        "Ru":  "Дороти Паркер",
+        "En":  "Dorothy Parker",
+        "Years":  "1893 — 1967",
+        "Born":  1893,
+        "Died":  1967,
+        "Count":  4
+    },
+    {
+        "Base":  "Patmore",
+        "Ru":  "Ковентри Патмор",
+        "En":  "Coventry Kersey Dighton Patmore",
+        "Years":  "1823 — 1896",
+        "Born":  1823,
+        "Died":  1896,
+        "Count":  2
+    },
+    {
+        "Base":  "Plath",
+        "Ru":  "Сильвия Плат",
+        "En":  "Sylvia Plath",
+        "Years":  "1932 — 1963",
+        "Born":  1932,
+        "Died":  1963,
+        "Count":  2
+    },
+    {
+        "Base":  "Poe",
+        "Ru":  "Эдгар По",
+        "En":  "Edgar Alan Poe",
+        "Years":  "1809 — 1849",
+        "Born":  1809,
+        "Died":  1849,
+        "Count":  3
+    },
+    {
+        "Base":  "Pope",
+        "Ru":  "Александр Поуп",
+        "En":  "Alexander Pope",
+        "Years":  "1688 — 1744",
+        "Born":  1688,
+        "Died":  1744,
+        "Count":  2
+    },
+    {
+        "Base":  "Pound",
+        "Ru":  "Эзра Паунд",
+        "En":  "Ezra Pound",
+        "Years":  "1885 — 1972",
+        "Born":  1885,
+        "Died":  1972,
+        "Count":  1
+    },
+    {
+        "Base":  "Raleigh",
+        "Ru":  "Уолтер Рэли",
+        "En":  "Sir Walter Raleigh",
+        "Years":  "1554 — 1618",
+        "Born":  1554,
+        "Died":  1618,
+        "Count":  4
+    },
+    {
+        "Base":  "Randal",
+        "Ru":  "Дудли Рэндал",
+        "En":  "Dudley Randall",
+        "Years":  "1914 — 2000",
+        "Born":  1914,
+        "Died":  2000,
+        "Count":  1
+    },
+    {
+        "Base":  "Ransom",
+        "Ru":  "Джон Кроув Ренсом",
+        "En":  "John Crowe Ransom",
+        "Years":  "1888 — 1974",
+        "Born":  1888,
+        "Died":  1974,
+        "Count":  2
+    },
+    {
+        "Base":  "Robinson",
+        "Ru":  "Эдвин Арлингтон Робинсон",
+        "En":  "Edwin Arlington Robinson",
+        "Years":  "1869 — 1935",
+        "Born":  1869,
+        "Died":  1935,
+        "Count":  2
+    },
+    {
+        "Base":  "Rochester",
+        "Ru":  "Джон Уилмот Рочестер",
+        "En":  "John Wilmot Rochester",
+        "Years":  "1647 — 1680",
+        "Born":  1647,
+        "Died":  1680,
+        "Count":  4
+    },
+    {
+        "Base":  "Rossetti",
+        "Ru":  "Кристина Росетти",
+        "En":  "Christina Georgina Rossetti",
+        "Years":  "1830 — 1894",
+        "Born":  1830,
+        "Died":  1894,
+        "Count":  28
+    },
+    {
+        "Base":  "Rossetti2",
+        "Ru":  "Кристина Росетти. Песни-песенки",
+        "En":  "Christina Georgina Rossetti",
+        "Years":  "1830 — 1894",
+        "Born":  1830,
+        "Died":  1894,
+        "Count":  122
+    },
+    {
+        "Base":  "RossettiD",
+        "Ru":  "Данте Габриэль Росетти",
+        "En":  "Dante Gabriel Rossetti",
+        "Years":  "1828 — 1882",
+        "Born":  1828,
+        "Died":  1882,
+        "Count":  2
+    },
+    {
+        "Base":  "Sandburg",
+        "Ru":  "Карл Сандберг",
+        "En":  "Carl Sandburg",
+        "Years":  "1878 — 1967",
+        "Born":  1878,
+        "Died":  1967,
+        "Count":  2
+    },
+    {
+        "Base":  "Santayana",
+        "Ru":  "Джордж Сантаяна",
+        "En":  "George Santayana",
+        "Years":  "1863 — 1952",
+        "Born":  1863,
+        "Died":  1952,
+        "Count":  1
+    },
+    {
+        "Base":  "Scott",
+        "Ru":  "Вальтер Скотт",
+        "En":  "Sir Walter Scott",
+        "Years":  "1771 — 1832",
+        "Born":  1771,
+        "Died":  1832,
+        "Count":  1
+    },
+    {
+        "Base":  "Service",
+        "Ru":  "Роберт Сервис",
+        "En":  "Robert William Service",
+        "Years":  "1874 — 1958",
+        "Born":  1874,
+        "Died":  1958,
+        "Count":  9
+    },
+    {
+        "Base":  "Shakespeare",
+        "Ru":  "Уильям Шекспир",
+        "En":  "William Shakespeare",
+        "Years":  "1564 — 1616",
+        "Born":  1564,
+        "Died":  1616,
+        "Count":  5
+    },
+    {
+        "Base":  "Shelley",
+        "Ru":  "Перси Биши Шелли",
+        "En":  "Percy Bysshe Shelley",
+        "Years":  "1792 — 1822",
+        "Born":  1792,
+        "Died":  1822,
+        "Count":  5
+    },
+    {
+        "Base":  "Shirley",
+        "Ru":  "Джеймс Ширли",
+        "En":  "James Shirley",
+        "Years":  "1596 — 1666",
+        "Born":  1596,
+        "Died":  1666,
+        "Count":  1
+    },
+    {
+        "Base":  "Sidney",
+        "Ru":  "Филипп Сидни",
+        "En":  "Philip Sidney",
+        "Years":  "1554 — 1586",
+        "Born":  1554,
+        "Died":  1586,
+        "Count":  5
+    },
+    {
+        "Base":  "Simpson",
+        "Ru":  "Льюис Симпсон",
+        "En":  "Louis Simpson",
+        "Years":  "род. 1923",
+        "Born":  1923,
+        "Died":  0,
+        "Count":  6
+    },
+    {
+        "Base":  "Smart",
+        "Ru":  "Кристофер Смарт",
+        "En":  "Christopher Smart",
+        "Years":  "1722 — 1771",
+        "Born":  1722,
+        "Died":  1771,
+        "Count":  1
+    },
+    {
+        "Base":  "Smith",
+        "Ru":  "Уильям Смит",
+        "En":  "William Smith",
+        "Years":  "род. 1593",
+        "Born":  1593,
+        "Died":  0,
+        "Count":  1
+    },
+    {
+        "Base":  "Sorley",
+        "Ru":  "Чарльз Гамильтон Сорли",
+        "En":  "Charles Hamilton Sorley",
+        "Years":  "1895 — 1915",
+        "Born":  1895,
+        "Died":  1915,
+        "Count":  1
+    },
+    {
+        "Base":  "Soutar",
+        "Ru":  "Уильям Саутар",
+        "En":  "William Soutar",
+        "Years":  "1898 — 1943",
+        "Born":  1898,
+        "Died":  1943,
+        "Count":  1
+    },
+    {
+        "Base":  "Southey",
+        "Ru":  "Роберт Саути",
+        "En":  "Robert Southey",
+        "Years":  "1774 — 1843",
+        "Born":  1774,
+        "Died":  1843,
+        "Count":  1
+    },
+    {
+        "Base":  "Spenser",
+        "Ru":  "Эдмунд Спенсер",
+        "En":  "Edmund Spenser",
+        "Years":  "1552 — 1599",
+        "Born":  1552,
+        "Died":  1599,
+        "Count":  2
+    },
+    {
+        "Base":  "Stevenson",
+        "Ru":  "Роберт Льюис Стивенсон",
+        "En":  "Robert Louis Balfour Stevenson",
+        "Years":  "1850 — 1894",
+        "Born":  1850,
+        "Died":  1894,
+        "Count":  8
+    },
+    {
+        "Base":  "Stoddard",
+        "Ru":  "Ричард Генри Стоддард",
+        "En":  "Richard Henry Stoddard",
+        "Years":  "1853 — 1903",
+        "Born":  1853,
+        "Died":  1903,
+        "Count":  1
+    },
+    {
+        "Base":  "Suckling",
+        "Ru":  "Джон Саклинг",
+        "En":  "Sir John Suckling",
+        "Years":  "1609 — 1642",
+        "Born":  1609,
+        "Died":  1642,
+        "Count":  1
+    },
+    {
+        "Base":  "Swift",
+        "Ru":  "Джонатан Свифт",
+        "En":  "Jonathan Swift",
+        "Years":  "1667 — 1745",
+        "Born":  1667,
+        "Died":  1745,
+        "Count":  1
+    },
+    {
+        "Base":  "Swinburne",
+        "Ru":  "Алжернон Чарльз Суинбурн",
+        "En":  "Algernon Charles Swinburne",
+        "Years":  "1837 — 1909",
+        "Born":  1837,
+        "Died":  1909,
+        "Count":  2
+    },
+    {
+        "Base":  "Symons",
+        "Ru":  "Артур Симонс",
+        "En":  "Arthur William Symons",
+        "Years":  "1865 — 1945",
+        "Born":  1865,
+        "Died":  1945,
+        "Count":  3
+    },
+    {
+        "Base":  "Synge",
+        "Ru":  "Эдмунд Джон Миллингтон Синж",
+        "En":  "Edmund John Millington Synge",
+        "Years":  "1871 — 1909",
+        "Born":  1871,
+        "Died":  1909,
+        "Count":  2
+    },
+    {
+        "Base":  "Tagor",
+        "Ru":  "Рабиндранат Тагор",
+        "En":  "Rabindranath Tagore",
+        "Years":  "1861 — 1941",
+        "Born":  1861,
+        "Died":  1941,
+        "Count":  1
+    },
+    {
+        "Base":  "Tate",
+        "Ru":  "Нахум Тейт",
+        "En":  "Nahum Tate",
+        "Years":  "1652 — 1715",
+        "Born":  1652,
+        "Died":  1715,
+        "Count":  1
+    },
+    {
+        "Base":  "Teasdale",
+        "Ru":  "Сара Тиздэйл",
+        "En":  "Sara Teasdale",
+        "Years":  "1884 — 1933",
+        "Born":  1884,
+        "Died":  1933,
+        "Count":  3
+    },
+    {
+        "Base":  "Tennyson",
+        "Ru":  "Альфред Теннисон",
+        "En":  "Alfred Tennyson",
+        "Years":  "1809 — 1892",
+        "Born":  1809,
+        "Died":  1892,
+        "Count":  4
+    },
+    {
+        "Base":  "Thomas",
+        "Ru":  "Дилан Томас",
+        "En":  "Dylan Thomas",
+        "Years":  "1914 — 1953",
+        "Born":  1914,
+        "Died":  1953,
+        "Count":  1
+    },
+    {
+        "Base":  "ThomasE",
+        "Ru":  "Эдвард Томас",
+        "En":  "Edward Thomas",
+        "Years":  "1878 — 1917",
+        "Born":  1878,
+        "Died":  1917,
+        "Count":  3
+    },
+    {
+        "Base":  "ThompsonF",
+        "Ru":  "Френсис Томпсон",
+        "En":  "Francis Thompson",
+        "Years":  "1859 — 1907",
+        "Born":  1859,
+        "Died":  1907,
+        "Count":  1
+    },
+    {
+        "Base":  "ThomsonVB",
+        "Ru":  "Джеймс Томсон",
+        "En":  "James Thomson",
+        "Years":  "1834 — 1882",
+        "Born":  1834,
+        "Died":  1882,
+        "Count":  3
+    },
+    {
+        "Base":  "Tolkien",
+        "Ru":  "Джон Р.Р. Толкиен",
+        "En":  "John Ronald Reuel Tolkien",
+        "Years":  "1892 — 1973",
+        "Born":  1892,
+        "Died":  1973,
+        "Count":  1
+    },
+    {
+        "Base":  "Vaughan",
+        "Ru":  "Генри Воэн",
+        "En":  "Henry Vaughan",
+        "Years":  "1622 — 1695",
+        "Born":  1622,
+        "Died":  1695,
+        "Count":  1
+    },
+    {
+        "Base":  "Whitman",
+        "Ru":  "Уолт Уитмен",
+        "En":  "Walt Whitman",
+        "Years":  "1819 — 1892",
+        "Born":  1819,
+        "Died":  1892,
+        "Count":  1
+    },
+    {
+        "Base":  "Wilde",
+        "Ru":  "Оскар Уальд",
+        "En":  "Oscar Fingal O’Flahertie Wills Wilde",
+        "Years":  "1854 — 1900",
+        "Born":  1854,
+        "Died":  1900,
+        "Count":  11
+    },
+    {
+        "Base":  "Wolfe",
+        "Ru":  "Чарльз Вольф",
+        "En":  "Charles Wolfe",
+        "Years":  "1791 — 1823",
+        "Born":  1791,
+        "Died":  1823,
+        "Count":  1
+    },
+    {
+        "Base":  "Wordsworth",
+        "Ru":  "Уильям Вордсворт",
+        "En":  "William Wordsworth",
+        "Years":  "1770 — 1850",
+        "Born":  1770,
+        "Died":  1850,
+        "Count":  7
+    },
+    {
+        "Base":  "Wotton",
+        "Ru":  "Генри Уоттон",
+        "En":  "Sir Henry Wotton",
+        "Years":  "1568 — 1639",
+        "Born":  1568,
+        "Died":  1639,
+        "Count":  1
+    },
+    {
+        "Base":  "Wyatt",
+        "Ru":  "Томас Уайетт",
+        "En":  "Sir Thomas Wyatt",
+        "Years":  "1503 — 1542",
+        "Born":  1503,
+        "Died":  1542,
+        "Count":  2
+    },
+    {
+        "Base":  "Wylie",
+        "Ru":  "Элинор Вайли",
+        "En":  "Elinor Wylie",
+        "Years":  "1885 — 1928",
+        "Born":  1885,
+        "Died":  1928,
+        "Count":  2
+    },
+    {
+        "Base":  "Yeats",
+        "Ru":  "Уильям Батлер Ейтс",
+        "En":  "William Butler Yeats",
+        "Years":  "1865 — 1939",
+        "Born":  1865,
+        "Died":  1939,
+        "Count":  7
+    }
+]
