@@ -32,7 +32,16 @@ $poets = @(Get-Content (Join-Path $outDir 'poets.json') -Raw -Encoding UTF8 | Co
 $byBase = @{}
 foreach ($p in $poets) { $byBase[$p.Base.ToLower()] = $p }
 $small = @{}
-Get-ChildItem (Join-Path $Root 'PortSmall') -File | ForEach-Object { $small[$_.BaseName.ToLower()] = $_.Name }
+$smallFiles = @{}
+Get-ChildItem (Join-Path $Root 'PortSmall') -File | ForEach-Object { $small[$_.BaseName.ToLower()] = "../PortSmall/$($_.Name)"; $smallFiles[$_.Name.ToLower()] = "../PortSmall/$($_.Name)" }
+foreach ($p in $poets) {
+  $f = Join-Path $outDir "$($p.Base).html"
+  if (-not (Test-Path $f)) { continue }
+  $m = [regex]::Match([IO.File]::ReadAllText($f, [Text.Encoding]::UTF8), '<img[^>]+src="(\.\./Port(?:Small|Poet)/([^"]+))"')
+  if (-not $m.Success) { continue }
+  $file = $m.Groups[2].Value.ToLower()
+  $small[$p.Base.ToLower()] = if ($smallFiles.ContainsKey($file)) { $smallFiles[$file] } else { $m.Groups[1].Value }
+}
 $nonPersons = @('balladesc', 'nurs_rhymes')
 $totalPoems = ($poets | Measure-Object Count -Sum).Sum
 
@@ -51,7 +60,7 @@ function Get-Letter([string]$key) {
 
 function Render-Poet($p, [string]$name, [string]$alt) {
   $b = $p.Base.ToLower()
-  $ph = if ($small.ContainsKey($b)) { "<img class=""ph"" src=""../PortSmall/$($small[$b])"" alt="""" loading=""lazy"">" } else { "<span class=""ph"">$(Esc ($name.Substring(0, 1)))</span>" }
+  $ph = if ($small.ContainsKey($b)) { "<img class=""ph"" src=""$($small[$b])"" alt="""" loading=""lazy"">" } else { "<span class=""ph"">$(Esc ($name.Substring(0, 1)))</span>" }
   $cnt = "$($p.Count) $(Plural $p.Count 'стих.' 'стих.' 'стих.')"
   $yrs = if ($p.Years) { "$(Esc $p.Years)<small>$cnt</small>" } else { "<small>$cnt</small>" }
   $q = Esc (Norm-Q "$($p.Ru) $($p.En) $($p.Base)")
