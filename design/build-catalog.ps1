@@ -78,29 +78,29 @@ foreach ($g in $groups) {
 }
 
 # --- A–Z
-$engHtml = Read-Page 'EngCatalog.htm'
-$enOrder = @{}; $enName = @{}
-$i = 0
-foreach ($line in Get-Lines $engHtml) {
-  $bs = Get-Bases $line
-  if ($bs.Count -eq 0) { continue }
-  $b = $bs[0]
-  if ($enOrder.ContainsKey($b) -or -not $byBase.ContainsKey($b)) { continue }
-  $enOrder[$b] = $i++
-  $t = Plain $line
-  $m = [regex]::Match($t, '^\s*([A-Za-z][^,(]*?)\s*,\s*([^(]*?)\s*\(')
-  if ($m.Success -and $m.Groups[2].Value -notmatch '\p{IsCyrillic}') { $enName[$b] = "$($m.Groups[1].Value.Trim()), $($m.Groups[2].Value.Trim())".TrimEnd(',', ' ') }
+function Get-EnName($p) {
+  $b = $p.Base.ToLower()
+  $full = if ($p.En) { $p.En } else { $p.Base }
+  if ($nonPersons -contains $b) { return $full }
+  if ($full -match '^(Queen|King)\s+(.+)$') { return "$($Matches[2]), $($Matches[1])" }
+  $head, $tail = $full -split ',\s*', 2
+  $tokens = @($head -split '\s+' | Where-Object { $_ })
+  if ($tokens.Count -lt 2) { return $full }
+  $k = $tokens.Count - 1
+  while ($k -gt 1 -and $tokens[$k] -cmatch '^([IVX]+|Jr\.?|Sr\.?)$') { $k-- }
+  while ($k -gt 1 -and $tokens[$k - 1] -cmatch '^(de|la|le|du|van|von|der|di|da)$') { $k-- }
+  $given = ($tokens[0..($k - 1)] + @($tokens | Select-Object -Skip ($k + 1) | Where-Object { $_ -cmatch '^([IVX]+|Jr\.?|Sr\.?)$' })) -join ' '
+  $n = "$(($tokens[$k..($tokens.Count - 1)] | Where-Object { $_ -cnotmatch '^([IVX]+|Jr\.?|Sr\.?)$' }) -join ' '), $given"
+  if ($tail) { "$n, $tail" } else { $n }
 }
-$enSorted = $poets | Sort-Object @{ Expression = { $b = $_.Base.ToLower(); if ($enOrder.ContainsKey($b)) { $enOrder[$b] } else { 100000 } } }, @{ Expression = { $t = @(($_.En + '') -split '\s+'); $t[-1] } }
+$enSorted = $poets | Sort-Object @{ Expression = { (Get-EnName $_) -replace '^(de|la|le|du|van|von|der|di|da)\s+(?:(?:la|der)\s+)?', '' } }
 $enView = New-Object System.Text.StringBuilder
-$enGroups = $enSorted | Group-Object { $b = $_.Base.ToLower(); $n = if ($enName.ContainsKey($b)) { $enName[$b] } elseif ($_.En) { $_.En } else { $_.Base }; $n.Substring(0, 1).ToUpper() }
+$enGroups = $enSorted | Group-Object { ((Get-EnName $_) -replace '^(de|la|le|du|van|von|der|di|da)\s+(?:(?:la|der)\s+)?', '').Substring(0, 1).ToUpper() }
 [void]$enView.AppendLine('<nav class="letters" aria-label="Letters">' + (($enGroups | ForEach-Object { "<a href=""#en-$($_.Name)"">$($_.Name)</a>" }) -join '') + '</nav>')
 foreach ($g in $enGroups) {
   [void]$enView.AppendLine("<div class=""cat-group"" id=""en-$($g.Name)""><h3>$($g.Name)</h3><ul class=""cat-list"" lang=""en"">")
   foreach ($p in $g.Group) {
-    $b = $p.Base.ToLower()
-    $n = if ($enName.ContainsKey($b)) { $enName[$b] } elseif ($p.En) { $p.En } else { $p.Base }
-    [void]$enView.AppendLine((Render-Poet $p $n $p.Ru))
+    [void]$enView.AppendLine((Render-Poet $p (Get-EnName $p) $p.Ru))
   }
   [void]$enView.AppendLine('</ul></div>')
 }
