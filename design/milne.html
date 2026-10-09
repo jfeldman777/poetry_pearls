@@ -8,15 +8,15 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Inter:wght@400;500;600&family=Literata:opsz,wght@7..72,400;7..72,500&display=swap">
-<link rel="stylesheet" href="pearls.css?v=2">
+<link rel="stylesheet" href="pearls.css?v=3">
 </head>
 <body>
 
 <header class="site-header">
   <div class="wrap">
-    <a class="brand" href="../index.htm"><span class="pearl" aria-hidden="true"></span><span>Жемчужины<small>английской поэзии</small></span></a>
+    <a class="brand" href="index.html"><span class="pearl" aria-hidden="true"></span><span>Жемчужины<small>английской поэзии</small></span></a>
     <nav class="nav" aria-label="Разделы">
-      <a href="../index.htm">Библиотека</a>
+      <a href="index.html">Поэты</a>
       <a href="../RusCatalog.htm">Каталог</a>
       <a href="../Gallery/frsGallery.htm">Галерея</a>
       <a href="../ePoets/Milne.htm">English</a>
@@ -2405,32 +2405,12 @@ Good-night.</p>
 <footer class="site-footer">
   <div class="wrap">
     <span>© 2001–2026 Елена и Яков Фельдман · Жемчужины английской поэзии</span>
-    <span><a href="../index.htm">Библиотека</a> · <a href="../RusCatalog.htm">Каталог</a> · <a href="../Gallery/frsGallery.htm">Галерея</a></span>
+    <span><a href="index.html">Поэты</a> · <a href="../RusCatalog.htm">Каталог</a> · <a href="../Gallery/frsGallery.htm">Галерея</a></span>
   </div>
 </footer>
 
 <a class="to-top" href="#" aria-label="Наверх">↑</a>
 
-<script>
-(function () {
-  var main = document.querySelector('main');
-  var buttons = document.querySelectorAll('.segmented button');
-  function setMode(mode) {
-    main.dataset.mode = mode;
-    buttons.forEach(function (b) { b.setAttribute('aria-pressed', String(b.dataset.mode === mode)); });
-    try { localStorage.setItem('pearls-mode', mode); } catch (e) {}
-  }
-  buttons.forEach(function (b) { b.addEventListener('click', function () { setMode(b.dataset.mode); }); });
-  try { var saved = localStorage.getItem('pearls-mode'); if (saved) setMode(saved); } catch (e) {}
-
-  var root = document.documentElement;
-  try { var theme = localStorage.getItem('pearls-theme'); if (theme) root.dataset.theme = theme; } catch (e) {}
-  document.getElementById('theme').addEventListener('click', function () {
-    var dark = root.dataset.theme ? root.dataset.theme === 'dark' : matchMedia('(prefers-color-scheme: dark)').matches;
-    root.dataset.theme = dark ? 'light' : 'dark';
-    try { localStorage.setItem('pearls-theme', root.dataset.theme); } catch (e) {}
-  });
-})();
-</script>
+<script src="pearls.js"></script>
 </body>
 </html>
