@@ -45,13 +45,13 @@ function Get-Chunk([string]$html, [string]$id, [string[]]$stops) {
   if (-not $m.Success) { return $null }
   $rest = $html.Substring($m.Index + $m.Length)
   $end = $rest.Length
-  foreach ($pat in '(?i)<hr\b', '(?i)</body', '(?i)<!--\s*BEGIN WEBSIDESTORY') {
+  foreach ($pat in '(?i)<hr\b', '(?i)</body', '(?i)<!--\s*BEGIN WEBSIDESTORY', '(?i)<table[^>]*\bcols\s*=', '(?i)<div align="?center"?>\s*<center>') {
     $x = [regex]::Match($rest, $pat)
     if ($x.Success -and $x.Index -lt $end) { $end = $x.Index }
   }
   foreach ($a in [regex]::Matches($rest, '(?i)<a\s[^>]*\bname\s*=\s*["'']?([^"''\s>]+)')) {
     if ($a.Index -ge $end) { break }
-    if ($stops -contains $a.Groups[1].Value) { $end = $a.Index; break }
+    if ($stops -contains $a.Groups[1].Value -or $a.Groups[1].Value -match $script:serviceIds) { $end = $a.Index; break }
   }
   $rest.Substring(0, $end)
 }
@@ -116,26 +116,71 @@ function Get-Mode($stanzas, [int]$skipFirst) {
   ($counts.GetEnumerator() | Sort-Object Value -Descending | Select-Object -First 1).Key
 }
 
-$creditRx = '^\(?\s*(?:Перев[её]л[аи]?|Перевод(?:чик)?|Пер\.|Translated by|Translation by)\s*:?\s*(.*?)\s*\)?\s*$'
+$creditRx = '^\(?\s*(Перев[её]л[аи]?|Перевод(?:чик)?|Пер\.|Translated by|Translation by)\s*(:?)\s*(.*?)\s*\)?\s*$'
+
+function Get-Credit([string]$text) {
+  if ($text -notmatch $creditRx) { return $null }
+  $verb = $Matches[1]; $colon = $Matches[2]; $name = $Matches[3].Trim().TrimEnd('.', ',', ';')
+  if (-not $name -or $name.Length -gt 80) { return $null }
+  if ($verb -like 'Перевод*' -and -not $colon) {
+    return @{ Display = "Перевод <b>$(Esc $name)</b>"; Name = $null }
+  }
+  @{ Display = "Перевод: <b>$(Esc $name)</b>"; Name = $name }
+}
+
+function Remove-EmptyEdges($stanzas) {
+  foreach ($pass in 'head', 'tail') {
+    while ($stanzas.Count -gt 0) {
+      $si = if ($pass -eq 'head') { 0 } else { $stanzas.Count - 1 }
+      $st = $stanzas[$si]
+      $idx = if ($pass -eq 'head') { 0 } else { $st.Count - 1 }
+      if ($st.Count -gt 0 -and $st[$idx].Text -notmatch '[\p{L}\p{N}]') { $st.RemoveAt($idx) }
+      elseif ($st.Count -eq 0) { $stanzas.RemoveAt($si) }
+      else { break }
+    }
+  }
+}
 
 function Clean-Poem($stanzas, [string[]]$titles, [string]$ownTitle) {
   $result = @{ Stanzas = $stanzas; Subtitle = $null; Credits = @() }
   $tn = @($titles | Where-Object { $_ } | ForEach-Object { Norm $_ } | Where-Object { $_ })
   $own = Norm $ownTitle
+  Remove-EmptyEdges $stanzas
+  $total = 0; foreach ($st in $stanzas) { $total += $st.Count }
+  if ($total -eq 1 -and $stanzas[0][0].Text.Length -lt 40) { $stanzas.Clear(); return $result }
 
-  # trailing translator credits
-  $guard = 0
-  while ($stanzas.Count -gt 0 -and $guard -lt 4) {
-    $guard++
+  # translator credits near the end (credit line and anything after it)
+  if ($stanzas.Count -gt 0) {
     $last = $stanzas[$stanzas.Count - 1]
-    $line = $last[$last.Count - 1]
-    if ($line.Text -match $creditRx) {
-      $name = $Matches[1].Trim().TrimEnd('.', ',', ';')
-      if ($name) { $result.Credits += $name }
-      $last.RemoveAt($last.Count - 1)
-      if ($last.Count -eq 0) { $stanzas.RemoveAt($stanzas.Count - 1) }
-    } else { break }
+    for ($k = [Math]::Max(0, $last.Count - 3); $k -lt $last.Count; $k++) {
+      $c = Get-Credit $last[$k].Text
+      if ($c) {
+        $result.Credits += $c
+        while ($last.Count -gt $k) { $last.RemoveAt($last.Count - 1) }
+        if ($last.Count -eq 0) { $stanzas.RemoveAt($stanzas.Count - 1) }
+        break
+      }
+    }
   }
+  # bare translator name ("Д.Г.Орловская") as the last one-line stanza
+  if ($stanzas.Count -gt 1) {
+    $last = $stanzas[$stanzas.Count - 1]
+    $nm = $last[0].Text.Trim()
+    if ($last.Count -eq 1 -and $nm -cmatch '^(?:[А-ЯЁ]\.\s*){1,2}[А-ЯЁ][а-яё]+(?:-[А-ЯЁ][а-яё]+)?$') {
+      $result.Credits += @{ Display = "Перевод: <b>$(Esc $nm)</b>"; Name = $nm }
+      $stanzas.RemoveAt($stanzas.Count - 1)
+    }
+  }
+  # credit at the very beginning
+  if ($stanzas.Count -gt 1) {
+    $c = Get-Credit $stanzas[0][0].Text
+    if ($c) {
+      $result.Credits += $c
+      $stanzas[0].RemoveAt(0)
+      if ($stanzas[0].Count -eq 0) { $stanzas.RemoveAt(0) }
+    }
+  }
+  Remove-EmptyEdges $stanzas
 
   # leading titles
   $guard = 0
@@ -153,6 +198,13 @@ function Clean-Poem($stanzas, [string[]]$titles, [string]$ownTitle) {
       $mode = Get-Mode $stanzas 1
       if ($ln -eq $own -and $stanzas.Count -ge 3 -and ($first.Count - 1) -eq $mode) { $first.RemoveAt(0); continue }
       break
+    }
+    $c = Get-Credit $first[0].Text
+    if ($c -and $stanzas.Count -gt 1) {
+      $result.Credits += $c
+      $first.RemoveAt(0)
+      if ($first.Count -eq 0) { $stanzas.RemoveAt(0) }
+      continue
     }
     if ($first.Count -eq 1 -and $stanzas.Count -gt 1 -and -not $result.Subtitle -and $first[0].Text.Length -le 70 -and $first[0].Text -notmatch '[.,;:!?…—–-]$') {
       $result.Subtitle = $first[0].Html
@@ -203,7 +255,7 @@ function Get-TocEntries([string]$ruHtml, [string]$file) {
   $entries = New-Object System.Collections.ArrayList
   $seen = @{}
   foreach ($x in $ru) {
-    if ($seen.ContainsKey($x.Id) -or @('bio', 'othersites', 'top') -contains $x.Id) { $x.Used = $true; continue }
+    if ($seen.ContainsKey($x.Id) -or $x.Id -match $script:serviceIds) { $x.Used = $true; continue }
     $seen[$x.Id] = $true
     $match = $en | Where-Object { -not $_.Used -and $_.Id -eq $x.Id } | Select-Object -First 1
     if (-not $match) { $match = $en | Where-Object { -not $_.Used -and $_.Row -eq $x.Row } | Select-Object -First 1 }
@@ -232,9 +284,19 @@ function Get-Sections([string]$html) {
   $out = @()
   foreach ($sec in [regex]::Split($rest, '(?i)<hr\b[^>]*>')) {
     if ((Plain $sec).Length -lt 40) { continue }
+    $heads = [regex]::Matches($sec, '(?is)<h3\b[^>]*>(.*?)</h3>')
+    if ($heads.Count -ge 3) {
+      for ($i = 0; $i -lt $heads.Count; $i++) {
+        $from = $heads[$i].Index + $heads[$i].Length
+        $to = if ($i + 1 -lt $heads.Count) { $heads[$i + 1].Index } else { $sec.Length }
+        $t = Plain $heads[$i].Groups[1].Value
+        $out += , @{ Html = $sec.Substring($from, $to - $from); Other = $null; Title = $t }
+      }
+      continue
+    }
     $cross = [regex]::Match($sec, '(?is)<a\s[^>]*href\s*=\s*["'']?[^"''>]*(?:Poets|ePoets)/[^"''>]*["'']?[^>]*>(.*?)</a>')
     $other = if ($cross.Success) { Plain ([regex]::Split($cross.Groups[1].Value, '(?i)<br\b[^>]*>')[0]) } else { $null }
-    $out += , @{ Html = $sec; Other = $other }
+    $out += , @{ Html = $sec; Other = $other; Title = $null }
   }
   , $out
 }
@@ -242,6 +304,23 @@ function Get-Sections([string]$html) {
 function Get-SectionEntries([string]$ruHtml, [string]$enHtml) {
   $ru = Get-Sections $ruHtml
   $en = Get-Sections $enHtml
+  $titled = @($ru | Where-Object { $_.Title }).Count -ge 3
+  if ($titled) {
+    $entries = @()
+    $i = 0
+    foreach ($r in $ru | Where-Object { $_.Title }) {
+      $i++
+      $num = $r.Title -match '^\d+$'
+      $match = $en | Where-Object { $_.Title -eq $r.Title } | Select-Object -First 1
+      $entries += , @{
+        RuId = "s$i"; EnId = "s$i"; Pos = $i
+        RuTitle = $(if ($num) { "№ $($r.Title)" } else { $r.Title })
+        EnTitle = $(if ($match) { if ($num) { "No. $($r.Title)" } else { $match.Title } })
+        RuChunk = $r.Html; EnChunk = $(if ($match) { $match.Html })
+      }
+    }
+    return , $entries
+  }
   $entries = @()
   for ($i = 0; $i -lt [Math]::Max($ru.Count, $en.Count); $i++) {
     $e = @{ RuId = $null; EnId = $null; RuTitle = $null; EnTitle = $null; Pos = $i; RuChunk = $null; EnChunk = $null }
@@ -261,6 +340,7 @@ function Get-SectionEntries([string]$ruHtml, [string]$enHtml) {
   , $entries
 }
 
+$script:serviceIds = '(?i)^(bio|top|other|links?)$|site'
 $script:nonPersons = @('balladeSc.htm', 'nurs_rhymes.htm')
 $script:nameOverrides = @{
   cummings  = @{ En = 'E. E. Cummings' }
@@ -417,7 +497,7 @@ function Render-Page($poet, $entries, [string]$file) {
   $ruName = if ($poet.Ru) { $poet.Ru } else { $base }
   $enName = $poet.En
   $count = @($entries).Count
-  $translators = @($entries | ForEach-Object { $_.Credits } | Where-Object { $_ } | Group-Object | Sort-Object Count -Descending | ForEach-Object { $_.Name })
+  $translators = @($entries | ForEach-Object { $_.Credits } | ForEach-Object { $_.Name } | Where-Object { $_ } | Group-Object | Sort-Object Count -Descending | ForEach-Object { $_.Name })
   $century = if ($poet.Born -gt 0) { Roman ([int][Math]::Floor((($poet.Born + [Math]::Max($poet.Died, $poet.Born + 40)) / 2) / 100) + 1) } else { $null }
 
   $facts = @()
@@ -560,7 +640,7 @@ function Render-Page($poet, $entries, [string]$file) {
       [void]$sb.AppendLine('          <div class="verse">')
       [void]$sb.AppendLine((Render-Verse $e.Ru))
       [void]$sb.AppendLine('          </div>')
-      foreach ($c in $e.Ru.Credits) { [void]$sb.AppendLine("          <p class=""credit"">Перевод: <b>$(Esc $c)</b></p>") }
+      foreach ($c in $e.Ru.Credits) { [void]$sb.AppendLine("          <p class=""credit"">$($c.Display)</p>") }
       [void]$sb.AppendLine('        </div>')
     }
     [void]$sb.Append(@"
@@ -732,7 +812,14 @@ if ($Only.Count -eq 0) {
     <ul class="poets">
 
 "@)
-  foreach ($p in $index | Sort-Object { if ($_.Ru) { $_.Ru } else { $_.Base } }) {
+  $surname = {
+    $n = if ($_.Ru) { $_.Ru } else { $_.Base }
+    $tokens = @((($n -split ',')[0] -split '[\s.]+') | Where-Object { $_ })
+    $k = $tokens.Count - 1
+    while ($k -gt 0 -and $tokens[$k] -cmatch '^[IVX]+$') { $k-- }
+    if ($script:nonPersons -contains "$($_.Base).htm") { $n } else { $tokens[$k] + ' ' + $n }
+  }
+  foreach ($p in $index | Sort-Object $surname) {
     $ru = if ($p.Ru) { Esc $p.Ru } else { Esc $p.Base }
     $meta = @()
     if ($p.Years) { $meta += $p.Years }
