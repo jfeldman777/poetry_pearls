@@ -41,9 +41,18 @@ function Get-AnchorRegex([string]$id) {
 }
 
 function Get-Chunk([string]$html, [string]$id, [string[]]$stops) {
-  $m = [regex]::Match($html, (Get-AnchorRegex $id))
-  if (-not $m.Success) { return $null }
-  $rest = $html.Substring($m.Index + $m.Length)
+  $first = $null
+  foreach ($m in [regex]::Matches($html, (Get-AnchorRegex $id))) {
+    $c = Get-ChunkAt $html ($m.Index + $m.Length) $stops
+    if ($null -eq $first) { $first = $c }
+    $vis = [regex]::Replace($c, '(?is)<a\s[^>]*href\s*=\s*["'']?[^"''>]*\.htm#[^>]*>.*?</a>', '')
+    if (([regex]::Matches((Plain $vis), '\p{L}')).Count -ge 20) { return $c }
+  }
+  $first
+}
+
+function Get-ChunkAt([string]$html, [int]$start, [string[]]$stops) {
+  $rest = $html.Substring($start)
   $end = $rest.Length
   foreach ($pat in '(?i)<hr\b', '(?i)</body', '(?i)<!--\s*BEGIN WEBSIDESTORY', '(?i)<table[^>]*\bcols\s*=', '(?i)<div align="?center"?>\s*<center>') {
     $x = [regex]::Match($rest, $pat)
@@ -143,6 +152,16 @@ function Remove-EmptyEdges($stanzas) {
       elseif ($st.Count -eq 0) { $stanzas.RemoveAt($si) }
       else { break }
     }
+  }
+}
+
+function Remove-CyrillicLead($poem) {
+  if ($poem.Subtitle -and (Plain $poem.Subtitle) -match '\p{IsCyrillic}' -and (Plain $poem.Subtitle) -notmatch '[A-Za-z]') { $poem.Subtitle = $null }
+  while ($poem.Stanzas.Count -gt 1) {
+    $st = $poem.Stanzas[0]
+    $cyr = $true
+    foreach ($ln in $st) { if ($ln.Text -match '[A-Za-z]' -or $ln.Text -notmatch '\p{IsCyrillic}') { $cyr = $false; break } }
+    if ($cyr -and $st.Count -le 3) { $poem.Stanzas.RemoveAt(0) } else { break }
   }
 }
 
@@ -314,17 +333,35 @@ function Get-Sections([string]$html) {
   , $out
 }
 
+function Get-NumberedBlocks([string]$html) {
+  $map = @{}
+  if (-not $html) { return $map }
+  $pieces = [regex]::Split($html, '_{8,}')
+  if ($pieces.Count -lt 3) { return $map }
+  foreach ($pc in $pieces) {
+    $m = [regex]::Match($pc, '(?:^|>)\s*(\d{1,3})\s*<br[^>]*>')
+    if (-not $m.Success) { continue }
+    $body = $pc.Substring($m.Index + $m.Length)
+    $hr = [regex]::Match($body, '(?i)<hr\b')
+    if ($hr.Success) { $body = $body.Substring(0, $hr.Index) }
+    if (-not $map.ContainsKey($m.Groups[1].Value)) { $map[$m.Groups[1].Value] = $body }
+  }
+  $map
+}
+
 function Get-SectionEntries([string]$ruHtml, [string]$enHtml) {
   $ru = Get-Sections $ruHtml
   $en = Get-Sections $enHtml
   $titled = @($ru | Where-Object { $_.Title }).Count -ge 3
   if ($titled) {
+    $numbered = Get-NumberedBlocks $enHtml
     $entries = @()
     $i = 0
     foreach ($r in $ru | Where-Object { $_.Title }) {
       $i++
       $num = $r.Title -match '^\d+$'
       $match = $en | Where-Object { $_.Title -eq $r.Title } | Select-Object -First 1
+      if (-not $match -and $num -and $numbered.ContainsKey($r.Title)) { $match = @{ Title = $r.Title; Html = $numbered[$r.Title] } }
       $entries += , @{
         RuId = "s$i"; EnId = "s$i"; Pos = $i
         RuTitle = $(if ($num) { "№ $($r.Title)" } else { $r.Title })
@@ -353,7 +390,9 @@ function Get-SectionEntries([string]$ruHtml, [string]$enHtml) {
   , $entries
 }
 
-$script:serviceIds = '(?i)^(bio|top|other|links?)$|site'
+$script:serviceIds = '(?i)^(bio|top|other|links?)$|site|(?-i)Other$|^other[A-Z]'
+$script:skipEntries = @{ Joyce = @('artist', 'Ulysses') }
+$script:enIdOverrides = @{ 'Chapman#moon' = 'muses'; 'Yeats#golosFaray' = 'golos' }
 $script:nonPersons = @('balladeSc.htm', 'nurs_rhymes.htm')
 $script:nameOverrides = @{
   cummings  = @{ En = 'E. E. Cummings' }
@@ -714,6 +753,7 @@ foreach ($ruFile in Get-ChildItem (Join-Path $Root 'Poets') -Filter *.htm -File 
   $enHtml = [IO.File]::ReadAllText($enPath, $utf8)
   $poet = Get-Header $ruHtml $enHtml $file
   $entries = Get-TocEntries $ruHtml $file
+  if ($script:skipEntries.ContainsKey($base)) { $entries = @($entries | Where-Object { $script:skipEntries[$base] -notcontains $_.RuId }) }
   if ($entries.Count -eq 0) { $entries = Get-SectionEntries $ruHtml $enHtml }
 
   if ($Skip -contains $base) {
@@ -734,9 +774,20 @@ foreach ($ruFile in Get-ChildItem (Join-Path $Root 'Poets') -Filter *.htm -File 
   $extra = [regex]::Matches($ruHtml + $enHtml, '(?i)(rPoets|eEPoets)/([^"''#/\s>]+\.htm)') | ForEach-Object { "$($_.Groups[1].Value)\$($_.Groups[2].Value)" } | Sort-Object -Unique
   foreach ($x in $extra) {
     $xp = Join-Path $Root $x
-    if (Test-Path -LiteralPath $xp) { $enSources += [IO.File]::ReadAllText($xp, $utf8) }
+    if (Test-Path -LiteralPath $xp) {
+      $xt = [IO.File]::ReadAllText($xp, $utf8)
+      $xv = [regex]::Replace($xt, '(?s)<[^>]+>', '')
+      if (([regex]::Matches($xv, '[A-Za-z]')).Count -gt ([regex]::Matches($xv, '\p{IsCyrillic}')).Count) { $enSources += $xt }
+    }
   }
+  $enStopsBase = $enStops
   if (-not $fromSections) {
+    foreach ($e in $entries) {
+      $ov = $script:enIdOverrides["$base#$($e.RuId)"]
+      if ($ov) { $e.EnId = $ov; if ($enStops -notcontains $ov) { $enStops += $ov }; continue }
+      if (-not $e.RuId -or $e.EnId) { continue }
+      if ([regex]::IsMatch($enHtml, (Get-AnchorRegex $e.RuId))) { $e.EnId = $e.RuId; if ($enStops -notcontains $e.RuId) { $enStops += $e.RuId } }
+    }
     $enRegion = Get-Region $enHtml
     $tocEnd = $enHtml.IndexOf($enRegion) + $enRegion.Length
     if ($tocEnd -lt $enRegion.Length) { $tocEnd = 0 }
@@ -748,11 +799,18 @@ foreach ($ruFile in Get-ChildItem (Join-Path $Root 'Poets') -Filter *.htm -File 
       if ($bls.Count -eq 0) { continue }
       $bl = $bls[$bls.Count - 1]
       $p = $bl.Index
-      if ($p -lt $tocEnd -and $bls.Count -lt 2) { continue }
+      $before = $enHtml.Substring(0, $p)
+      $inCell = $before.LastIndexOf('<td', [StringComparison]::OrdinalIgnoreCase) -gt $before.LastIndexOf('</td', [StringComparison]::OrdinalIgnoreCase)
+      if ($inCell -and $bls.Count -lt 2) { continue }
       $after = $enHtml.Substring($p + $bl.Length)
       $hrAt = [regex]::Match($after, '(?i)<hr\b')
       if ($hrAt.Success) { $after = $after.Substring(0, $hrAt.Index) }
       if ([regex]::Matches($after, '(?i)<a\s[^>]*href').Count -ge 3) { continue }
+      if ($e.EnId) {
+        $exists = $false
+        foreach ($src in $enSources) { if ([regex]::IsMatch($src, (Get-AnchorRegex $e.EnId))) { $exists = $true; break } }
+        if (-not $exists) { $e.EnId = $null }
+      }
       $useIt = -not $e.EnId
       if ($useIt) {
         $w0 = [Math]::Max(0, $p - 300)
@@ -802,6 +860,13 @@ foreach ($ruFile in Get-ChildItem (Join-Path $Root 'Poets') -Filter *.htm -File 
     }
     if ($e.RuId) {
       $chunk = Get-Chunk $ruHtml $e.RuId $ruStops
+      if ($chunk -and -not $e.EnTitle) {
+        $lk = [regex]::Match($chunk, "(?is)<a\s[^>]*href\s*=\s*[`"']?[^`"'>]*ePoets/$([regex]::Escape($file))#[^>]*>(.*?)</a>")
+        if ($lk.Success) {
+          $lt = Plain ([regex]::Split($lk.Groups[1].Value, '(?i)<br\b[^>]*>')[0])
+          if ($lt -and $lt -notmatch '[\p{IsCyrillic}]') { $e.EnTitle = $lt; $titles = @($e.RuTitle, $e.EnTitle) }
+        }
+      }
       if ($chunk) {
         $p = Clean-Poem (Get-Stanzas $chunk) $titles $e.RuTitle
         if ($p.Stanzas.Count -gt 0) { $e.Ru = $p; $e.Credits = $p.Credits } else { $issues += "ru-empty:$($e.RuId)" }
@@ -812,6 +877,12 @@ foreach ($ruFile in Get-ChildItem (Join-Path $Root 'Poets') -Filter *.htm -File 
       foreach ($src in $enSources) { $chunk = Get-Chunk $src $e.EnId $enStops; if ($chunk) { break } }
       if ($chunk) {
         $p = Clean-Poem (Get-Stanzas $chunk) $titles $e.EnTitle
+        if ($p.Stanzas.Count -eq 0) {
+          foreach ($src in $enSources) { $c2 = Get-Chunk $src $e.EnId $enStopsBase; if ($c2) { $p = Clean-Poem (Get-Stanzas $c2) $titles $e.EnTitle; break } }
+        }
+        Remove-CyrillicLead $p
+        $all = ($p.Stanzas | ForEach-Object { $_ | ForEach-Object { $_.Text } }) -join ' '
+        if (([regex]::Matches($all, '\p{IsCyrillic}')).Count -gt ([regex]::Matches($all, '[A-Za-z]')).Count) { $p.Stanzas.Clear() }
         if ($p.Stanzas.Count -gt 0) { $e.En = $p } else { $issues += "en-empty:$($e.EnId)" }
       } else { $issues += "en-missing:$($e.EnId)" }
     }
