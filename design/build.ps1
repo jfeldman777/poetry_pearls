@@ -698,7 +698,7 @@ function Render-Page($poet, $entries, [string]$file) {
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Inter:wght@400;500;600&family=Literata:opsz,wght@7..72,400;7..72,500&display=swap">
-<link rel="stylesheet" href="pearls.css?v=5">
+<link rel="stylesheet" href="pearls.css?v=6">
 </head>
 <body>
 
@@ -849,7 +849,7 @@ function Render-Page($poet, $entries, [string]$file) {
 
 <a class="to-top" href="#" aria-label="Наверх">↑</a>
 
-<script src="pearls.js?v=5"></script>
+<script src="pearls.js?v=6"></script>
 </body>
 </html>
 
@@ -1132,7 +1132,7 @@ if ($Only.Count -eq 0) {
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Inter:wght@400;500;600&family=Literata:opsz,wght@7..72,400;7..72,500&display=swap">
-<link rel="stylesheet" href="pearls.css?v=5">
+<link rel="stylesheet" href="pearls.css?v=6">
 </head>
 <body>
 
@@ -1186,7 +1186,7 @@ if ($Only.Count -eq 0) {
   </div>
 </footer>
 
-<script src="pearls.js?v=5"></script>
+<script src="pearls.js?v=6"></script>
 </body>
 </html>
 
