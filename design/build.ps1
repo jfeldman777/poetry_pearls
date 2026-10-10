@@ -22,6 +22,23 @@ function Plain([string]$s) {
 }
 function Norm([string]$s) { [regex]::Replace($s.ToLowerInvariant(), '[^\p{L}\p{N}]', '') }
 
+$script:portraitCredits = @{}
+$creditsFile = Join-Path $outDir 'portraits\credits.json'
+if (Test-Path $creditsFile) {
+  (Get-Content $creditsFile -Raw -Encoding UTF8 | ConvertFrom-Json).PSObject.Properties | ForEach-Object { $script:portraitCredits[$_.Name] = $_.Value }
+}
+function Get-PortraitCaption($cr) {
+  if (-not $cr) { return '' }
+  $parts = @()
+  if ($cr.Note) { $parts += Esc $cr.Note }
+  if ($cr.License -and $cr.License -ne 'Public domain') {
+    if ($cr.Artist) { $parts += Esc $cr.Artist }
+    $parts += Esc $cr.License
+  }
+  $parts += "<a href=""$(Esc $cr.Source)"">Wikimedia Commons</a>"
+  "      <figcaption>$($parts -join ' · ')</figcaption>"
+}
+
 function Plural([int]$n, [string]$one, [string]$few, [string]$many) {
   $m10 = $n % 10; $m100 = $n % 100
   if ($m10 -eq 1 -and $m100 -ne 11) { return $one }
@@ -636,6 +653,10 @@ function Get-Header([string]$ruHtml, [string]$enHtml, [string]$file) {
   if ($script:nameOverrides.ContainsKey($base)) {
     foreach ($kv in $script:nameOverrides[$base].GetEnumerator()) { $h[$kv.Key] = $kv.Value }
   }
+  if (-not $h.Portrait -and $script:portraitCredits.ContainsKey($base)) {
+    $h.Portrait = $script:portraitCredits[$base].File
+    $h.PortraitCredit = $script:portraitCredits[$base]
+  }
   if ($headEnd -gt 0) {
     $rest = $ruHtml.Substring($headEnd)
     $end = $rest.Length
@@ -727,6 +748,7 @@ function Render-Page($poet, $entries, [string]$file) {
     [void]$sb.Append(@"
     <figure class="portrait poet">
       <img src="$($poet.Portrait)" alt="$title">
+$(Get-PortraitCaption $poet.PortraitCredit)
     </figure>
 
 "@)

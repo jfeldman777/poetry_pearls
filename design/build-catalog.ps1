@@ -37,10 +37,14 @@ Get-ChildItem (Join-Path $Root 'PortSmall') -File | ForEach-Object { $small[$_.B
 foreach ($p in $poets) {
   $f = Join-Path $outDir "$($p.Base).html"
   if (-not (Test-Path $f)) { continue }
-  $m = [regex]::Match([IO.File]::ReadAllText($f, [Text.Encoding]::UTF8), '<img[^>]+src="(\.\./Port(?:Small|Poet)/([^"]+))"')
+  $m = [regex]::Match([IO.File]::ReadAllText($f, [Text.Encoding]::UTF8), '<img[^>]+src="((?:\.\./Port(?:Small|Poet)|portraits)/([^"]+))"')
   if (-not $m.Success) { continue }
   $file = $m.Groups[2].Value.ToLower()
   $small[$p.Base.ToLower()] = if ($smallFiles.ContainsKey($file)) { $smallFiles[$file] } else { $m.Groups[1].Value }
+}
+foreach ($p in $poets) {
+  $f = Join-Path $outDir "portraits\$($p.Base).jpg"
+  if (-not $small.ContainsKey($p.Base.ToLower()) -and (Test-Path $f)) { $small[$p.Base.ToLower()] = "portraits/$($p.Base).jpg" }
 }
 $nonPersons = @('balladesc', 'nurs_rhymes')
 $totalPoems = ($poets | Measure-Object Count -Sum).Sum

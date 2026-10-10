@@ -1,0 +1,184 @@
+﻿{
+    "Barnes":  {
+                   "File":  "portraits/Barnes.jpg",
+                   "Source":  "https://commons.wikimedia.org/wiki/File:William_Barnes_poet.jpg",
+                   "License":  "Public domain",
+                   "Artist":  "Unknown authorUnknown author"
+               },
+    "Beddoes":  {
+                    "File":  "portraits/Beddoes.jpg",
+                    "Source":  "https://commons.wikimedia.org/wiki/File:Thomas_Lovell_Beddoes_1.jpg",
+                    "License":  "Public domain",
+                    "Artist":  "Nathan Cooper Branwhite"
+                },
+    "Benson":  {
+                   "File":  "portraits/Benson.jpg",
+                   "Source":  "https://commons.wikimedia.org/wiki/File:Stella_Benson.jpg",
+                   "License":  "CC BY-SA 4.0",
+                   "Artist":  ""
+               },
+    "Bowles":  {
+                   "File":  "portraits/Bowles.jpg",
+                   "Source":  "https://commons.wikimedia.org/wiki/File:William_Lisle_Bowles.jpg",
+                   "License":  "Public domain",
+                   "Artist":  ""
+               },
+    "Bradford":  {
+                     "File":  "portraits/Bradford.jpg",
+                     "Source":  "https://commons.wikimedia.org/wiki/File:GamalielBradfordc.1930.jpg",
+                     "License":  "Public domain",
+                     "Artist":  "Unknown authorUnknown author"
+                 },
+    "Brown":  {
+                  "File":  "portraits/Brown.jpg",
+                  "Source":  "https://commons.wikimedia.org/wiki/File:T._E._Brown_(young).jpg",
+                  "License":  "Public domain",
+                  "Artist":  "T. E. Brown, published by Macmillan \u0026amp; Co."
+              },
+    "BrowneW":  {
+                    "File":  "portraits/BrowneW.jpg",
+                    "Source":  "https://commons.wikimedia.org/wiki/File:Portrait_of_Sir_William_Browne_Wellcome_L0007077.jpg",
+                    "License":  "CC BY 4.0",
+                    "Artist":  "Wellcome Collection"
+                },
+    "Butler":  {
+                   "File":  "portraits/Butler.jpg",
+                   "Source":  "https://commons.wikimedia.org/wiki/File:Samuel_Butler_by_Charles_Gogin.jpg",
+                   "License":  "Public domain",
+                   "Artist":  "Charles Gogin (died 1931)"
+               },
+    "Clough":  {
+                   "File":  "portraits/Clough.jpg",
+                   "Source":  "https://commons.wikimedia.org/wiki/File:Arthur_Hugh_Clough_1860.jpg",
+                   "License":  "Public domain",
+                   "Artist":  "Unknown authorUnknown author"
+               },
+    "Collins":  {
+                    "File":  "portraits/Collins.jpg",
+                    "Source":  "https://commons.wikimedia.org/wiki/File:WilliamCollinsPoet.jpg",
+                    "License":  "Public domain",
+                    "Artist":  ""
+                },
+    "Colum":  {
+                  "File":  "portraits/Colum.jpg",
+                  "Source":  "https://commons.wikimedia.org/wiki/File:PadraicColum.jpeg",
+                  "License":  "Public domain",
+                  "Artist":  ""
+              },
+    "Cory":  {
+                 "File":  "portraits/Cory.jpg",
+                 "Source":  "https://commons.wikimedia.org/wiki/File:William_Johnson_Cory.jpg",
+                 "License":  "Public domain",
+                 "Artist":  ""
+             },
+    "Davies":  {
+                   "File":  "portraits/Davies.jpg",
+                   "Source":  "https://commons.wikimedia.org/wiki/File:William_Henry_Davies.jpg",
+                   "License":  "Public domain",
+                   "Artist":  "Coburn, Alvin Langdon, 1882-1966 -- Photographer"
+               },
+    "Finch":  {
+                  "File":  "portraits/Finch.jpg",
+                  "Source":  "https://commons.wikimedia.org/wiki/File:Anne-Finch.jpeg",
+                  "License":  "Public domain",
+                  "Artist":  "Peter Cross / Formerly attributed to Peter Cross"
+              },
+    "Guiterman":  {
+                      "File":  "portraits/Guiterman.jpg",
+                      "Source":  "https://commons.wikimedia.org/wiki/File:Arthur_Guiterman.jpg",
+                      "License":  "Public domain",
+                      "Artist":  "George Grantham Bain Collection (Library of Congress)"
+                  },
+    "Herrick":  {
+                    "File":  "portraits/Herrick.jpg",
+                    "Source":  "https://commons.wikimedia.org/wiki/File:Robert_Herrick_(poet)_(cropped).jpg",
+                    "License":  "Public domain",
+                    "Artist":  "Edward Everett Hale (April 3, 1822 – June 10, 1909)"
+                },
+    "Hope":  {
+                 "File":  "portraits/Hope.jpg",
+                 "Source":  "https://commons.wikimedia.org/wiki/File:A._D._Hope_bust,_Garema_Place.jpg",
+                 "License":  "CC BY-SA 4.0",
+                 "Artist":  "Doug Butler",
+                 "Note":  "Бюст в Канберре"
+             },
+    "King":  {
+                 "File":  "portraits/King.jpg",
+                 "Source":  "https://commons.wikimedia.org/wiki/File:Dr_Henry_King,_Bp_of_Chichester.jpg",
+                 "License":  "Public domain",
+                 "Artist":  "Unknown authorUnknown author"
+             },
+    "Levy":  {
+                 "File":  "portraits/Levy.jpg",
+                 "Source":  "https://commons.wikimedia.org/wiki/File:Amy_Levy_1.jpg",
+                 "License":  "Public domain",
+                 "Artist":  "Unknown authorUnknown author"
+             },
+    "Lockhart":  {
+                     "File":  "portraits/Lockhart.jpg",
+                     "Source":  "https://commons.wikimedia.org/wiki/File:Francis_Grant_(1803-1878)_-_John_Gibson_Lockhart_(1794%E2%80%931854),_Son-in-Law_and_Biographer_of_Scott_-_PG_1588_-_National_Galleries_of_Scotland.jpg",
+                     "License":  "Public domain",
+                     "Artist":  "Francis Grant"
+                 },
+    "Meredith":  {
+                     "File":  "portraits/Meredith.jpg",
+                     "Source":  "https://commons.wikimedia.org/wiki/File:Robert_Bulwer-Lytton_by_Nadar.jpg",
+                     "License":  "Public domain",
+                     "Artist":  "Nadar"
+                 },
+    "Milne":  {
+                  "File":  "portraits/Milne.jpg",
+                  "Source":  "https://commons.wikimedia.org/wiki/File:Milne-Shadowland-1922.jpg",
+                  "License":  "Public domain",
+                  "Artist":  "Emil Otto Hoppé"
+              },
+    "Morley":  {
+                   "File":  "portraits/Morley.jpg",
+                   "Source":  "https://commons.wikimedia.org/wiki/File:Christopher_Darlington_Morley_cph.3b14371.jpg",
+                   "License":  "Public domain",
+                   "Artist":  "Unknown authorUnknown author"
+               },
+    "Patmore":  {
+                    "File":  "portraits/Patmore.jpg",
+                    "Source":  "https://commons.wikimedia.org/wiki/File:Portrait_of_Coventry_Patmore.jpg",
+                    "License":  "Public domain",
+                    "Artist":  "John Singer Sargent"
+                },
+    "Sorley":  {
+                   "File":  "portraits/Sorley.jpg",
+                   "Source":  "https://commons.wikimedia.org/wiki/File:Charles_Hamilton_Sorley_(For_Remembrance)_cropped_and_retouched.jpg",
+                   "License":  "Public domain",
+                   "Artist":  "Unknown. No photo credit provided at time of publication in 1918."
+               },
+    "Stoddard":  {
+                     "File":  "portraits/Stoddard.jpg",
+                     "Source":  "https://commons.wikimedia.org/wiki/File:Portrait_of_Richard_Henry_Stoddard.jpg",
+                     "License":  "Public domain",
+                     "Artist":  "Rockwood"
+                 },
+    "ThompsonF":  {
+                      "File":  "portraits/ThompsonF.jpg",
+                      "Source":  "https://commons.wikimedia.org/wiki/File:Francis_Thompson_at_19.jpg",
+                      "License":  "Public domain",
+                      "Artist":  "Published by Herder, MO, USA"
+                  },
+    "ThomsonVB":  {
+                      "File":  "portraits/ThomsonVB.jpg",
+                      "Source":  "https://commons.wikimedia.org/wiki/File:James_Thomson_(B._V.),_photo_portrait,_1860.jpg",
+                      "License":  "Public domain",
+                      "Artist":  "Photographic portrait commissioned by the subject of the portrait"
+                  },
+    "Wolfe":  {
+                  "File":  "portraits/Wolfe.jpg",
+                  "Source":  "https://commons.wikimedia.org/wiki/File:Charles_Wolfe.jpg",
+                  "License":  "CC BY-SA 3.0",
+                  "Artist":  "Pruneau",
+                  "Note":  "Барельеф в соборе Святого Патрика, Дублин"
+              },
+    "Wotton":  {
+                   "File":  "portraits/Wotton.jpg",
+                   "Source":  "https://commons.wikimedia.org/wiki/File:SirHenryWotton.jpg",
+                   "License":  "Public domain",
+                   "Artist":  "anonymous"
+               }
+}
