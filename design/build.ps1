@@ -875,7 +875,7 @@ $(Get-PortraitCaption $poet.PortraitCredit)
 
 <a class="to-top" href="#" aria-label="Наверх">↑</a>
 
-<script src="pearls.js?v=7"></script>
+<script src="pearls.js?v=8"></script>
 </body>
 </html>
 
@@ -1214,7 +1214,7 @@ if ($Only.Count -eq 0) {
   </div>
 </footer>
 
-<script src="pearls.js?v=7"></script>
+<script src="pearls.js?v=8"></script>
 </body>
 </html>
 

@@ -57,7 +57,7 @@
       }
       if (en && (mode !== 'ru' || !ru)) blocks.push(enTitle + '\n' + poetEn + '\n\n' + verseText(en));
       if (!blocks.length && ru) blocks.push(ruTitle + '\n' + poetRu + '\n\n' + verseText(ru));
-      return blocks.join('\n\n———\n\n') + '\n\n' + location.href.split('#')[0] + '#' + article.id;
+      return blocks.join('\n\n———\n\n') + '\n\n' + location.origin + location.pathname + '#' + article.id;
     }
     function copy(text) {
       if (navigator.clipboard && window.isSecureContext) return navigator.clipboard.writeText(text);
