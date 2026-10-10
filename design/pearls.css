@@ -301,6 +301,18 @@ main[data-mode="en"] .parallel { grid-template-columns: minmax(0, 36rem); justif
 .art-other span { font-size: 0.8rem; color: var(--muted); }
 .section-head.sub h2 { font-size: 1.5rem; }
 
+/* Gallery */
+.gallery { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 1rem; }
+.gallery a { position: relative; display: block; border-radius: 14px; overflow: hidden; background: var(--paper-2); box-shadow: var(--shadow); color: #fff; }
+.gallery a:hover { text-decoration: none; }
+.gallery img { display: block; width: 100%; aspect-ratio: 3 / 4; object-fit: cover; object-position: center top; filter: grayscale(0.25); transition: filter 0.25s, transform 0.35s; }
+.gallery .cap { position: absolute; left: 0; right: 0; bottom: 0; padding: 1.6rem 0.7rem 0.6rem; background: linear-gradient(transparent, rgba(0, 0, 0, 0.82)); opacity: 0; transform: translateY(6px); transition: opacity 0.2s, transform 0.2s; pointer-events: none; }
+.gallery .cap b { display: block; font-family: var(--serif-text); font-weight: 500; font-size: 0.95rem; line-height: 1.25; }
+.gallery .cap small { display: block; font-size: 0.75rem; opacity: 0.85; font-variant-numeric: tabular-nums; }
+.gallery a:hover img, .gallery a:focus-visible img { filter: none; transform: scale(1.03); }
+.gallery a:hover .cap, .gallery a:focus-visible .cap { opacity: 1; transform: none; }
+@media (hover: none) { .gallery .cap { opacity: 1; transform: none; } }
+
 /* Footer */
 .site-footer { padding: 2.5rem 0 3rem; color: var(--muted); font-size: 0.88rem; }
 .site-footer .wrap { display: flex; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
@@ -350,4 +362,8 @@ main[data-mode="en"] .parallel { grid-template-columns: minmax(0, 36rem); justif
   .art-list .row .m { grid-column: 2; }
   .art-series { grid-template-columns: 2rem minmax(0, 1fr); gap: 0.6rem; }
   .art-list b { font-size: 1.25rem; }
+  .gallery { grid-template-columns: repeat(auto-fill, minmax(105px, 1fr)); gap: 0.6rem; }
+  .gallery .cap { padding: 1.2rem 0.45rem 0.4rem; }
+  .gallery .cap b { font-size: 0.8rem; }
+  .gallery .cap small { font-size: 0.68rem; }
 }

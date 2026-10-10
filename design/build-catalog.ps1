@@ -240,7 +240,7 @@ $page = @"
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Inter:wght@400;500;600&family=Literata:opsz,wght@7..72,400;7..72,500&display=swap">
-<link rel="stylesheet" href="pearls.css?v=10">
+<link rel="stylesheet" href="pearls.css?v=11">
 </head>
 <body>
 
@@ -251,7 +251,7 @@ $page = @"
       <a href="index.html">Поэты</a>
       <a href="catalog.html" aria-current="page">Каталог</a>
       <a href="articles.html">Статьи</a>
-      <a href="../Gallery/frsGallery.htm">Галерея</a>
+      <a href="gallery.html">Галерея</a>
       <a href="../e_index.htm">English</a>
     </nav>
     <div class="tools">
@@ -302,7 +302,7 @@ $($prView.ToString())
 <footer class="site-footer">
   <div class="wrap">
     <span>© 1998–2026 Елена и Яков Фельдман · Жемчужины английской поэзии</span>
-    <span><a href="index.html">Поэты</a> · <a href="catalog.html">Каталог</a> · <a href="articles.html">Статьи</a> · <a href="../Gallery/frsGallery.htm">Галерея</a></span>
+    <span><a href="index.html">Поэты</a> · <a href="catalog.html">Каталог</a> · <a href="articles.html">Статьи</a> · <a href="gallery.html">Галерея</a></span>
   </div>
 </footer>
 
@@ -311,4 +311,84 @@ $($prView.ToString())
 </html>
 "@
 [IO.File]::WriteAllText((Join-Path $outDir 'catalog.html'), $page, $utf8)
+
+# --- Галерея
+$gallery = New-Object System.Text.StringBuilder
+$gn = 0
+foreach ($p in ($poets | Sort-Object { Get-RuKey $_ })) {
+  if ($nonPersons -contains $p.Base.ToLower()) { continue }
+  $src = $null
+  if (Test-Path (Join-Path $outDir "portraits\$($p.Base).jpg")) { $src = "portraits/$($p.Base).jpg" }
+  else {
+    $f = Join-Path $outDir "$($p.Base).html"
+    if (Test-Path $f) {
+      $m = [regex]::Match([IO.File]::ReadAllText($f, [Text.Encoding]::UTF8), '<figure class="portrait poet">\s*<img src="([^"]+)"')
+      if ($m.Success) { $src = $m.Groups[1].Value }
+    }
+  }
+  if (-not $src) { continue }
+  $name = if ($p.Ru) { $p.Ru } else { $p.Base }
+  $tip = if ($p.Years) { "$name, $($p.Years)" } else { $name }
+  $yrs = if ($p.Years) { "<small>$(Esc $p.Years)</small>" } else { '' }
+  [void]$gallery.AppendLine("<li><a href=""$($p.Base).html"" title=""$(Esc $tip)""><img src=""$src"" alt=""$(Esc $name)"" loading=""lazy""><span class=""cap""><b>$(Esc $name)</b>$yrs</span></a></li>")
+  $gn++
+}
+$galleryPage = @"
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Галерея — Жемчужины английской поэзии</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Inter:wght@400;500;600&family=Literata:opsz,wght@7..72,400;7..72,500&display=swap">
+<link rel="stylesheet" href="pearls.css?v=11">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="index.html"><span class="pearl" aria-hidden="true"></span><span>Жемчужины<small>английской поэзии</small></span></a>
+    <nav class="nav" aria-label="Разделы">
+      <a href="index.html">Поэты</a>
+      <a href="catalog.html">Каталог</a>
+      <a href="articles.html">Статьи</a>
+      <a href="gallery.html" aria-current="page">Галерея</a>
+      <a href="../e_index.htm">English</a>
+    </nav>
+    <div class="tools">
+      <button class="chip" id="theme" type="button" title="Светлая / тёмная тема">◐</button>
+      <a class="chip" href="../Gallery/frsGallery.htm">Старая версия</a>
+    </div>
+  </div>
+</header>
+
+<main>
+<section class="section first">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>Галерея</h2>
+      <p>$gn $(Plural $gn 'портрет' 'портрета' 'портретов')</p>
+    </div>
+    <ul class="gallery">
+$($gallery.ToString())
+    </ul>
+  </div>
+</section>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <span>© 1998–2026 Елена и Яков Фельдман · Жемчужины английской поэзии</span>
+    <span><a href="index.html">Поэты</a> · <a href="catalog.html">Каталог</a> · <a href="articles.html">Статьи</a> · <a href="gallery.html">Галерея</a></span>
+  </div>
+</footer>
+
+<script src="pearls.js?v=6"></script>
+</body>
+</html>
+"@
+[IO.File]::WriteAllText((Join-Path $outDir 'gallery.html'), $galleryPage, $utf8)
+"gallery: $gn portraits"
 "catalog: $n poets, birthdays $($bd.Count), prizes " + (($prizes | ForEach-Object { "$($_.Id)=$(@($_.Rows).Count)" }) -join ' ')
