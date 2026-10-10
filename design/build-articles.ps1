@@ -107,13 +107,23 @@ function Resolve-Rel([string]$path) {
 $designFiles = @{}
 Get-ChildItem $outDir -Filter *.html | ForEach-Object { $designFiles[$_.BaseName.ToLower()] = $_.Name }
 
+$linkFixes = @{}
+Get-Content (Join-Path $outDir 'link-fixes.tsv') -Encoding UTF8 | Select-Object -Skip 1 | ForEach-Object {
+  $f = $_ -split "`t"
+  if ($f[0]) { $linkFixes[$f[0]] = $f[1] }
+}
+
 function Map-Href([string]$href, $cur) {
   $h = [Net.WebUtility]::HtmlDecode($href).Trim()
   if ($h -eq '' -or $h -match '^(?i)javascript:') { return $null }
   if ($h -match '^(?i)mailto:') { return $h }
   $isRoot = $false
   if ($h -match '^(?i)https?://members\.tripod\.com/poetry_pearls/(.*)$') { $h = $Matches[1]; $isRoot = $true }
-  elseif ($h -match '^(?i)[a-z]+://') { if ($h -match '(?i)tripod\.com|hitbox\.com|geocities') { return $null }; return $h }
+  elseif ($h -match '^(?i)[a-z]+://') {
+    if ($linkFixes.ContainsKey($h)) { if ($linkFixes[$h]) { return $linkFixes[$h] } else { return $null } }
+    if ($h -match '(?i)tripod\.com|hitbox\.com|geocities') { return $null }
+    return $h
+  }
   $path, $frag = $h -split '#', 2
   if ($frag) { $frag = [uri]::UnescapeDataString($frag) }
   $rel = if (-not $path) { "Lectures/$($cur.File)" } elseif ($isRoot) { Resolve-Rel "../$path" } else { Resolve-Rel $path }
