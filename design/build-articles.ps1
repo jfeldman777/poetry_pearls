@@ -118,6 +118,7 @@ function Map-Href([string]$href, $cur) {
   if ($frag) { $frag = [uri]::UnescapeDataString($frag) }
   $rel = if (-not $path) { "Lectures/$($cur.File)" } elseif ($isRoot) { Resolve-Rel "../$path" } else { Resolve-Rel $path }
   $fx = if ($frag) { '#' + (Fix-Anchor $frag) } else { '' }
+  if ($rel -match '^(?i)lst/rbooks\.htm$') { return 'https://jfeldman777.github.io/gala/' }
   if ($rel -match '^(?i)Lectures/([^/]+)$') {
     $seg = Find-Seg $Matches[1] $frag
     if ($seg) {
