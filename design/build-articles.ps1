@@ -33,7 +33,7 @@ $list = @(
   A 9 'smysl' 'teorYakov1.htm' 'smisl dinamik conz' 'fon3' 'Смысл, динамика, концепция' $null @{ Part = '5' }
   A 9 'rifma' 'Lx1.htm' $null $null 'Рифма, ритм, движение' $null @{ Part = '6' }
   A 9 'ponyatie' 'Lx2.htm' $null $null 'Понятие, факт, ощущение' $null @{ Part = '7' }
-  A 9 'zaklyuchenie' 'Zakluchenie.htm' $null $null 'Заключение' 'Десять каналов поэтического текста' @{ Part = '' }
+  A 9 'zaklyuchenie' 'Zakluchenie.htm' $null $null 'Заключение' 'Десять каналов поэтического текста' @{ Part = ''; Subst = @{ 'узнать здесь и <a' = 'узнать <a' } }
   A 10 'tri-energii' 'trienerg.htm' $null $null 'Три энергии поэтического текста' 'Эпическая, драматическая, лирическая'
   A 11 'trud' 'Lx3.htm' 'zametki' 'naprav' 'Труд поэта, труд переводчика' $null
   A 12 'napravleniya' 'Lx3.htm' 'naprav' 'plastmas' 'Направления в поэзии и в поэтическом переводе' $null
@@ -274,6 +274,7 @@ function Clean([string]$html, $a) {
 foreach ($a in $list) {
   $t = Get-Raw $a.File
   $a.Html = Clean $t.Substring($a.Start, $a.End - $a.Start) $a
+  if ($a.Subst) { foreach ($k in $a.Subst.Keys) { $a.Html = $a.Html.Replace($k, $a.Subst[$k]) } }
   $words = @((Plain $a.Html) -split '\s+' | Where-Object { $_ }).Count
   $a.Min = [Math]::Max(1, [int][Math]::Round($words / 180))
 }
