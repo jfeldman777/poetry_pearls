@@ -17,7 +17,7 @@ function Roman([int]$n) {
   foreach ($p in $map) { while ($n -ge $p[0]) { $r += $p[1]; $n -= $p[0] } }
   $r
 }
-function Read-Page([string]$name) { [IO.File]::ReadAllText((Join-Path $Root $name), [Text.Encoding]::UTF8) }
+function Read-Page([string]$name) { [regex]::Replace([IO.File]::ReadAllText((Join-Path $Root $name), [Text.Encoding]::UTF8), '(?s)<!--new-design-->.*?<!--/new-design-->\s*', '') }
 function Get-Lines([string]$html) {
   $s = [regex]::Replace($html, '(?is)<(script|style|select)\b.*?</\1>', '') -replace '\r?\n', ' '
   $s = [regex]::Replace($s, '(?i)<br\b[^>]*>|</p>|</li>|</tr>|<hr\b[^>]*>', "`n")

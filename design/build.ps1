@@ -7,6 +7,7 @@ $ErrorActionPreference = 'Stop'
 $Only = @($Only | ForEach-Object { $_ -split ',' } | Where-Object { $_ })
 
 $utf8 = New-Object System.Text.UTF8Encoding $false
+function Read-Old([string]$path) { [regex]::Replace([IO.File]::ReadAllText($path, $utf8), '(?s)<!--new-design-->.*?<!--/new-design-->\s*', '') }
 $outDir = Join-Path $Root 'design'
 $LB = [string][char]3
 $PB = [string][char]4
@@ -432,7 +433,7 @@ function Get-AltTranslation($e, [string]$ruHtml) {
     $tried[$href] = $true
     $path = Join-Path $Root ($fileRel -replace '/', '\')
     if (-not (Test-Path -LiteralPath $path)) { continue }
-    $html = [IO.File]::ReadAllText($path, $utf8)
+    $html = Read-Old $path
     $vis = [regex]::Replace($html, '(?s)<[^>]+>', '')
     if (([regex]::Matches($vis, '\p{IsCyrillic}')).Count -le ([regex]::Matches($vis, '[A-Za-z]')).Count) { continue }
     $chunk = $null
@@ -890,8 +891,8 @@ foreach ($ruFile in Get-ChildItem (Join-Path $Root 'Poets') -Filter *.htm -File 
   if (-not (Test-Path -LiteralPath $enPath)) { continue }
   if ($Only.Count -gt 0 -and $Only -notcontains $base) { continue }
 
-  $ruHtml = [IO.File]::ReadAllText($ruFile.FullName, $utf8)
-  $enHtml = [IO.File]::ReadAllText($enPath, $utf8)
+  $ruHtml = Read-Old $ruFile.FullName
+  $enHtml = Read-Old $enPath
   $poet = Get-Header $ruHtml $enHtml $file
   $entries = Get-TocEntries $ruHtml $file
   if ($script:skipEntries.ContainsKey($base)) { $entries = @($entries | Where-Object { $script:skipEntries[$base] -notcontains $_.RuId }) }
@@ -916,7 +917,7 @@ foreach ($ruFile in Get-ChildItem (Join-Path $Root 'Poets') -Filter *.htm -File 
   foreach ($x in $extra) {
     $xp = Join-Path $Root $x
     if (Test-Path -LiteralPath $xp) {
-      $xt = [IO.File]::ReadAllText($xp, $utf8)
+      $xt = Read-Old $xp
       $xv = [regex]::Replace($xt, '(?s)<[^>]+>', '')
       if (([regex]::Matches($xv, '[A-Za-z]')).Count -gt ([regex]::Matches($xv, '\p{IsCyrillic}')).Count) { $enSources += $xt }
     }
