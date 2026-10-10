@@ -243,7 +243,7 @@ main[data-mode="en"] .parallel { grid-template-columns: minmax(0, 36rem); justif
 .art-head.wide { max-width: none; margin: 0 0 2.25rem; }
 .art-head .eyebrow a { color: inherit; }
 .art-head h1 { font-family: var(--serif-display); font-weight: 600; font-size: clamp(2.1rem, 4.6vw, 3.3rem); line-height: 1.06; letter-spacing: -0.01em; margin: 0; }
-.art-head h1 .num { display: inline-grid; place-items: center; width: 1.25em; height: 1.25em; margin-right: 0.4em; border-radius: 50%; background: var(--accent-soft); color: var(--accent); font-size: 0.6em; vertical-align: 0.25em; }
+.art-head h1 .num { display: inline-grid; place-items: center; width: 1.25em; height: 1.25em; margin-right: 0.4em; border-radius: 50%; background: var(--accent-soft); color: var(--accent); font: 600 0.5em/1 var(--sans); vertical-align: 0.3em; }
 .art-head .alt { font-family: var(--serif-display); font-style: italic; font-size: clamp(1.15rem, 2.2vw, 1.4rem); color: var(--muted); margin: 0.6rem 0 0; }
 .art-head .meta { margin: 1rem 0 0; font-size: 0.85rem; color: var(--muted); }
 .series-nav { max-width: 46rem; margin: 0 auto 2.5rem; padding: 0.9rem 1.1rem 1rem; border: 1px solid var(--line); border-radius: var(--radius); background: var(--paper-2); }
@@ -338,6 +338,9 @@ main[data-mode="en"] .parallel { grid-template-columns: minmax(0, 36rem); justif
   .cat-list { grid-template-columns: 1fr; }
   .months { grid-template-columns: 1fr; }
   .essay { font-size: 1.05rem; }
+  .series-nav ol { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; margin: 0 -1.1rem; padding: 0 1.1rem; }
+  .series-nav ol::-webkit-scrollbar { display: none; }
+  .series-nav li { flex: 0 0 auto; }
   .essay table.pair, .essay table.pair tbody, .essay table.pair tr, .essay table.pair td { display: block; width: auto; }
   .essay table.pair td + td { border-left: 0; border-top: 1px dashed var(--line); }
   .essay table { display: block; overflow-x: auto; }

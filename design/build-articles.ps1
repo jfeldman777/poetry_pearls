@@ -290,7 +290,7 @@ function Page([string]$title, [string]$oldHref, [string]$main) {
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Inter:wght@400;500;600&family=Literata:opsz,wght@7..72,400;7..72,500&display=swap">
-<link rel="stylesheet" href="pearls.css?v=9">
+<link rel="stylesheet" href="pearls.css?v=10">
 </head>
 <body>
 
@@ -341,7 +341,7 @@ for ($i = 0; $i -lt $list.Count; $i++) {
         $cur = if ($_.Slug -eq $a.Slug) { ' aria-current="page"' } else { '' }
         "<li><a href=""st-$($_.Slug).html""$cur>$(Esc (Part-Label $_))</a></li>"
       }) -join ''
-    $seriesNav = "<nav class=""series-nav"" aria-label=""Цикл""><p>$seriesName</p><ol>$items</ol></nav>"
+    $seriesNav = "<nav class=""series-nav"" aria-label=""Цикл""><p>$seriesName</p><ol>$items</ol></nav><script>var c=document.querySelector('.series-nav [aria-current]');c.parentNode.parentNode.scrollLeft=c.offsetLeft-40;</script>"
   }
   $note = if ($a.Note) { "<p class=""essay-note"">$(Esc $a.Note)</p>" } else { '' }
   $lang = if ($a.Lang) { " lang=""$($a.Lang)""" } else { '' }
