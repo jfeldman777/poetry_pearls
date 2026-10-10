@@ -238,6 +238,69 @@ main[data-mode="en"] .parallel { grid-template-columns: minmax(0, 36rem); justif
 .legend { margin: 1.5rem 0 0; color: var(--muted); font-size: 0.85rem; }
 .legend i { display: inline-block; width: 6px; height: 6px; margin-right: 0.5rem; border-radius: 50%; background: var(--accent); vertical-align: middle; }
 
+/* Articles */
+.art-head { max-width: 46rem; margin: 0 auto 2.25rem; }
+.art-head.wide { max-width: none; margin: 0 0 2.25rem; }
+.art-head .eyebrow a { color: inherit; }
+.art-head h1 { font-family: var(--serif-display); font-weight: 600; font-size: clamp(2.1rem, 4.6vw, 3.3rem); line-height: 1.06; letter-spacing: -0.01em; margin: 0; }
+.art-head h1 .num { display: inline-grid; place-items: center; width: 1.25em; height: 1.25em; margin-right: 0.4em; border-radius: 50%; background: var(--accent-soft); color: var(--accent); font-size: 0.6em; vertical-align: 0.25em; }
+.art-head .alt { font-family: var(--serif-display); font-style: italic; font-size: clamp(1.15rem, 2.2vw, 1.4rem); color: var(--muted); margin: 0.6rem 0 0; }
+.art-head .meta { margin: 1rem 0 0; font-size: 0.85rem; color: var(--muted); }
+.series-nav { max-width: 46rem; margin: 0 auto 2.5rem; padding: 0.9rem 1.1rem 1rem; border: 1px solid var(--line); border-radius: var(--radius); background: var(--paper-2); }
+.series-nav p { margin: 0 0 0.6rem; font-size: 0.72rem; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); }
+.series-nav ol { margin: 0; padding: 0; list-style: none; display: flex; flex-wrap: wrap; gap: 0.35rem; }
+.series-nav a { display: inline-block; padding: 0.32rem 0.7rem; border-radius: 999px; border: 1px solid var(--line); background: var(--paper); color: var(--ink); font-size: 0.85rem; }
+.series-nav a:hover { border-color: var(--accent); text-decoration: none; }
+.series-nav a[aria-current] { background: var(--accent); border-color: var(--accent); color: var(--paper); }
+.essay-note { max-width: 46rem; margin: 0 auto 2rem; padding: 0.8rem 1rem; border: 1px solid var(--line); border-radius: 14px; background: var(--paper-2); font-size: 0.92rem; color: var(--muted); }
+.essay { max-width: 46rem; margin: 0 auto; font-family: var(--serif-text); font-size: 1.1rem; line-height: 1.75; overflow-wrap: break-word; }
+.essay p { margin: 0 0 1.1em; }
+.essay h2 { font-family: var(--serif-display); font-size: 1.9rem; font-weight: 600; line-height: 1.15; margin: 2.4rem 0 0.8rem; }
+.essay h3 { font-family: var(--serif-display); font-size: 1.5rem; font-weight: 600; line-height: 1.2; margin: 2.2rem 0 0.6rem; }
+.essay hr { border: 0; height: 1px; width: 40%; margin: 2.5rem auto; background: var(--line); }
+.essay a { text-decoration: underline; text-decoration-color: var(--accent-soft); text-decoration-thickness: 2px; text-underline-offset: 3px; }
+.essay a:hover { text-decoration-color: var(--accent); }
+.essay .verse { margin: 1.3em 0 1.5em; padding: 0.1em 0 0.1em 1.25rem; border-left: 2px solid var(--accent-soft); font-size: 1.04rem; line-height: 1.65; }
+.essay[lang="en"] .verse, .essay .verse[lang="en"] { font-family: var(--serif-display); font-size: 1.15rem; }
+.essay img { max-width: 100%; height: auto; vertical-align: middle; }
+.essay blockquote { margin: 1.5rem 0; padding-left: 1.25rem; border-left: 2px solid var(--line); color: var(--muted); }
+.essay table { width: 100%; margin: 1.5rem 0 2rem; border-collapse: collapse; font-size: 0.98rem; line-height: 1.6; }
+.essay td, .essay th { vertical-align: top; padding: 0.45rem 0.75rem; border-bottom: 1px solid var(--line); text-align: left; }
+.essay table.pair { border-collapse: separate; border-spacing: 0; background: var(--paper-2); border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; }
+.essay table.pair td { padding: 1rem 1.2rem; border: 0; border-top: 1px solid var(--line); }
+.essay table.pair tr:first-child td { border-top: 0; }
+.essay table.pair td + td { border-left: 1px solid var(--line); }
+.essay table.pair .verse { margin: 0; padding: 0; border: 0; }
+.essay table.pair p { margin: 0 0 0.6em; }
+.essay-pager { max-width: 46rem; margin: 3.5rem auto 0; display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+.essay-pager a { display: flex; flex-direction: column; gap: 0.3rem; padding: 1rem 1.2rem; border: 1px solid var(--line); border-radius: 14px; color: var(--ink); }
+.essay-pager a:hover { border-color: var(--accent); box-shadow: var(--shadow); text-decoration: none; }
+.essay-pager small { font-size: 0.72rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); }
+.essay-pager span { font-family: var(--serif-display); font-size: 1.2rem; font-weight: 600; line-height: 1.2; }
+.essay-pager .next { grid-column: 2; text-align: right; }
+.art-list { list-style: none; margin: 0; padding: 0; max-width: 56rem; }
+.art-list > li { border-bottom: 1px solid var(--line); }
+.art-list .row { display: grid; grid-template-columns: 2.6rem minmax(0, 1fr) auto; gap: 1rem; align-items: baseline; padding: 1rem 0.5rem; color: var(--ink); }
+.art-list .row:hover { background: var(--paper-2); text-decoration: none; }
+.art-list .n { font: 500 0.8rem/1 var(--sans); color: var(--muted); font-variant-numeric: tabular-nums; }
+.art-list b { display: block; font-family: var(--serif-display); font-size: 1.4rem; font-weight: 600; line-height: 1.2; }
+.art-list b em { font-family: var(--sans); font-size: 0.7rem; font-style: normal; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); margin-left: 0.4rem; vertical-align: 0.25em; }
+.art-list i { display: block; margin-top: 0.2rem; font-family: var(--serif-text); font-style: normal; font-size: 0.95rem; color: var(--muted); }
+.art-list .m { font-size: 0.78rem; color: var(--muted); white-space: nowrap; }
+.art-list .art-extra .row { padding-top: 0.6rem; padding-bottom: 0.8rem; }
+.art-list .art-extra b { font-size: 1.1rem; }
+.art-list .art-extra b::before { content: "↳ "; color: var(--muted); }
+.art-series { display: grid; grid-template-columns: 2.6rem minmax(0, 1fr); gap: 1rem; align-items: baseline; padding: 1.1rem 0.5rem 1.3rem; }
+.art-series ol { list-style: none; margin: 0.8rem 0 0; padding: 0; border-left: 2px solid var(--accent-soft); }
+.art-series ol a { display: flex; justify-content: space-between; gap: 1rem; padding: 0.42rem 0.9rem; color: var(--ink); font-family: var(--serif-text); font-size: 1.02rem; }
+.art-series ol a:hover { background: var(--paper-2); text-decoration: none; }
+.art-other { list-style: none; margin: 0 0 2.5rem; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 0.75rem; }
+.art-other a { display: flex; flex-direction: column; gap: 0.2rem; height: 100%; padding: 0.9rem 1rem; border: 1px solid var(--line); border-radius: 14px; color: var(--ink); }
+.art-other a:hover { border-color: var(--accent); box-shadow: var(--shadow); text-decoration: none; }
+.art-other b { font-family: var(--serif-text); font-weight: 500; font-size: 1.02rem; line-height: 1.35; }
+.art-other span { font-size: 0.8rem; color: var(--muted); }
+.section-head.sub h2 { font-size: 1.5rem; }
+
 /* Footer */
 .site-footer { padding: 2.5rem 0 3rem; color: var(--muted); font-size: 0.88rem; }
 .site-footer .wrap { display: flex; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
@@ -274,4 +337,14 @@ main[data-mode="en"] .parallel { grid-template-columns: minmax(0, 36rem); justif
   .cat-group { scroll-margin-top: 11rem; }
   .cat-list { grid-template-columns: 1fr; }
   .months { grid-template-columns: 1fr; }
+  .essay { font-size: 1.05rem; }
+  .essay table.pair, .essay table.pair tbody, .essay table.pair tr, .essay table.pair td { display: block; width: auto; }
+  .essay table.pair td + td { border-left: 0; border-top: 1px dashed var(--line); }
+  .essay table { display: block; overflow-x: auto; }
+  .essay-pager { grid-template-columns: 1fr; }
+  .essay-pager .next { grid-column: 1; }
+  .art-list .row { grid-template-columns: 2rem minmax(0, 1fr); gap: 0.6rem; }
+  .art-list .row .m { grid-column: 2; }
+  .art-series { grid-template-columns: 2rem minmax(0, 1fr); gap: 0.6rem; }
+  .art-list b { font-size: 1.25rem; }
 }
