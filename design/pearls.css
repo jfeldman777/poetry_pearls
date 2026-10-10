@@ -143,6 +143,9 @@ a:hover { text-decoration: underline; text-underline-offset: 3px; }
 .poem { padding: 3.5rem 0; border-bottom: 1px solid var(--line); }
 .poem-head { margin-bottom: 2rem; }
 .poem-head h2 { font-family: var(--serif-display); font-weight: 600; font-size: clamp(1.9rem, 3.5vw, 2.6rem); line-height: 1.1; margin: 0; }
+.poem-up { display: inline-grid; place-items: center; width: 1.9rem; height: 1.9rem; margin-left: 0.6rem; vertical-align: 0.35em; border: 1px solid var(--line); border-radius: 50%; color: var(--muted); transition: color 0.15s, border-color 0.15s; }
+.poem-up:hover { color: var(--accent); border-color: var(--accent); text-decoration: none; }
+.poem-up svg { width: 1rem; height: 1rem; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
 .poem-head .en-title { font-family: var(--serif-display); font-style: italic; font-size: 1.3rem; color: var(--muted); margin: 0.3rem 0 0; }
 .parallel { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(2rem, 6vw, 5rem); }
 .col .label { font-size: 0.72rem; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); margin: 0 0 1rem; }

@@ -720,7 +720,7 @@ function Render-Page($poet, $entries, [string]$file) {
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Inter:wght@400;500;600&family=Literata:opsz,wght@7..72,400;7..72,500&display=swap">
-<link rel="stylesheet" href="pearls.css?v=12">
+<link rel="stylesheet" href="pearls.css?v=13">
 </head>
 <body>
 
@@ -808,8 +808,10 @@ $(Get-PortraitCaption $poet.PortraitCredit)
 <main data-mode="both">
 
 "@)
+  $poemNo = 0
   foreach ($e in $entries) {
     $h2 = if ($e.RuTitle) { Esc $e.RuTitle } else { Esc $e.EnTitle }
+    if ($poemNo++ -gt 0) { $h2 += '<a class="poem-up" href="#" aria-label="Наверх"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7"/></svg></a>' }
     $single = if (-not $e.En -or -not $e.Ru) { ' single' } else { '' }
     [void]$sb.Append(@"
   <article class="poem" id="$($e.Slug)">
@@ -1157,7 +1159,7 @@ if ($Only.Count -eq 0) {
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Inter:wght@400;500;600&family=Literata:opsz,wght@7..72,400;7..72,500&display=swap">
-<link rel="stylesheet" href="pearls.css?v=12">
+<link rel="stylesheet" href="pearls.css?v=13">
 </head>
 <body>
 
