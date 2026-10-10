@@ -144,7 +144,8 @@ a:hover { text-decoration: underline; text-underline-offset: 3px; }
 .poem-head { margin-bottom: 2rem; }
 .poem-head h2 { font-family: var(--serif-display); font-weight: 600; font-size: clamp(1.9rem, 3.5vw, 2.6rem); line-height: 1.1; margin: 0; }
 .poem-up, .poem-copy { display: inline-grid; place-items: center; width: 1.9rem; height: 1.9rem; margin-left: 0.6rem; padding: 0; vertical-align: 0.35em; background: transparent; border: 1px solid var(--line); border-radius: 50%; color: var(--muted); cursor: pointer; transition: color 0.15s, border-color 0.15s; }
-.poem-up + .poem-copy { margin-left: 0.4rem; }
+.label .poem-copy { width: 1.6rem; height: 1.6rem; margin-left: 0.5rem; vertical-align: middle; }
+.label .poem-copy svg { width: 0.85rem; height: 0.85rem; }
 .poem-up:hover, .poem-copy:hover { color: var(--accent); border-color: var(--accent); text-decoration: none; }
 .poem-copy.done { color: #2e8b57; border-color: #2e8b57; }
 .poem-up svg, .poem-copy svg { width: 1rem; height: 1rem; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }

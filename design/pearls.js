@@ -43,21 +43,16 @@
       c.querySelectorAll('a, button').forEach(function (n) { n.remove(); });
       return c.textContent.trim();
     }
-    function poemText(article) {
-      var mode = main.dataset.mode;
-      var ru = article.querySelector('.col-ru .verse') && article.querySelector('.col-ru');
-      var en = article.querySelector('.col-en .verse') && article.querySelector('.col-en');
-      var ruTitle = headingText(article.querySelector('.poem-head h2'));
+    function colText(article, col) {
+      var h2 = article.querySelector('.poem-head h2');
+      var ruTitle = h2 ? headingText(h2) : '';
       var enTitleEl = article.querySelector('.poem-head .en-title');
-      var enTitle = enTitleEl ? enTitleEl.textContent.trim() : ruTitle;
-      var blocks = [];
-      if (ru && mode !== 'en') {
-        var credit = ru.querySelector('.credit');
-        blocks.push(ruTitle + '\n' + poetRu + '\n\n' + verseText(ru) + (credit ? '\n\n' + credit.textContent.trim() : ''));
+      var link = '\n\n' + location.origin + location.pathname + '#' + article.id;
+      if (col.classList.contains('col-en')) {
+        return (enTitleEl ? enTitleEl.textContent.trim() : ruTitle) + '\n' + poetEn + '\n\n' + verseText(col) + link;
       }
-      if (en && (mode !== 'ru' || !ru)) blocks.push(enTitle + '\n' + poetEn + '\n\n' + verseText(en));
-      if (!blocks.length && ru) blocks.push(ruTitle + '\n' + poetRu + '\n\n' + verseText(ru));
-      return blocks.join('\n\n———\n\n') + '\n\n' + location.origin + location.pathname + '#' + article.id;
+      var credit = col.querySelector('.credit');
+      return ruTitle + '\n' + poetRu + '\n\n' + verseText(col) + (credit ? '\n\n' + credit.textContent.trim() : '') + link;
     }
     function copy(text) {
       if (navigator.clipboard && window.isSecureContext) return navigator.clipboard.writeText(text);
@@ -70,27 +65,29 @@
       });
     }
 
-    document.querySelectorAll('article.poem').forEach(function (article) {
-      var h2 = article.querySelector('.poem-head h2');
-      if (!h2 || !article.querySelector('.verse')) return;
+    document.querySelectorAll('article.poem .col').forEach(function (col) {
+      var article = col.closest('article.poem');
+      var label = col.querySelector('.label');
+      if (!label || !col.querySelector('.verse')) return;
+      var name = col.classList.contains('col-en') ? 'Скопировать оригинал' : 'Скопировать перевод';
       var btn = document.createElement('button');
       btn.type = 'button';
       btn.className = 'poem-copy';
-      btn.setAttribute('aria-label', 'Скопировать стихотворение');
+      btn.setAttribute('aria-label', name);
       btn.innerHTML = copyIcon;
       btn.addEventListener('click', function () {
-        copy(poemText(article)).then(function () {
+        copy(colText(article, col)).then(function () {
           btn.innerHTML = doneIcon;
           btn.classList.add('done');
           btn.setAttribute('aria-label', 'Скопировано');
           setTimeout(function () {
             btn.innerHTML = copyIcon;
             btn.classList.remove('done');
-            btn.setAttribute('aria-label', 'Скопировать стихотворение');
+            btn.setAttribute('aria-label', name);
           }, 1600);
         });
       });
-      h2.appendChild(btn);
+      label.appendChild(btn);
     });
   }
 
