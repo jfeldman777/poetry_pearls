@@ -341,7 +341,7 @@ for ($i = 0; $i -lt $list.Count; $i++) {
         $cur = if ($_.Slug -eq $a.Slug) { ' aria-current="page"' } else { '' }
         "<li><a href=""st-$($_.Slug).html""$cur>$(Esc (Part-Label $_))</a></li>"
       }) -join ''
-    $seriesNav = "<nav class=""series-nav"" aria-label=""Цикл""><p>$seriesName</p><ol>$items</ol></nav><script>var c=document.querySelector('.series-nav [aria-current]');c.parentNode.parentNode.scrollLeft=c.offsetLeft-40;</script>"
+    $seriesNav = "<nav class=""series-nav"" aria-label=""Цикл""><p>$seriesName</p><ol>$items</ol></nav><script>var c=document.querySelector('.series-nav [aria-current]'),o=c.closest('ol');o.scrollLeft+=c.getBoundingClientRect().left-o.getBoundingClientRect().left-24;</script>"
   }
   $note = if ($a.Note) { "<p class=""essay-note"">$(Esc $a.Note)</p>" } else { '' }
   $lang = if ($a.Lang) { " lang=""$($a.Lang)""" } else { '' }
