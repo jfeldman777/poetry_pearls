@@ -328,9 +328,8 @@ foreach ($p in ($poets | Sort-Object { Get-RuKey $_ })) {
   }
   if (-not $src) { continue }
   $name = if ($p.Ru) { $p.Ru } else { $p.Base }
-  $tip = if ($p.Years) { "$name, $($p.Years)" } else { $name }
   $yrs = if ($p.Years) { "<small>$(Esc $p.Years)</small>" } else { '' }
-  [void]$gallery.AppendLine("<li><a href=""$($p.Base).html"" title=""$(Esc $tip)""><img src=""$src"" alt=""$(Esc $name)"" loading=""lazy""><span class=""cap""><b>$(Esc $name)</b>$yrs</span></a></li>")
+  [void]$gallery.AppendLine("<li><a href=""$($p.Base).html""><img src=""$src"" alt=""$(Esc $name)"" loading=""lazy""><span class=""cap""><b>$(Esc $name)</b>$yrs</span></a></li>")
   $gn++
 }
 $galleryPage = @"
