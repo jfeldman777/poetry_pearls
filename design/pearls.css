@@ -320,6 +320,50 @@ main[data-mode="en"] .parallel { grid-template-columns: minmax(0, 36rem); justif
 .gallery a:hover .cap, .gallery a:focus-visible .cap { opacity: 1; transform: none; }
 @media (hover: none) { .gallery .cap { opacity: 1; transform: none; } }
 
+/* Selection */
+.nav-count { display: inline-block; min-width: 1.35rem; margin-left: 0.35rem; padding: 0.1rem 0.4rem; border-radius: 999px; background: var(--accent); color: var(--paper); font-size: 0.72rem; font-weight: 600; line-height: 1.2; text-align: center; vertical-align: 0.1em; }
+.poem-pick { margin-top: 0.8rem; font: 500 0.82rem/1 var(--sans); padding: 0.5rem 0.85rem; border-radius: 999px; border: 1px solid var(--line); background: transparent; color: var(--muted); cursor: pointer; transition: color 0.15s, border-color 0.15s, background 0.15s; }
+.poem-pick:hover { color: var(--accent); border-color: var(--accent); }
+.poem-pick[aria-pressed="true"] { color: var(--accent); border-color: var(--accent); background: var(--accent-soft); }
+.sel-empty p { font-family: var(--serif-text); font-size: 1.05rem; max-width: 38rem; }
+.sel-sort { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem; margin-bottom: 1rem; color: var(--muted); font-size: 0.88rem; }
+.sel-list { list-style: none; margin: 0 0 2.5rem; padding: 0; border-top: 1px solid var(--line); }
+.sel-list li { display: grid; grid-template-columns: 1.2rem 2rem minmax(0, 1fr) repeat(3, 2rem); align-items: center; gap: 0.5rem; padding: 0.7rem 0.25rem; border-bottom: 1px solid var(--line); background: var(--paper); }
+.sel-list li.dragging { opacity: 0.4; }
+.sel-list li.drop-target { box-shadow: inset 0 3px 0 var(--accent); }
+.sel-handle { color: var(--muted); cursor: grab; user-select: none; letter-spacing: -0.2em; }
+.sel-num { color: var(--muted); font-size: 0.85rem; font-variant-numeric: tabular-nums; text-align: right; }
+.sel-item a { font-family: var(--serif-text); font-size: 1.05rem; color: var(--ink); }
+.sel-item small { display: block; color: var(--muted); font-size: 0.82rem; }
+.sel-op { width: 2rem; height: 2rem; padding: 0; border-radius: 50%; border: 1px solid var(--line); background: transparent; color: var(--muted); cursor: pointer; font-size: 0.9rem; }
+.sel-op:hover:not(:disabled) { color: var(--accent); border-color: var(--accent); }
+.sel-op:disabled { opacity: 0.35; cursor: default; }
+.sel-out { padding: 1.5rem; border: 1px solid var(--line); border-radius: var(--radius); background: var(--paper-2); }
+.sel-out h3 { font-family: var(--serif-display); font-size: 1.5rem; font-weight: 600; margin: 0 0 0.4rem; }
+.sel-out > p { margin: 0 0 1.2rem; color: var(--muted); font-size: 0.92rem; }
+.sel-field { display: grid; gap: 0.35rem; margin-bottom: 1rem; font-size: 0.85rem; color: var(--muted); }
+.sel-title { max-width: 26rem; font: 400 1rem/1.2 var(--sans); padding: 0.6rem 0.9rem; border-radius: 12px; border: 1px solid var(--line); background: var(--paper); color: var(--ink); }
+.sel-title:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
+.sel-mode { margin-bottom: 1.2rem; flex-wrap: wrap; }
+.sel-out .actions button { cursor: pointer; background: transparent; }
+.sel-out .actions .btn.primary { background: var(--accent); }
+.sel-foot { margin-top: 1.5rem; }
+
+/* QR */
+.qr-dialog { padding: 0; border: 1px solid var(--line); border-radius: var(--radius); background: var(--paper); color: var(--ink); box-shadow: var(--shadow); max-width: calc(100vw - 2rem); }
+.qr-dialog::backdrop { background: rgba(0, 0, 0, 0.45); }
+.qr-box { width: 21rem; max-width: 100%; padding: 1.5rem; text-align: center; }
+.qr-title { margin: 0 0 1rem; font-family: var(--serif-display); font-size: 1.4rem; font-weight: 600; }
+.qr-tabs { display: inline-flex; margin-bottom: 1rem; padding: 3px; border-radius: 12px; background: var(--paper-2); border: 1px solid var(--line); }
+.qr-tabs[hidden] { display: none; }
+.qr-tabs button { font: 500 0.85rem/1 var(--sans); border: 0; background: transparent; color: var(--muted); padding: 0.55rem 0.9rem; border-radius: 9px; cursor: pointer; }
+.qr-tabs button[aria-pressed="true"] { background: var(--paper); color: var(--ink); box-shadow: var(--shadow); }
+.qr-code svg { display: block; width: 100%; max-width: 16rem; margin: 0 auto; border-radius: 8px; }
+.qr-url { display: block; margin: 0.8rem 0 0.3rem; font-size: 0.85rem; word-break: break-all; }
+.qr-hint { margin: 0 0 1.1rem; color: var(--muted); font-size: 0.82rem; }
+.qr-close { font: 500 0.85rem/1 var(--sans); padding: 0.6rem 1.2rem; border-radius: 999px; border: 1px solid var(--line); background: transparent; color: var(--ink); cursor: pointer; }
+.qr-close:hover { border-color: var(--accent); color: var(--accent); }
+
 /* Footer */
 .site-footer { padding: 2.5rem 0 3rem; color: var(--muted); font-size: 0.88rem; }
 .site-footer .wrap { display: flex; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
@@ -377,4 +421,9 @@ main[data-mode="en"] .parallel { grid-template-columns: minmax(0, 36rem); justif
   .gallery .cap { padding: 1.2rem 0.45rem 0.4rem; }
   .gallery .cap b { font-size: 0.8rem; }
   .gallery .cap small { font-size: 0.68rem; }
+  .sel-list li { grid-template-columns: 1.6rem minmax(0, 1fr) repeat(3, 2rem); gap: 0.4rem; }
+  .sel-handle { display: none; }
+  .sel-out { padding: 1.1rem; }
+  .sel-out .actions .btn { flex: 1 1 100%; justify-content: center; }
+  .sel-title { font-size: 16px; }
 }

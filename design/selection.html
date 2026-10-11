@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Подборка — Жемчужины английской поэзии</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Inter:wght@400;500;600&family=Literata:opsz,wght@7..72,400;7..72,500&display=swap">
+<link rel="stylesheet" href="pearls.css?v=16">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="index.html"><span class="pearl" aria-hidden="true"></span><span>Жемчужины<small>английской поэзии</small></span></a>
+    <nav class="nav" aria-label="Разделы">
+      <a href="index.html">Поэты</a>
+      <a href="catalog.html">Каталог</a>
+      <a href="articles.html">Статьи</a>
+      <a href="gallery.html">Галерея</a>
+      <a href="selection.html" aria-current="page">Подборка</a>
+      <a href="../e_index.htm">English</a>
+    </nav>
+    <div class="tools">
+      <button class="chip" id="theme" type="button" title="Светлая / тёмная тема">◐</button>
+    </div>
+  </div>
+</header>
+
+<main class="selection">
+<section class="section first">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>Подборка</h2>
+      <p class="sel-count"></p>
+    </div>
+    <div class="sel-empty">
+      <p>Подборка пока пуста. Откройте страницу поэта и нажмите «+ В подборку» под названием стихотворения — оно появится здесь. Подборку можно упорядочить и отправить по почте одним файлом.</p>
+      <div class="actions"><a class="btn ghost" href="catalog.html">Перейти в каталог</a></div>
+    </div>
+    <div class="sel-body" hidden>
+      <div class="sel-sort">
+        <span>Упорядочить:</span>
+        <button class="chip" type="button" data-sort="poet">по поэтам</button>
+        <button class="chip" type="button" data-sort="title">по названию</button>
+        <button class="chip" type="button" data-sort="reverse">в обратном порядке</button>
+      </div>
+      <ol class="sel-list"></ol>
+      <div class="sel-out">
+        <h3>Лента для почты</h3>
+        <p>Все стихотворения подборки одним файлом Word — его удобно приложить к письму. Можно и просто скопировать текст в письмо.</p>
+        <label class="sel-field">Заголовок
+          <input class="sel-title" type="text" value="Подборка стихов">
+        </label>
+        <div class="segmented sel-mode" role="group" aria-label="Что включить">
+          <button type="button" data-mode="both" aria-pressed="true">Перевод и оригинал</button>
+          <button type="button" data-mode="ru" aria-pressed="false">Только перевод</button>
+          <button type="button" data-mode="en" aria-pressed="false">Только оригинал</button>
+        </div>
+        <div class="actions">
+          <button class="btn primary sel-download" type="button">Скачать ленту (.docx)</button>
+          <button class="btn ghost sel-share" type="button" hidden>Отправить…</button>
+          <button class="btn ghost sel-copy" type="button">Скопировать текстом</button>
+        </div>
+      </div>
+      <div class="sel-foot"><button class="chip sel-clear" type="button">Очистить подборку</button></div>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <span>© 1998–2026 Елена и Яков Фельдман · Жемчужины английской поэзии</span>
+    <span><a href="index.html">Поэты</a> · <a href="catalog.html">Каталог</a> · <a href="articles.html">Статьи</a> · <a href="gallery.html">Галерея</a></span>
+  </div>
+</footer>
+
+<script src="docx.js?v=1"></script>
+<script src="pearls.js?v=10"></script>
+</body>
+</html>
