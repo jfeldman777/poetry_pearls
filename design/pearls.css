@@ -349,6 +349,19 @@ main[data-mode="en"] .parallel { grid-template-columns: minmax(0, 36rem); justif
 .sel-out .actions .btn.primary { background: var(--accent); }
 .sel-foot { margin-top: 1.5rem; }
 
+/* Search */
+.search-input { width: 100%; max-width: 44rem; font: 400 1.05rem/1.3 var(--sans); padding: 0.85rem 1.1rem; border-radius: 14px; border: 1px solid var(--line); background: var(--paper); color: var(--ink); }
+.search-input:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
+.search-hint { margin: 0.6rem 0 2rem; color: var(--muted); font-size: 0.85rem; }
+.search-group { margin: 2rem 0 0.6rem; font: 600 0.78rem/1 var(--sans); letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); }
+.search-list { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--line); }
+.search-list li { padding: 0.8rem 0.25rem; border-bottom: 1px solid var(--line); }
+.search-list a { font-family: var(--serif-text); font-size: 1.08rem; color: var(--ink); }
+.search-list small { display: block; color: var(--muted); font-size: 0.82rem; }
+.search-snippet { margin-top: 0.3rem; font-family: var(--serif-text); font-size: 0.95rem; color: var(--muted); }
+.search-list mark { background: var(--accent-soft); color: var(--ink); border-radius: 3px; padding: 0 0.1em; }
+.search-empty, .search-more { color: var(--muted); }
+
 /* QR */
 .qr-dialog { padding: 0; border: 1px solid var(--line); border-radius: var(--radius); background: var(--paper); color: var(--ink); box-shadow: var(--shadow); max-width: calc(100vw - 2rem); }
 .qr-dialog::backdrop { background: rgba(0, 0, 0, 0.45); }

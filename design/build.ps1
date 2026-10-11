@@ -720,7 +720,7 @@ function Render-Page($poet, $entries, [string]$file) {
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Inter:wght@400;500;600&family=Literata:opsz,wght@7..72,400;7..72,500&display=swap">
-<link rel="stylesheet" href="pearls.css?v=16">
+<link rel="stylesheet" href="pearls.css?v=17">
 </head>
 <body>
 
@@ -730,6 +730,7 @@ function Render-Page($poet, $entries, [string]$file) {
     <nav class="nav" aria-label="Разделы">
       <a href="index.html">Поэты</a>
       <a href="catalog.html">Каталог</a>
+      <a href="search.html">Поиск</a>
       <a href="articles.html">Статьи</a>
       <a href="gallery.html">Галерея</a>
       <a href="selection.html">Подборка</a>
@@ -1160,7 +1161,7 @@ if ($Only.Count -eq 0) {
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Inter:wght@400;500;600&family=Literata:opsz,wght@7..72,400;7..72,500&display=swap">
-<link rel="stylesheet" href="pearls.css?v=16">
+<link rel="stylesheet" href="pearls.css?v=17">
 </head>
 <body>
 
@@ -1170,6 +1171,7 @@ if ($Only.Count -eq 0) {
     <nav class="nav" aria-label="Разделы">
       <a href="index.html">Поэты</a>
       <a href="catalog.html">Каталог</a>
+      <a href="search.html">Поиск</a>
       <a href="articles.html">Статьи</a>
       <a href="gallery.html">Галерея</a>
       <a href="selection.html">Подборка</a>
@@ -1226,6 +1228,7 @@ if ($Only.Count -eq 0) {
   [IO.File]::WriteAllText((Join-Path $outDir 'poets.json'), $json, $utf8)
   & (Join-Path $PSScriptRoot 'build-catalog.ps1') -Root $Root
   & (Join-Path $PSScriptRoot 'build-articles.ps1') -Root $Root
+& (Join-Path $PSScriptRoot 'build-search.ps1') -Root $Root
 }
 
 $report | Export-Csv -Path (Join-Path $env:TEMP 'design_build.csv') -NoTypeInformation -Encoding UTF8
