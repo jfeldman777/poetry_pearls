@@ -335,7 +335,7 @@ $main
   </div>
 </footer>
 
-<script src="pearls.js?v=10"></script>
+<script src="pearls.js?v=11"></script>
 </body>
 </html>
 "@

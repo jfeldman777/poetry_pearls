@@ -307,7 +307,7 @@ $($prView.ToString())
   </div>
 </footer>
 
-<script src="pearls.js?v=10"></script>
+<script src="pearls.js?v=11"></script>
 </body>
 </html>
 "@
@@ -386,7 +386,7 @@ $($gallery.ToString())
   </div>
 </footer>
 
-<script src="pearls.js?v=10"></script>
+<script src="pearls.js?v=11"></script>
 </body>
 </html>
 "@
@@ -475,7 +475,7 @@ $selectionPage = @"
 </footer>
 
 <script src="docx.js?v=1"></script>
-<script src="pearls.js?v=10"></script>
+<script src="pearls.js?v=11"></script>
 </body>
 </html>
 "@

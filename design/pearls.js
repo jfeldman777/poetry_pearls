@@ -104,15 +104,16 @@
     tools.insertBefore(btn, tools.firstChild);
     btn.addEventListener('click', function () {
       var show = function () {
-        var site = new URL('./', location.href).href;
-        var page = location.href.split('#')[0];
+        var local = !/^https?:$/.test(location.protocol) || /^(localhost|127\.|\[::1\])/.test(location.hostname);
+        var site = local ? 'https://jfeldman777.github.io/poetry_pearls/design/' : new URL('./', location.href).href;
+        var file = location.pathname.split('/').pop();
         var targets = [{ label: 'Сайт', url: site }];
-        if (page !== site && page !== site + 'index.html') targets.push({ label: 'Эта страница', url: location.href });
+        if (file && file !== 'index.html') targets.push({ label: 'Эта страница', url: site + file + location.hash });
         window.QR.show('Жемчужины английской поэзии', targets);
       };
       if (window.QR) return show();
       var s = document.createElement('script');
-      s.src = 'qr.js?v=1';
+      s.src = 'qr.js?v=2';
       s.onload = show;
       document.head.appendChild(s);
     });
