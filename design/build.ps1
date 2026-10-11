@@ -871,7 +871,7 @@ $(Get-PortraitCaption $poet.PortraitCredit)
 <footer class="site-footer">
   <div class="wrap">
     <span>© 1998–2026 Елена и Яков Фельдман · Жемчужины английской поэзии</span>
-    <span><a href="index.html">Поэты</a> · <a href="catalog.html">Каталог</a> · <a href="articles.html">Статьи</a> · <a href="gallery.html">Галерея</a></span>
+    <span><a href="index.html">Поэты</a> · <a href="catalog.html">Каталог</a> · <a href="articles.html">Статьи</a> · <a href="gallery.html">Галерея</a> · <a href="https://aromatic-keyboard-369.notion.site/22522db3cb0880f1a1fffd512d49ceba" target="_blank" rel="noopener">Об авторе</a></span>
   </div>
 </footer>
 
@@ -1215,6 +1215,7 @@ if ($Only.Count -eq 0) {
 <footer class="site-footer">
   <div class="wrap">
     <span>© 1998–2026 Елена и Яков Фельдман · Жемчужины английской поэзии</span>
+    <span><a href="https://aromatic-keyboard-369.notion.site/22522db3cb0880f1a1fffd512d49ceba" target="_blank" rel="noopener">Об авторе</a></span>
   </div>
 </footer>
 
