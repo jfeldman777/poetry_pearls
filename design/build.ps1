@@ -537,6 +537,22 @@ $script:nameOverrides = @{
   Bacon     = @{ Ru = 'Фрэнсис Бэкон' }
   Rossetti2 = @{ Ru = 'Кристина Росетти. Песни-песенки' }
 }
+# Replaces the text taken from the old page: BioShort becomes the lede under the name, BioLong the biography at the end.
+$script:bioOverrides = @{
+  Shakespeare = @{
+    BioShort = $null
+    BioLong  = @'
+<p>Уильям Шекспир крещён 26 апреля 1564 года в Стратфорде-на-Эйвоне; днём рождения традиционно считают 23 апреля. Его отец, перчаточник Джон Шекспир, был уважаемым горожанином и одно время занимал должность бейлифа — городского головы. Уильям, по-видимому, учился в стратфордской грамматической школе. В восемнадцать лет он женился на Энн Хэтэуэй; у них родились дочь Сьюзен и близнецы Хэмнет и Джудит.</p>
+      <p>К началу 1590-х годов Шекспир — актёр и драматург в Лондоне. В 1593–1594 годах вышли его поэмы «Венера и Адонис» и «Обесчещенная Лукреция», посвящённые графу Саутгемптону. Он стал пайщиком труппы «Слуги лорда-камергера», которая в 1599 году построила театр «Глобус», а при Якове I получила звание королевской. За двадцать с небольшим лет написаны около 37 пьес — хроники, комедии («Сон в летнюю ночь», «Двенадцатая ночь», «Много шума из ничего»), трагедии («Ромео и Джульетта», «Гамлет», «Отелло», «Король Лир», «Макбет»), поздние романтические драмы («Зимняя сказка», «Буря»). В 1609 году изданы «Сонеты» — 154 стихотворения.</p>
+      <p>Около 1613 года Шекспир вернулся в Стратфорд, где умер 23 апреля 1616 года человеком известным и состоятельным; похоронен в церкви Святой Троицы. В 1623 году его товарищи по труппе Джон Хеминг и Генри Конделл издали собрание пьес — «Первое фолио».</p>
+      <p>Канонической биографии давно противостоят сомнения в авторстве. И. М. Гилилов считал автором шекспировских произведений Роджера Мэннерса, графа Рэтленда, — об этом статья Т. А. Ладошкиной «<a href="../Lectures/plach.htm">Плач по Шекспиру</a>» и <a href="../Gallery/G_rutland.htm">портрет Рэтленда</a> в галерее.</p>
+'@
+  }
+}
+# A card under the poet's name, in place of the lede.
+$script:heroLinks = @{
+  Shakespeare = '<ul class="art-other"><li><a href="sonnets.html"><b>Сонеты Шекспира</b><span>Все 154 сонета: оригинал, переводы С. Маршака и А. Финкеля, старые переводы, вариации Якова Фельдмана</span></a></li></ul>'
+}
 
 $poetFiles = @{}
 Get-ChildItem (Join-Path $Root 'Poets') -Filter *.htm -File | ForEach-Object { $poetFiles[$_.Name.ToLowerInvariant()] = $_.BaseName }
@@ -670,6 +686,9 @@ function Get-Header([string]$ruHtml, [string]$enHtml, [string]$file) {
   }
   $bio = Get-Chunk $ruHtml 'bio' @()
   if ($bio -and (Plain $bio).Length -ge 80) { $h.BioLong = Clean-Rich $bio }
+  if ($script:bioOverrides.ContainsKey($base)) {
+    foreach ($kv in $script:bioOverrides[$base].GetEnumerator()) { $h[$kv.Key] = $kv.Value }
+  }
   $h
 }
 
@@ -764,12 +783,12 @@ $(Get-PortraitCaption $poet.PortraitCredit)
 "@)
   if ($enName) { [void]$sb.AppendLine("      <p class=""alt"">$(Esc $enName)</p>") }
   if ($lede) { [void]$sb.AppendLine("      <div class=""lede"">$lede</div>") }
+  if ($script:heroLinks.ContainsKey($base)) { [void]$sb.AppendLine("      $($script:heroLinks[$base])") }
   [void]$sb.AppendLine('      <ul class="facts">')
   foreach ($f in $facts) { [void]$sb.AppendLine("        <li>$(Esc $f)</li>") }
   [void]$sb.AppendLine('      </ul>')
   [void]$sb.AppendLine('      <div class="actions">')
   [void]$sb.AppendLine('        <a class="btn primary" href="#poems">Читать стихи</a>')
-  if ($base -eq 'Shakespeare') { [void]$sb.AppendLine('        <a class="btn ghost" href="sonnets.html">Все 154 сонета</a>') }
   if ($bioSection) { [void]$sb.AppendLine('        <a class="btn ghost" href="#bio">Биография</a>') }
   [void]$sb.Append(@"
       </div>
@@ -1193,9 +1212,6 @@ if ($Only.Count -eq 0) {
       <h2>Поэты</h2>
       <p>$($index.Count) $(Plural $index.Count 'страница' 'страницы' 'страниц') · новый дизайн, черновик</p>
     </div>
-    <ul class="art-other">
-      <li><a href="sonnets.html"><b>Сонеты Шекспира</b><span>Все 154 сонета: оригинал, переводы С. Маршака и А. Финкеля, старые переводы, вариации Якова Фельдмана</span></a></li>
-    </ul>
     <ul class="poets">
 
 "@)
