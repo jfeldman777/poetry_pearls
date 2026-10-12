@@ -377,6 +377,32 @@ main[data-mode="en"] .parallel { grid-template-columns: minmax(0, 36rem); justif
 .qr-close { font: 500 0.85rem/1 var(--sans); padding: 0.6rem 1.2rem; border-radius: 999px; border: 1px solid var(--line); background: transparent; color: var(--ink); cursor: pointer; }
 .qr-close:hover { border-color: var(--accent); color: var(--accent); }
 
+/* Sonnets */
+.son-grid { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(3.1rem, 1fr)); gap: 0.4rem; }
+.son-grid a { position: relative; display: grid; place-items: center; height: 2.6rem; border: 1px solid var(--line); border-radius: 10px; color: var(--ink); font: 500 0.92rem/1 var(--sans); font-variant-numeric: tabular-nums; }
+.son-grid a:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
+.son-grid a.v::after { content: ""; position: absolute; top: 5px; right: 5px; width: 6px; height: 6px; border-radius: 50%; background: var(--accent); }
+.son-nums { display: flex; flex-wrap: wrap; gap: 0.15rem 0.3rem; font: 500 0.82rem/1.9 var(--sans); font-variant-numeric: tabular-nums; }
+.son-nums a { min-width: 2rem; text-align: center; border-radius: 6px; color: var(--muted); }
+.son-nums a:hover { color: var(--accent); background: var(--accent-soft); text-decoration: none; }
+.series-nav.wide { max-width: none; margin: 0; }
+.son-source { margin: 1rem 0 0; font-size: 0.85rem; color: var(--muted); }
+.son-head { padding-bottom: 2rem; }
+.sonnet-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: clamp(2rem, 6vw, 5rem); align-items: start; }
+.sonnet-orig { position: sticky; top: calc(var(--head-h) + 4.5rem); border-bottom: 0; padding: 2.5rem 0; }
+.sonnet-tr { padding: 2.5rem 0; scroll-margin-top: calc(var(--head-h) + 4rem); }
+.sonnet-tr:last-child { border-bottom: 0; }
+.sonnet-orig .poem-head, .sonnet-tr .poem-head { margin-bottom: 1.2rem; }
+.sonnet-orig .poem-head h2, .sonnet-tr .poem-head h2 { font-size: 1.6rem; }
+.sonnet-orig .poem-head h2 { color: var(--muted); font-style: italic; font-weight: 500; }
+.tr-note { margin-left: 0.6rem; font: 500 0.8rem/1 var(--sans); color: var(--muted); vertical-align: 0.3em; }
+main.sonnet[data-mode="ru"] .sonnet-orig, main.sonnet[data-mode="en"] .sonnet-trs { display: none; }
+main.sonnet[data-mode="ru"] .sonnet-grid, main.sonnet[data-mode="en"] .sonnet-grid { grid-template-columns: minmax(0, 36rem); justify-content: center; }
+main.sonnet[data-mode="en"] .sonnet-orig { position: static; }
+.verse .epigraph { white-space: pre-line; margin: 0 0 1.6em auto; max-width: 24rem; text-align: right; font-size: 0.92rem; font-style: italic; color: var(--muted); }
+.verse .date { margin: 0 0 1em; font-family: var(--sans); font-size: 0.85rem; color: var(--muted); }
+@media (max-height: 760px) { .sonnet-orig { position: static; } }
+
 /* Footer */
 .site-footer { padding: 2.5rem 0 3rem; color: var(--muted); font-size: 0.88rem; }
 .site-footer .wrap { display: flex; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
@@ -400,6 +426,9 @@ main[data-mode="en"] .parallel { grid-template-columns: minmax(0, 36rem); justif
 @media (max-width: 680px) {
   .parallel { grid-template-columns: 1fr; gap: 2rem; }
   .col-ru { order: -1; }
+  .sonnet-grid { grid-template-columns: 1fr; gap: 0; }
+  .sonnet-orig { position: static; border-bottom: 1px solid var(--line); }
+  .son-grid { grid-template-columns: repeat(auto-fill, minmax(2.7rem, 1fr)); }
   .illus { grid-template-columns: 1fr; }
   .toc li { grid-template-columns: 2rem 1fr; }
   .toc .en { grid-column: 2; }

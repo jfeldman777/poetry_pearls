@@ -30,21 +30,16 @@
   function initCopy() {
     var copyIcon = '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V6a2 2 0 0 1 2-2h9"/></svg>';
     var doneIcon = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12l5 5L20 7"/></svg>';
-    var h1 = document.querySelector('h1');
-    var alt = h1 && h1.nextElementSibling && h1.nextElementSibling.classList.contains('alt') ? h1.nextElementSibling : null;
-    var poetRu = h1 ? h1.textContent.trim() : '';
-    var poetEn = alt ? alt.textContent.trim() : poetRu;
+    var poet = poetNames();
 
     function colText(article, col) {
-      var h2 = article.querySelector('.poem-head h2');
-      var ruTitle = h2 ? headingText(h2) : '';
-      var enTitleEl = article.querySelector('.poem-head .en-title');
+      var t = titles(article);
       var link = '\n\n' + location.origin + location.pathname + '#' + article.id;
       if (col.classList.contains('col-en')) {
-        return (enTitleEl ? enTitleEl.textContent.trim() : ruTitle) + '\n' + poetEn + '\n\n' + verseText(col) + link;
+        return (t.en || t.ru) + '\n' + poet.en + '\n\n' + verseText(col) + link;
       }
       var credit = col.querySelector('.credit');
-      return ruTitle + '\n' + poetRu + '\n\n' + verseText(col) + (credit ? '\n\n' + credit.textContent.trim() : '') + link;
+      return t.ru + '\n' + poet.ru + '\n\n' + verseText(col) + (credit ? '\n\n' + credit.textContent.trim() : '') + link;
     }
 
     document.querySelectorAll('article.poem .col').forEach(function (col) {
@@ -77,6 +72,27 @@
     var stanzas = col.querySelectorAll('.verse .stanza');
     var parts = stanzas.length ? Array.prototype.map.call(stanzas, function (p) { return p.textContent.trim(); }) : [col.querySelector('.verse').textContent.trim()];
     return parts.join('\n\n');
+  }
+  // Pages that collect one poet's poems under another heading name the poet on <main>.
+  function poetNames() {
+    var main = document.querySelector('main[data-mode]');
+    var h1 = document.querySelector('h1');
+    var alt = h1 && h1.nextElementSibling && h1.nextElementSibling.classList.contains('alt') ? h1.nextElementSibling : null;
+    var ru = main && main.dataset.poetRu || (h1 ? h1.textContent.trim() : '');
+    return { ru: ru, en: main && main.dataset.poetEn || (alt ? alt.textContent.trim() : ru) };
+  }
+  // On a sonnet page the heading names the translator; the title and the original live in data attributes.
+  function titles(article) {
+    var h2 = article.querySelector('.poem-head h2');
+    var enTitle = article.querySelector('.poem-head .en-title');
+    return {
+      ru: article.dataset.title || (h2 ? headingText(h2) : ''),
+      en: article.dataset.enTitle || (enTitle ? enTitle.textContent.trim() : '')
+    };
+  }
+  function originalCol(article) {
+    var src = article.dataset.en ? document.getElementById(article.dataset.en) : article;
+    return src && src.querySelector('.col-en');
   }
   function headingText(h2) {
     var c = h2.cloneNode(true);
@@ -158,24 +174,20 @@
       btn.title = on ? 'Убрать из подборки' : 'Добавить в подборку';
     }
     function capture(article) {
-      var h1 = document.querySelector('h1');
-      var alt = h1 && h1.nextElementSibling && h1.nextElementSibling.classList.contains('alt') ? h1.nextElementSibling : null;
-      var h2 = article.querySelector('.poem-head h2');
-      var enTitle = article.querySelector('.poem-head .en-title');
+      var poet = poetNames();
+      var t = titles(article);
       var ruCol = article.querySelector('.col-ru');
-      var enCol = article.querySelector('.col-en');
+      var enCol = originalCol(article);
       var credit = ruCol && ruCol.querySelector('.credit');
-      var title = h2 ? headingText(h2) : '';
       var ru = ruCol && ruCol.querySelector('.verse') ? verseText(ruCol) : '';
       var en = enCol && enCol.querySelector('.verse') ? verseText(enCol) : '';
-      var poetRu = h1 ? h1.textContent.trim() : '';
       return {
         page: page,
         slug: article.id,
-        poetRu: poetRu,
-        poetEn: alt ? alt.textContent.trim() : poetRu,
-        titleRu: ru ? title : '',
-        titleEn: enTitle ? enTitle.textContent.trim() : en ? title : '',
+        poetRu: poet.ru,
+        poetEn: poet.en,
+        titleRu: ru ? t.ru : '',
+        titleEn: t.en || (en ? t.ru : ''),
         ru: ru,
         en: en,
         credit: credit ? credit.textContent.trim() : ''

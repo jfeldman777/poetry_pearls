@@ -16,7 +16,7 @@ function Get-Text([string]$html) {
   [System.Net.WebUtility]::HtmlDecode($t).Trim()
 }
 function Get-Verse([string]$col) {
-  $stanzas = [regex]::Matches($col, '(?s)<p class="stanza">(.*?)</p>')
+  $stanzas = [regex]::Matches($col, '(?s)<p class="stanza(?: indent)?">(.*?)</p>')
   if ($stanzas.Count) { return (($stanzas | ForEach-Object { Get-Text $_.Groups[1].Value }) -join "`n`n") }
   $verse = [regex]::Match($col, '(?s)<div class="verse">(.*?)</div>')
   if ($verse.Success) { return Get-Text $verse.Groups[1].Value }
@@ -25,15 +25,23 @@ function Get-Verse([string]$col) {
 
 # --- Индекс: по каждому поэту [страница, имя, English name, стихи: [id, название, English title, перевод, оригинал]]
 $poets = New-Object System.Collections.Generic.List[object]
+$poetNames = @{}
 $total = 0
 foreach ($f in Get-ChildItem $outDir -Filter *.html -File | Sort-Object Name) {
   $html = [IO.File]::ReadAllText($f.FullName, [Text.Encoding]::UTF8)
-  if ($html -notmatch '<main data-mode') { continue }
+  $main = [regex]::Match($html, '<main data-mode[^>]*>')
+  if (-not $main.Success) { continue }
   $articles = [regex]::Matches($html, '(?s)<article class="poem" id="([^"]+)">(.*?)</article>')
   if (-not $articles.Count) { continue }
+  # Collections (the sonnets) name the poet on <main>; their originals are indexed only once, data-search-original="0" elsewhere.
+  $attr = @{}
+  foreach ($m in [regex]::Matches($main.Value, '(data-[\w-]+)="([^"]*)"')) { $attr[$m.Groups[1].Value] = [Net.WebUtility]::HtmlDecode($m.Groups[2].Value) }
   $hero = [regex]::Match($html, '(?s)<h1>(.*?)</h1>\s*(?:<p class="alt">(.*?)</p>)?')
   $poetRu = Get-Text $hero.Groups[1].Value
   $poetEn = if ($hero.Groups[2].Success) { Get-Text $hero.Groups[2].Value } else { $poetRu }
+  if ($attr['data-search-ru']) { $poetRu = $attr['data-search-ru']; $poetEn = $attr['data-search-en'] }
+  $poetNames[$(if ($attr['data-poet-ru']) { $attr['data-poet-ru'] } else { $poetRu })] = 1
+  $skipEn = $attr['data-search-original'] -eq '0'
   $items = New-Object System.Collections.Generic.List[object]
   foreach ($a in $articles) {
     $body = $a.Groups[2].Value
@@ -43,7 +51,7 @@ foreach ($f in Get-ChildItem $outDir -Filter *.html -File | Sort-Object Name) {
     $iRu = $body.IndexOf('<div class="col col-ru"')
     $en = ''
     $ru = ''
-    if ($iEn -ge 0) { $en = Get-Verse $(if ($iRu -gt $iEn) { $body.Substring($iEn, $iRu - $iEn) } else { $body.Substring($iEn) }) }
+    if ($iEn -ge 0 -and -not $skipEn) { $en = Get-Verse $(if ($iRu -gt $iEn) { $body.Substring($iEn, $iRu - $iEn) } else { $body.Substring($iEn) }) }
     if ($iRu -ge 0) { $ru = Get-Verse $(if ($iEn -gt $iRu) { $body.Substring($iRu, $iEn - $iRu) } else { $body.Substring($iRu) }) }
     if (-not $ru -and -not $en) { continue }
     $items.Add(@($a.Groups[1].Value, $title, $enTitle, $ru, $en))
@@ -98,7 +106,7 @@ $page = @"
   <div class="wrap">
     <div class="section-head">
       <h2>Поиск</h2>
-      <p class="search-count">$(Plural $total 'стихотворение' 'стихотворения' 'стихотворений') · $(Plural $poets.Count 'поэт' 'поэта' 'поэтов')</p>
+      <p class="search-count">$(Plural $total 'стихотворение' 'стихотворения' 'стихотворений') · $(Plural $poetNames.Count 'поэт' 'поэта' 'поэтов')</p>
     </div>
     <form class="search-form" role="search" action="search.html">
       <input class="search-input" type="search" name="q" placeholder="Строка, название или поэт — по-русски или по-английски" aria-label="Что искать" autocomplete="off" spellcheck="false" autofocus>

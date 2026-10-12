@@ -22,6 +22,19 @@ foreach ($name in 'RusCatalog.htm', 'AgeCatalog.htm', 'calendarPoets.htm', 'Cata
   $label = if ($name -eq 'EngCatalog.htm') { 'New design' } else { 'Новый дизайн сайта' }
   [void]$targets.Add(@{ Path = (Join-Path $Root $name); Href = 'design/catalog.html'; Label = $label })
 }
+$sonnetPages = @{
+  'sonnets/all.htm' = 'sonnets.html'; 'sonnets/marshak.html' = 'sonnets-marshak.html'; 'sonnets/finkel.htm' = 'sonnets-finkel.html'
+  'sonnets/more.htm' = 'sonnets-classic.html'; 'var/cont.htm' = 'sonnets-feldman.html'; 'var/posv.htm' = 'sonnets-feldman.html#posv'
+  'rPoets/Shakespeare.htm' = 'sonnet-66.html'
+}
+foreach ($r in '1-20', '21-40', '41-60', '61-80', '81-100', '101-120', '121-140', '141-154') { $sonnetPages["sonnets/$r.htm"] = "sonnets-original.html#s$(($r -split '-')[0])" }
+foreach ($f in Get-ChildItem (Join-Path $Root 'var') -Filter 'son*.htm' -File) {
+  if ($f.BaseName -notmatch '^son(\d+)$') { continue }
+  $sonnetPages["var/$($f.Name)"] = if ($Matches[1] -eq '902') { 'sonnet-90.html#feldman-2' } else { "sonnet-$([int]$Matches[1]).html#feldman" }
+}
+foreach ($k in $sonnetPages.Keys) {
+  [void]$targets.Add(@{ Path = (Join-Path $Root $k); Href = "../design/$($sonnetPages[$k])"; Label = 'Новый дизайн сайта' })
+}
 
 $done = 0; $skipped = @()
 foreach ($t in $targets) {

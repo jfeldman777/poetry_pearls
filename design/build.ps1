@@ -769,6 +769,7 @@ $(Get-PortraitCaption $poet.PortraitCredit)
   [void]$sb.AppendLine('      </ul>')
   [void]$sb.AppendLine('      <div class="actions">')
   [void]$sb.AppendLine('        <a class="btn primary" href="#poems">Читать стихи</a>')
+  if ($base -eq 'Shakespeare') { [void]$sb.AppendLine('        <a class="btn ghost" href="sonnets.html">Все 154 сонета</a>') }
   if ($bioSection) { [void]$sb.AppendLine('        <a class="btn ghost" href="#bio">Биография</a>') }
   [void]$sb.Append(@"
       </div>
@@ -840,7 +841,9 @@ $(Get-PortraitCaption $poet.PortraitCredit)
       [void]$sb.AppendLine((Render-Verse $e.Ru))
       [void]$sb.AppendLine('          </div>')
       foreach ($c in $e.Ru.Credits) { [void]$sb.AppendLine("          <p class=""credit"">$($c.Display)</p>") }
-      if ($e.Other) { [void]$sb.AppendLine("          <p class=""credit other""><a href=""$(Esc $e.Other)"">Другие переводы →</a></p>") }
+      $other = $e.Other; $otherText = 'Другие переводы →'
+      if ($base -eq 'Shakespeare' -and $e.Slug -match '^sonnet(\d+)$') { $other = "sonnet-$($Matches[1]).html"; $otherText = 'Все переводы сонета →' }
+      if ($other) { [void]$sb.AppendLine("          <p class=""credit other""><a href=""$(Esc $other)"">$otherText</a></p>") }
       [void]$sb.AppendLine('        </div>')
     }
     [void]$sb.Append(@"
@@ -1190,6 +1193,9 @@ if ($Only.Count -eq 0) {
       <h2>Поэты</h2>
       <p>$($index.Count) $(Plural $index.Count 'страница' 'страницы' 'страниц') · новый дизайн, черновик</p>
     </div>
+    <ul class="art-other">
+      <li><a href="sonnets.html"><b>Сонеты Шекспира</b><span>Все 154 сонета: оригинал, переводы С. Маршака и А. Финкеля, старые переводы, вариации Якова Фельдмана</span></a></li>
+    </ul>
     <ul class="poets">
 
 "@)
@@ -1229,6 +1235,7 @@ if ($Only.Count -eq 0) {
   [IO.File]::WriteAllText((Join-Path $outDir 'poets.json'), $json, $utf8)
   & (Join-Path $PSScriptRoot 'build-catalog.ps1') -Root $Root
   & (Join-Path $PSScriptRoot 'build-articles.ps1') -Root $Root
+  & (Join-Path $PSScriptRoot 'build-sonnets.ps1') -Root $Root
 & (Join-Path $PSScriptRoot 'build-search.ps1') -Root $Root
 }
 
