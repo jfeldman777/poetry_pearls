@@ -322,8 +322,8 @@ main[data-mode="en"] .parallel { grid-template-columns: minmax(0, 36rem); justif
 
 /* Selection */
 .nav-count { display: inline-block; min-width: 1.35rem; margin-left: 0.35rem; padding: 0.1rem 0.4rem; border-radius: 999px; background: var(--accent); color: var(--paper); font-size: 0.72rem; font-weight: 600; line-height: 1.2; text-align: center; vertical-align: 0.1em; }
-.poem-pick { margin-top: 0.8rem; font: 500 0.82rem/1 var(--sans); padding: 0.5rem 0.85rem; border-radius: 999px; border: 1px solid var(--line); background: transparent; color: var(--muted); cursor: pointer; transition: color 0.15s, border-color 0.15s, background 0.15s; }
-.poem-pick:hover { color: var(--accent); border-color: var(--accent); }
+.poem-pick, .poem-link { margin-top: 0.8rem; margin-right: 0.45rem; font: 500 0.82rem/1 var(--sans); padding: 0.5rem 0.85rem; border-radius: 999px; border: 1px solid var(--line); background: transparent; color: var(--muted); cursor: pointer; transition: color 0.15s, border-color 0.15s, background 0.15s; }
+.poem-pick:hover, .poem-link:hover { color: var(--accent); border-color: var(--accent); }
 .poem-pick[aria-pressed="true"] { color: var(--accent); border-color: var(--accent); background: var(--accent-soft); }
 .sel-empty p { font-family: var(--serif-text); font-size: 1.05rem; max-width: 38rem; }
 .sel-sort { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem; margin-bottom: 1rem; color: var(--muted); font-size: 0.88rem; }

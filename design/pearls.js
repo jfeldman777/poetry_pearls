@@ -34,7 +34,7 @@
 
     function colText(article, col) {
       var t = titles(article);
-      var link = '\n\n' + location.origin + location.pathname + '#' + article.id;
+      var link = '\n\n' + poemUrl(article);
       if (col.classList.contains('col-en')) {
         return (t.en || t.ru) + '\n' + poet.en + '\n\n' + verseText(col) + link;
       }
@@ -109,6 +109,19 @@
       ta.remove();
     });
   }
+  function siteBase() {
+    var local = !/^https?:$/.test(location.protocol) || /^(localhost|127\.|\[::1\])/.test(location.hostname);
+    return local ? 'https://jfeldman777.github.io/poetry_pearls/design/' : new URL('./', location.href).href;
+  }
+  function pageFile() {
+    var file = decodeURIComponent(location.pathname.split('/').pop() || '');
+    if (!file || file === 'index.html' || file === 'index') return 'index.html';
+    if (!/\.[a-z0-9]+$/i.test(file)) file += '.html';
+    return file;
+  }
+  function poemUrl(article) {
+    return siteBase() + pageFile() + '#' + encodeURIComponent(article.id);
+  }
   function initQr() {
     var tools = document.querySelector('.site-header .tools');
     if (!tools) return;
@@ -120,9 +133,8 @@
     tools.insertBefore(btn, tools.firstChild);
     btn.addEventListener('click', function () {
       var show = function () {
-        var local = !/^https?:$/.test(location.protocol) || /^(localhost|127\.|\[::1\])/.test(location.hostname);
-        var site = local ? 'https://jfeldman777.github.io/poetry_pearls/design/' : new URL('./', location.href).href;
-        var file = location.pathname.split('/').pop();
+        var site = siteBase();
+        var file = pageFile();
         var targets = [{ label: 'Сайт', url: site }];
         if (file && file !== 'index.html') targets.push({ label: 'Эта страница', url: site + file + location.hash });
         window.QR.show('Жемчужины английской поэзии', targets);
@@ -208,6 +220,19 @@
       });
       head.appendChild(pick.btn);
       picks.push(pick);
+
+      var linkBtn = document.createElement('button');
+      linkBtn.type = 'button';
+      linkBtn.className = 'poem-link';
+      linkBtn.textContent = 'Скопировать ссылку';
+      linkBtn.title = 'Ссылка откроет это стихотворение';
+      linkBtn.addEventListener('click', function () {
+        copy(poemUrl(article)).then(function () {
+          linkBtn.textContent = 'Ссылка скопирована';
+          setTimeout(function () { linkBtn.textContent = 'Скопировать ссылку'; }, 1600);
+        });
+      });
+      head.appendChild(linkBtn);
     });
 
     if (selPage) initPage();
