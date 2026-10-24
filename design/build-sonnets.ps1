@@ -6,7 +6,7 @@
 $ErrorActionPreference = 'Stop'
 $utf8 = New-Object System.Text.UTF8Encoding $false
 $outDir = $PSScriptRoot
-$cssV = 18
+$cssV = 23
 $jsV = 12
 $nb = [string][char]0xA0
 $emOn = [string][char]1
@@ -283,6 +283,32 @@ if ($Check) {
 $poetRu = 'Уильям Шекспир'
 $poetEn = 'William Shakespeare'
 $upIcon = '<a class="poem-up" href="#" aria-label="Наверх"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7"/></svg></a>'
+$svgPrev = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>'
+$svgNext = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>'
+$varSeq = @(foreach ($f in $feldman) {
+  $hash = if ($f.Second) { 'feldman-2' } else { 'feldman' }
+  $label = if ($f.Second) { "Сонет $($f.N) · вторая" } else { "Сонет $($f.N)" }
+  $coll = if ($f.Second) { "#s$($f.N)-2" } else { "#s$($f.N)" }
+  @{ N = $f.N; Second = [bool]$f.Second; Href = "sonnet-$($f.N).html#$hash"; Coll = $coll; Label = $label }
+})
+function Var-Link([string]$dir, $item, [string]$mode) {
+  $href = if ($mode -eq 'coll') { $item.Coll } else { $item.Href }
+  $word = if ($dir -eq 'prev') { 'Предыдущая' } else { 'Следующая' }
+  $svg = if ($dir -eq 'prev') { $svgPrev } else { $svgNext }
+  "<a class=""poem-nav $dir"" href=""$href"" title=""$($item.Label)"" aria-label=""$word вариация · $($item.Label)"">$svg</a>"
+}
+function Var-Nav([int]$n, [bool]$second, [string]$mode) {
+  $i = 0
+  for (; $i -lt $varSeq.Count; $i++) {
+    if ($varSeq[$i].N -eq $n -and $varSeq[$i].Second -eq $second) { break }
+  }
+  $prev = ''; $next = ''
+  if ($i -lt $varSeq.Count) {
+    if ($i -gt 0) { $prev = Var-Link 'prev' $varSeq[$i - 1] $mode }
+    if ($i -lt $varSeq.Count - 1) { $next = Var-Link 'next' $varSeq[$i + 1] $mode }
+  }
+  @{ Prev = $prev; Next = $next }
+}
 
 function Stanza-Html([string[]]$lines) {
   $h = (($lines | ForEach-Object { Esc $_ }) -join "`n")
@@ -358,7 +384,14 @@ $body
 </body>
 </html>
 "@
-  [IO.File]::WriteAllText((Join-Path $outDir $file), $html, $utf8)
+  $path = Join-Path $outDir $file
+  for ($try = 0; $try -lt 8; $try++) {
+    try { [IO.File]::WriteAllText($path, $html, $utf8); break }
+    catch {
+      if ($try -eq 7) { throw }
+      Start-Sleep -Milliseconds (250 * ($try + 1))
+    }
+  }
 }
 
 $crumbs = '<a href="index.html">Поэты</a> · <a href="Shakespeare.html">Уильям Шекспир</a>'
@@ -397,10 +430,19 @@ for ($n = 1; $n -le 154; $n++) {
   foreach ($t in $s.Tr) {
     $h2 = Esc (Tr-Title $t)
     if ($t.Second) { $h2 = (Esc $t.Name) + '<span class="tr-note">' + $(if ($t.Kind -eq 'var') { 'вторая вариация' } else { 'другой вариант' }) + '</span>' }
+    $headClass = 'poem-head'
+    $sub = ''
+    if ($t.Kind -eq 'var') {
+      $nav = Var-Nav $n ([bool]$t.Second) 'page'
+      $h2 = $nav.Prev + $h2 + $nav.Next
+      if ($nav.Prev) { $headClass += ' has-prev' }
+      $num = if ($t.Second) { "Сонет $n · 2" } else { "Сонет $n" }
+      $sub = "`n        <p class=""en-title"">$num</p>"
+    }
     [void]$articles.Append(@"
 
       <article class="poem sonnet-tr" id="$($t.Key)" data-title="Сонет $n" data-en-title="$(Esc $first)" data-en="original">
-        <header class="poem-head"><h2>$h2</h2></header>
+        <header class="$headClass"><h2>$h2</h2>$sub</header>
         <div class="col col-ru">
           <p class="label">$(Label-Of $t.Kind)</p>
           <div class="verse">
@@ -465,7 +507,7 @@ $(Verse-Html $s.En)
 
 # ---------- Collections: one translator (or the original) for all sonnets
 
-function Render-Item([string]$id, [string]$title, [string]$enTitle, $en, $ru, [string]$label, [string]$credit, [string]$link, [bool]$isFirst) {
+function Render-Item([string]$id, [string]$title, [string]$enTitle, $en, $ru, [string]$label, [string]$credit, [string]$link, [bool]$isFirst, [string]$navPrev = '', [string]$navNext = '') {
   $up = if ($isFirst) { '' } else { $upIcon }
   $single = if ($en -and $ru) { '' } else { ' single' }
   $other = if ($link) { "`n          <p class=""credit other""><a href=""$link"">Все переводы сонета →</a></p>" } else { '' }
@@ -501,7 +543,7 @@ $(Verse-Html $ru)
   <article class="poem" id="$id">
     <div class="wrap">
       <header class="poem-head">
-        <h2>$(Esc $title)$up</h2>$enT
+        <h2>$navPrev$(Esc $title)$navNext$up</h2>$enT
       </header>
       <div class="parallel$single">$enCol$ruCol
       </div>
@@ -515,7 +557,7 @@ function Write-Collection([string]$file, [string]$h1, [string]$alt, [string]$met
   $sb = New-Object System.Text.StringBuilder
   $i = 0
   foreach ($it in $items) {
-    [void]$sb.Append((Render-Item $it.Id $it.Title $it.EnTitle $it.En $it.Ru $it.Label $it.Credit $it.Link ($i -eq 0)))
+    [void]$sb.Append((Render-Item $it.Id $it.Title $it.EnTitle $it.En $it.Ru $it.Label $it.Credit $it.Link ($i -eq 0) $(if ($it.NavPrev) { $it.NavPrev } else { '' }) $(if ($it.NavNext) { $it.NavNext } else { '' })))
     $i++
   }
   $bar = if ($modes) { "`n" + ($readerBar -f $modes[0], $modes[1]) + "`n" } else { '' }
@@ -557,6 +599,9 @@ foreach ($f in $feldman) {
   $t = $sonnets[$f.N].Tr | Where-Object { $_.Kind -eq 'var' -and $_.Second -eq $f.Second }
   $it = Sonnet-Item $f.N $t
   if ($f.Second) { $it.Id = "s$($f.N)-2"; $it.Num = "$($f.N)²"; $it.Title = "Сонет $($f.N) · вторая вариация" }
+  $nav = Var-Nav $f.N ([bool]$f.Second) 'coll'
+  $it.NavPrev = $nav.Prev
+  $it.NavNext = $nav.Next
   $items += $it
 }
 Write-Collection 'sonnets-feldman.html' 'Вариации на сонеты Шекспира' 'Яков Фельдман' (Esc "$(Plural $feldman.Count 'вариация' 'вариации' 'вариаций') и посвящение · рядом с оригиналом") '../var/cont.htm' "Яков Фельдман · вариации на сонеты Шекспира|Jacob Feldman · Variations on Shakespeare's Sonnets" "Вариации Якова Фельдмана на сонеты Шекспира — $($feldman.Count) стихотворений рядом с оригиналом." $items @('Вариации', 'Оригинал')
