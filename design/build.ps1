@@ -551,7 +551,27 @@ $script:bioOverrides = @{
 }
 # A card under the poet's name, in place of the lede.
 $script:heroLinks = @{
-  Shakespeare = '<ul class="art-other"><li><a href="sonnets.html"><b>Сонеты Шекспира</b><span>Все 154 сонета: оригинал, переводы С. Маршака и А. Финкеля, старые переводы, вариации Якова Фельдмана</span></a></li></ul>'
+  Shakespeare = '<ul class="art-other"><li><a href="sonnets.html"><b>Сонеты Шекспира</b><span>Все 154 сонета: оригинал, переводы С. Маршака и А. Финкеля, старые переводы, вариации Якова Фельдмана</span></a></li><li><a href="#video"><b>Кто был Шекспиром?</b><span>Леонид Немцев · оригинальная неофициальная позиция</span></a></li></ul>'
+}
+# Extra block after the biography (own section, not mixed into BioLong).
+$script:afterBio = @{
+  Shakespeare = @'
+
+<section class="section" id="video">
+  <div class="wrap">
+    <div class="bio-text">
+      <div class="section-head"><h2>Оригинальная неофициальная позиция</h2></div>
+      <p>Лекция Леонида Немцева «Кто был Шекспиром?» — о жизни поэта вне канонической стратфордской версии.</p>
+      <figure class="video">
+        <div class="video-frame">
+          <iframe src="https://www.youtube.com/embed/HSaNrKOTrjY" title="«Кто был Шекспиром?»; Леонид Немцев" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen loading="lazy"></iframe>
+        </div>
+        <figcaption>Леонид Немцев · <a href="https://youtu.be/HSaNrKOTrjY" target="_blank" rel="noopener">смотреть на YouTube</a></figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+'@
 }
 
 $poetFiles = @{}
@@ -790,6 +810,7 @@ $(Get-PortraitCaption $poet.PortraitCredit)
   [void]$sb.AppendLine('      <div class="actions">')
   [void]$sb.AppendLine('        <a class="btn primary" href="#poems">Читать стихи</a>')
   if ($bioSection) { [void]$sb.AppendLine('        <a class="btn ghost" href="#bio">Биография</a>') }
+  if ($base -eq 'Shakespeare') { [void]$sb.AppendLine('        <a class="btn ghost" href="#video">Видео</a>') }
   [void]$sb.Append(@"
       </div>
     </div>
@@ -888,6 +909,7 @@ $(Get-PortraitCaption $poet.PortraitCredit)
 
 "@)
   }
+  if ($script:afterBio.ContainsKey($base)) { [void]$sb.Append($script:afterBio[$base]) }
   [void]$sb.Append(@"
 
 <footer class="site-footer">
