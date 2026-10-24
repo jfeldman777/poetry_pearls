@@ -646,7 +646,7 @@ $more = @(
   (Card 'st-shakespeare.html' 'Трагедии Шекспира и уровни его персонажей' 'Яков Фельдман · статья')
   (Card '../Lectures/Gasparov.htm' 'Сонеты Шекспира — переводы Маршака' 'М. Л. Гаспаров')
   (Card '../Lectures/plach.htm' 'Плач по Шекспиру' 'Т. А. Ладошкина')
-  (Card 'Shakespeare.html#video' 'Кто был Шекспиром?' 'Леонид Немцев · видео · оригинальная неофициальная позиция')
+  (Card 'Shakespeare.html#video' 'Кто был Шекспиром?' 'Леонид Немцев · видео · современный вариант версии Гилилова')
 ) -join "`n      "
 $sites = @(
   (Card 'https://web.archive.org/web/2002/http://www.aha.ru/~kozh/s/shakes.htm' 'Шекспир на русском' 'aha.ru/~kozh · архив')

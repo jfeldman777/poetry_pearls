@@ -551,7 +551,7 @@ $script:bioOverrides = @{
 }
 # A card under the poet's name, in place of the lede.
 $script:heroLinks = @{
-  Shakespeare = '<ul class="art-other"><li><a href="sonnets.html"><b>Сонеты Шекспира</b><span>Все 154 сонета: оригинал, переводы С. Маршака и А. Финкеля, старые переводы, вариации Якова Фельдмана</span></a></li><li><a href="#video"><b>Кто был Шекспиром?</b><span>Леонид Немцев · оригинальная неофициальная позиция</span></a></li></ul>'
+  Shakespeare = '<ul class="art-other"><li><a href="sonnets.html"><b>Сонеты Шекспира</b><span>Все 154 сонета: оригинал, переводы С. Маршака и А. Финкеля, старые переводы, вариации Якова Фельдмана</span></a></li><li><a href="#video"><b>Кто был Шекспиром?</b><span>Леонид Немцев · современный вариант версии Гилилова</span></a></li></ul>'
 }
 # Extra block after the biography (own section, not mixed into BioLong).
 $script:afterBio = @{
@@ -560,8 +560,8 @@ $script:afterBio = @{
 <section class="section" id="video">
   <div class="wrap">
     <div class="bio-text">
-      <div class="section-head"><h2>Оригинальная неофициальная позиция</h2></div>
-      <p>Лекция Леонида Немцева «Кто был Шекспиром?» — о жизни поэта вне канонической стратфордской версии.</p>
+      <div class="section-head"><h2>Современный вариант версии Гилилова</h2></div>
+      <p>Лекция Леонида Немцева «Кто был Шекспиром?»</p>
       <figure class="video">
         <div class="video-frame">
           <iframe src="https://www.youtube.com/embed/HSaNrKOTrjY" title="«Кто был Шекспиром?»; Леонид Немцев" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen loading="lazy"></iframe>
